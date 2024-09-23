@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import Swiper from "react-native-swiper";
 import CustomButton from "@/components/Button";
+import { router } from 'expo-router';
 
 const slides = [
   {
@@ -35,6 +36,7 @@ export default function OnboardingSwiper() {
   const handleGetStarted = () => {
     console.log("Get Started pressed!");
     // Navigate to the main application or perform any action here
+    router.push("/home")
   };
 
   const handleContinueAsGuest = () => {
