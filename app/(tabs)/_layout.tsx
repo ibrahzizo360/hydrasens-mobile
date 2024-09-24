@@ -9,13 +9,15 @@ import {
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
 import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import Home from './home';
+import Forum from './forum';
 
 const Screen1 = () => {
-  return <View style={styles.screen1} />;
+  return <Home />;
 };
 
 const Screen2 = () => {
-  return <View style={styles.screen2} />;
+  return <Forum />;
 };
 
 const TabIcon = ({ name, focused }: any) => {
