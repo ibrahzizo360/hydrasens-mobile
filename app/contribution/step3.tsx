@@ -133,7 +133,8 @@ export default function Step3() {
         <CustomButton
           title="Next"
           onPress={() =>
-            setCurrentStep((prevStep) => Math.min(prevStep + 1, 4)) // Logic to go to the next step
+            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4)) 
+            router.push('/contribution/step4')
           }
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"

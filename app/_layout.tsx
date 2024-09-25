@@ -34,6 +34,8 @@ export default function RootLayout() {
         <Stack.Screen name="contribution/step1" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/step2" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/step3" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/step4" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/step5" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
