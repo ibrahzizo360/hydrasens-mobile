@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import {
-  Alert,
   Animated,
+  Pressable,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -11,6 +12,8 @@ import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from './home';
 import Forum from './forum';
+import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const Screen1 = () => {
   return <Home />;
@@ -50,6 +53,9 @@ const TabIcon = ({ name, focused }: any) => {
 };
 
 export default function App() {
+  const [isSheetOpen, setIsSheetOpen] = useState(false); // Track if bottom sheet is open
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
   const renderTabBar = ({ routeName, selectedTab, navigate }: any) => {
     return (
       <TouchableOpacity
@@ -61,52 +67,119 @@ export default function App() {
     );
   };
 
+  const toggleBottomSheet = () => {
+    if (isSheetOpen) {
+      bottomSheetRef.current?.close(); // Close the sheet
+    } else {
+      bottomSheetRef.current?.expand(); // Open the sheet
+    }
+    setIsSheetOpen(!isSheetOpen); // Toggle the state
+  };
+
   return (
-    <NavigationContainer independent>
-      <CurvedBottomBarExpo.Navigator
-        type="DOWN"
-        style={styles.bottomBar}
-        shadowStyle={styles.shawdow}
-        height={70}
-        circleWidth={60}
-        bgColor="white"
-        initialRouteName="home"
-        borderTopLeftRight
-        renderCircle={({ selectedTab, navigate }) => (
-          <Animated.View style={styles.btnCircleUp}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => Alert.alert('Click Action')}
-            >
-              <Image source={require('../../assets/images/plus.png')} style={styles.circleIcon} />
-            </TouchableOpacity>
-          </Animated.View>
-        )}
-        tabBar={renderTabBar}
-        screenOptions={{ headerShown: false }} // Hides headers
-      >
-        <CurvedBottomBarExpo.Screen
-          name="home"
-          component={Screen1}
-          position="LEFT"
-        />
-        <CurvedBottomBarExpo.Screen
-          name="forum"
-          component={Screen2}
-          position="LEFT"
-        />
-        <CurvedBottomBarExpo.Screen
-          name="data"
-          component={Screen2}
-          position="RIGHT"
-        />
-        <CurvedBottomBarExpo.Screen
-          name="offers"
-          component={Screen2}
-          position="RIGHT"
-        />
-      </CurvedBottomBarExpo.Navigator>
-    </NavigationContainer>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer independent>
+        <CurvedBottomBarExpo.Navigator
+          type="DOWN"
+          style={styles.bottomBar}
+          shadowStyle={styles.shawdow}
+          height={70}
+          circleWidth={60}
+          bgColor="white"
+          initialRouteName="home"
+          borderTopLeftRight
+          renderCircle={({ selectedTab, navigate }) => (
+            <Animated.View style={styles.btnCircleUp}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={toggleBottomSheet}
+              >
+                <Image
+                  source={
+                    isSheetOpen
+                      ? require('../../assets/images/close.png')
+                      : require('../../assets/images/plus.png')
+                  }
+                  style={styles.circleIcon}
+                />
+              </TouchableOpacity>
+            </Animated.View>
+          )}
+          tabBar={renderTabBar}
+          screenOptions={{ headerShown: false }}
+        >
+          <CurvedBottomBarExpo.Screen
+            name="home"
+            component={Screen1}
+            position="LEFT"
+          />
+          <CurvedBottomBarExpo.Screen
+            name="forum"
+            component={Screen2}
+            position="LEFT"
+          />
+          <CurvedBottomBarExpo.Screen
+            name="data"
+            component={Screen2}
+            position="RIGHT"
+          />
+          <CurvedBottomBarExpo.Screen
+            name="offers"
+            component={Screen2}
+            position="RIGHT"
+          />
+        </CurvedBottomBarExpo.Navigator>
+
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={['25%', '50%', '90%']}
+          onClose={() => setIsSheetOpen(false)}
+          style={styles.bottomSheet}  // Apply zIndex for the bottom sheet
+        >
+          <BottomSheetView style={styles.sheetContent}>
+            <Text className='text-center'>How would you like to contribute to clean water and sanitation in your community?</Text>
+            <Image source={require('../../assets/images/home-drop.png')} className='h-[211px] w-[283px]' />
+            <View className='flex flex-row justify-between w-full mt-6'>
+              <Pressable onPress={()=>console.log("")}>
+              <Image source={require('../../assets/images/tab-card-1.png')} className='h-[91px] w-[168px]' />
+              </Pressable>
+              <Pressable onPress={()=>console.log("")}>
+              <Image source={require('../../assets/images/tab-card-2.png')} className='h-[91px] w-[168px]' />
+              </Pressable>
+            </View>
+            <View className='flex flex-row justify-between w-full mt-6'>
+              <Pressable onPress={()=>console.log("")}>
+              <Image source={require('../../assets/images/tab-card-3.png')} className='h-[91px] w-[168px]' />
+              </Pressable>
+              <Pressable onPress={()=>console.log("")}>
+              <Image source={require('../../assets/images/tab-card-4.png')} className='h-[91px] w-[168px]' />
+              </Pressable>
+            </View>
+            <View className='flex flex-row justify-evenly gap-6 mt-6'>
+              <View className='flex items-center justify-center'>
+                <Image source={require('../../assets/images/home-icon.png')} className='h-[24px] w-[24px]' />
+                <Text className='font-bold mt-0.5'>Home</Text>
+              </View>
+              <View className='flex items-center justify-center'>
+                <Image source={require('../../assets/images/forum.png')} className='h-[24px] w-[24px]' />
+                <Text className='font-bold mt-0.5'>Forum</Text>
+              </View>
+              <View className='flex items-center justify-center mb-8'>
+                <Image source={require('../../assets/images/close-circle.png')} className='h-[60px] w-[60px]' />
+              </View>
+              <View className='flex items-center justify-center'>
+                <Image source={require('../../assets/images/data.png')} className='h-[24px] w-[24px]' />
+                <Text className='font-bold mt-0.5'>Data</Text>
+              </View>
+              <View className='flex items-center justify-center'>
+                <Image source={require('../../assets/images/offers.png')} className='h-[24px] w-[24px]' />
+                <Text className='font-bold mt-0.5'>Offers</Text>
+              </View>
+            </View>
+          </BottomSheetView>
+        </BottomSheet>
+      </NavigationContainer>
+    </GestureHandlerRootView>
   );
 }
 
@@ -116,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   shawdow: {
-    shadowColor: 'transparent', // Remove shadow
+    shadowColor: 'transparent',
     shadowOffset: {
       width: 0,
       height: 0,
@@ -135,10 +208,10 @@ const styles = StyleSheet.create({
   },
   bottomBar: {
     width: '30%',
-    display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 2, // Ensure tab bar is on top
   },
   btnCircleUp: {
     width: 60,
@@ -148,13 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#E8E8E8',
     bottom: 30,
-    shadowColor: 'transparent', // Remove shadow
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowOpacity: 0,
-    shadowRadius: 0,
+    zIndex: 3, // Higher zIndex to keep this above the bottom sheet
   },
   circleIcon: {
     width: 30,
@@ -169,10 +236,12 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  screen1: {
-    flex: 1,
+  sheetContent: {
+    alignItems: 'center',
+    padding: 20,
+    height: 500,
   },
-  screen2: {
-    flex: 1,
+  bottomSheet: {
+    zIndex: 1, // Set a lower zIndex for the bottom sheet so it's behind the tab bar
   },
 });
