@@ -30,6 +30,10 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/index" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/step1" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/step2" options={{ headerShown: false }} />
+        <Stack.Screen name="contribution/step3" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>

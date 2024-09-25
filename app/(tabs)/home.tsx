@@ -2,6 +2,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  Pressable,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -10,6 +11,7 @@ import {
 import Foundation from "@expo/vector-icons/Foundation";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import Feather from "@expo/vector-icons/Feather";
+import { router } from 'expo-router';
 
 export default function Home() {
   const stores = [
@@ -107,6 +109,7 @@ export default function Home() {
             )}
           />
         </View>
+        <Pressable onPress={() => router.push('/contribution')}>
         <View className="mt-2 mx-3 rounded-lg overflow-hidden mb-1.5">
           <ImageBackground
             source={require("../../assets/images/card1.png")}
@@ -127,6 +130,7 @@ export default function Home() {
             />
           </ImageBackground>
         </View>
+        </Pressable>
 
         <View className="flex flex-row gap-4 mx-0 w-[90vw]">
         <View className="rounded-lg overflow-hidden">
