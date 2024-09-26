@@ -37,10 +37,12 @@ export default function Home() {
     },
   ];
   return (
-    <SafeAreaView>
+    <SafeAreaView className="-mt-3">
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
+          <Pressable onPress={()=> router.push('/profile')}>
           <Image source={require("../../assets/images/avatar.png")} />
+          </Pressable>
 
           <View className="flex-col pt-1">
             <Text className="text-xs text-gray-600">Good morning,</Text>

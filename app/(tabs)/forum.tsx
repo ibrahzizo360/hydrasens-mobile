@@ -6,32 +6,19 @@ export default function Forum() {
   return (
     <SafeAreaView className="flex-1">
       <View className="flex flex-row justify-center items-center">
-        <View className="rounded-lg p-2 bg-[#0258D3] flex  absolute left-4">
-          <Feather name="chevron-left" size={24} color="white" />
-        </View>
         <Image
           source={require("../../assets/images/app-logo.png")}
           className="h-[30px] w-[146px]"
         />
       </View>
       <View className="mt-10">
-        <Text className="font-bold text-center text-xl mb-4">Your Voice Matters</Text>
+        <Text className="font-bold text-center text-xl mb-4">Forum Discussion</Text>
         <Image
-          source={require("../../assets/images/begin.png")}
-          className="mx-auto h-[250px] w-[350px]"
+          source={require("../../assets/images/discussion.png")}
+          className="mx-auto h-[270px] w-[368px]"
         />
       </View>
-      <Text className="text-center w-11/12 text-[17px] mx-auto mt-6">Share your thoughts local water resources to help improve water and sanitation conditions in Africa.</Text>
-      <View className="bottom-5 absolute">
-        <Text className="text-center text-xs mx-3">*This should take you less that 3 minutes to complete.
-        Ensure that you give us every accurate feedback with picture(s) or video(s) to help us support your report.</Text>
-        <CustomButton
-                  title="Next"
-                  onPress={() => console.log("")}
-                  textStyle={{ fontSize: 18 }}
-                  className="mx-3 mt-7"
-                />
-      </View>
+      <Text className="text-center w-11/12 font-medium text-[13px] mx-auto mt-6">This is your space to connect, discuss, and collaborate with others who are passionate about improving water and sanitation across Africa.</Text>
     </SafeAreaView>
   );
 }

@@ -39,6 +39,7 @@ export default function RootLayout() {
         <Stack.Screen name="status/index" options={{ headerShown: false }} />
         <Stack.Screen name="status/step1" options={{ headerShown: false }} />
         <Stack.Screen name="status/step2" options={{ headerShown: false }} />
+        <Stack.Screen name="profile" options={{ headerShown: false }} />
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
       </Stack>
     </ThemeProvider>
