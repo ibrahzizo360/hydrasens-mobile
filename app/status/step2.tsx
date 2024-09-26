@@ -1,25 +1,37 @@
-import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  Pressable,
+  SafeAreaView,
+  ImageBackground,
+  Dimensions,
+  TextInput,
+  Image,
+} from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
-import { useState } from "react";
+
+interface Rating {
+  rate: string;
+  color: string;
+}
 
 export default function Step2() {
-    const { width } = Dimensions.get("window");
-  const [currentStep, setCurrentStep] = useState(2); 
-  const [status, setStatus] = useState<string>("");
-  const statuses: string[] = [
-    "Active",
-    "Active but has issues",
-    "Inactive",
-    "Project incomplete",
-  ];
+  const { width } = Dimensions.get("window");
 
-  const Stepper = () => {
+  // Define the types for state
+  const [currentStep, setCurrentStep] = useState<number>(3);
+
+  const Stepper: React.FC = () => {
     return (
-      <View className="flex flex-row justify-between items-center mt-4 mb-8" style={{
-        width: width * 0.5
-      }}>
+      <View
+        className="flex flex-row justify-between items-center mt-4"
+        style={{
+          width: width * 0.5,
+        }}
+      >
         {[1, 2, 3, 4].map((step, index) => (
           <View key={step} className="flex flex-row items-center">
             <View
@@ -41,75 +53,37 @@ export default function Step2() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-[#F4F7FD]">
       <View className="flex flex-row justify-center items-center">
-        <Pressable
-          onPress={() => router.back()}
-          className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
-        >
-          <View>
-            <Feather name="chevron-left" size={24} color="white" />
-          </View>
-        </Pressable>
-        <Text className="text-xl font-semibold">Project Overview</Text>
+        <Text className="text-xl font-semibold">Successful</Text>
       </View>
 
       <Stepper />
 
-      <View className="mt-10">
-        <Image
-          source={require("../../assets/images/globe.png")}
-          className="mx-auto h-[148px] w-[138px]"
+    <View className="mx-auto rounded-2xl w-11/12 bg-white p-4 mt-24">
+    <Image
+          source={require("../../assets/images/status-done.png")}
+          className="mx-auto h-[168px] w-[168px] mt-6"
         />
-        <Text className="font-bold text-center text-xl mb-4 mt-20">
-            Who is the sponsoring organisation? (optional)
-        </Text>
-        <TextInput
-          placeholder="Name"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-0"
-        />
-        <TextInput
-          placeholder="Website"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-4"
-        />
+        <Text className="text-center font-semibold mt-3 text-xl">Project status uploaded</Text>
 
-        <Text className="font-bold text-center text-xl mb-4 mt-10">
-            What’s the current status of the project?
-        </Text>
+        <Text className="text-center font-medium text-[12px] mt-2">Thank you for helping to revitalize water projects across Africa!</Text>
 
-        <View className="flex flex-row flex-wrap py-2 bg-blue-600 justify-evenly items-center w-11/12 mx-2 rounded-lg">
-          {statuses.map((status: string) => (
-            <Pressable
-              key={status}
-              onPress={() => setStatus(status)}
-              className={`bg-white rounded-lg p-2 w-1/4 mx-1 my-1 ${
-                status === status ? "bg-[#0258D3]" : ""
-              }`}
-            >
-              <Text
-                className={`text-center text-[9px] font-bold text-blue-500 ${
-                    status === status ? "text-white" : ""
-                }`}
-              >
-                {status}
-              </Text>
-            </Pressable>
-          ))}
+        <Text className="font-medium text-[14px] text-center mt-8">Tap below to explore more ways you can make an impact!</Text>
+        
+        <View className="rounded-xl bg-[#D4E5FF] mt-3">
+            <Text className="text-center font-bold text-blue-600 py-3">Add another report </Text>
         </View>
+    </View>
 
-        <Text className="font-bold text-center text-xl mb-4 mt-10">
-            Where is the project located?
-        </Text>
-        <TextInput
-          placeholder="Location"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-4"
-        />
-      </View>
 
-      <View className="bottom-7 absolute w-full">
+      <View className="absolute bottom-7 w-full">
         <CustomButton
-          title="Submit"
-          onPress={() => router.push("/status/step2")}
+          title="Back To Home"
+          onPress={() =>
+            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4))// Logic to go to the next step
+            router.push("/home")
+          }
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
