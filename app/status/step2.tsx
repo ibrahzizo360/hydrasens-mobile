@@ -4,9 +4,9 @@ import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import { useState } from "react";
 
-export default function Status() {
+export default function Step2() {
     const { width } = Dimensions.get("window");
-  const [currentStep, setCurrentStep] = useState(2);
+  const [currentStep, setCurrentStep] = useState(2); 
   const [status, setStatus] = useState<string>("");
   const statuses: string[] = [
     "Active",
@@ -14,7 +14,6 @@ export default function Status() {
     "Inactive",
     "Project incomplete",
   ];
-
 
   const Stepper = () => {
     return (
@@ -57,57 +56,60 @@ export default function Status() {
 
       <Stepper />
 
-      <View className="mt-7">
-        <Text className="font-bold text-center text-xl mb-0">
-            Who is the sponsoring organisation?
+      <View className="mt-10">
+        <Image
+          source={require("../../assets/images/globe.png")}
+          className="mx-auto h-[148px] w-[138px]"
+        />
+        <Text className="font-bold text-center text-xl mb-4 mt-20">
+            Who is the sponsoring organisation? (optional)
         </Text>
-        <Text className="font-light text-center text-sm mb-4">(optional)</Text>
         <TextInput
           placeholder="Name"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
+          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-0"
         />
         <TextInput
           placeholder="Website"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
+          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-4"
         />
 
-        <Text className="font-bold text-center text-xl mx-3 mb-4 mt-10">
+        <Text className="font-bold text-center text-xl mb-4 mt-10">
             What’s the current status of the project?
         </Text>
 
-        <View className="flex flex-row flex-wrap py-2 justify-evenly items-center w-11/12 mx-auto">
-            {statuses.map((item) => (
-              <Pressable
-                key={item}
-                onPress={() => setStatus(item)}  // Set the clicked status
-                className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${
-                  status === item ? "bg-[#FFD700]" : "bg-white"
+        <View className="flex flex-row flex-wrap py-2 bg-blue-600 justify-evenly items-center w-11/12 mx-2 rounded-lg">
+          {statuses.map((status: string) => (
+            <Pressable
+              key={status}
+              onPress={() => setStatus(status)}
+              className={`bg-white rounded-lg p-2 w-1/4 mx-1 my-1 ${
+                status === status ? "bg-[#0258D3]" : ""
+              }`}
+            >
+              <Text
+                className={`text-center text-[9px] font-bold text-blue-500 ${
+                    status === status ? "text-white" : ""
                 }`}
               >
-                <Text
-                  className={`text-center text-[11px] font-bold ${
-                    status === item ? "text-white" : "text-blue-500"
-                  }`}
-                >
-                  {item}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
+                {status}
+              </Text>
+            </Pressable>
+          ))}
+        </View>
 
         <Text className="font-bold text-center text-xl mb-4 mt-10">
             Where is the project located?
         </Text>
         <TextInput
           placeholder="Location"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
+          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-2 w-11/12 mx-auto mb-4"
         />
       </View>
 
       <View className="bottom-7 absolute w-full">
         <CustomButton
-          title="Next"
-          onPress={() => router.push("/status/step1")}
+          title="Submit"
+          onPress={() => router.push("/status/step2")}
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />

@@ -14,6 +14,7 @@ import Home from './home';
 import Forum from './forum';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { router } from 'expo-router';
 
 const Screen1 = () => {
   return <Home />;
@@ -132,15 +133,17 @@ export default function App() {
 
         <BottomSheet
           ref={bottomSheetRef}
-          snapPoints={['25%', '50%', '90%']}
+          snapPoints={['78%']}
+          enablePanDownToClose
           onClose={() => setIsSheetOpen(false)}
-          style={styles.bottomSheet}  // Apply zIndex for the bottom sheet
+          style={styles.bottomSheet}
+
         >
           <BottomSheetView style={styles.sheetContent}>
             <Text className='text-center'>How would you like to contribute to clean water and sanitation in your community?</Text>
             <Image source={require('../../assets/images/home-drop.png')} className='h-[211px] w-[283px]' />
             <View className='flex flex-row justify-between w-full mt-6'>
-              <Pressable onPress={()=>console.log("")}>
+              <Pressable onPress={()=>router.push('/status')}>
               <Image source={require('../../assets/images/tab-card-1.png')} className='h-[91px] w-[168px]' />
               </Pressable>
               <Pressable onPress={()=>console.log("")}>
@@ -165,7 +168,9 @@ export default function App() {
                 <Text className='font-bold mt-0.5'>Forum</Text>
               </View>
               <View className='flex items-center justify-center mb-8'>
+                <Pressable onPress={()=>bottomSheetRef.current?.close()}>
                 <Image source={require('../../assets/images/close-circle.png')} className='h-[60px] w-[60px]' />
+                </Pressable>
               </View>
               <View className='flex items-center justify-center'>
                 <Image source={require('../../assets/images/data.png')} className='h-[24px] w-[24px]' />
@@ -211,7 +216,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    zIndex: 2, // Ensure tab bar is on top
   },
   btnCircleUp: {
     width: 60,
@@ -221,7 +225,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#E8E8E8',
     bottom: 30,
-    zIndex: 3, // Higher zIndex to keep this above the bottom sheet
   },
   circleIcon: {
     width: 30,
@@ -239,9 +242,8 @@ const styles = StyleSheet.create({
   sheetContent: {
     alignItems: 'center',
     padding: 20,
-    height: 500,
   },
   bottomSheet: {
-    zIndex: 1, // Set a lower zIndex for the bottom sheet so it's behind the tab bar
+    height: 'auto',
   },
 });
