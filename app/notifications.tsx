@@ -24,7 +24,7 @@ export default function Notifications() {
       <View className="h-[1px] mt-7 mx-auto w-[90%] bg-gray-500" />
 
 
-      <View className="mt-10">
+      <View className="mt-10 space-y-5">
         <View className="flex flex-row px-0 pb-2 gap-3 bg-gray-200 w-[94%] mx-auto rounded-lg items-center">
             <View className="bg-red-200 flex items-center justify-center px-2 py-1.5 rounded-full">
                 <Foundation name="alert" size={20} color="red" />
@@ -34,13 +34,34 @@ export default function Notifications() {
                 <Text className="font-medium text-[10px] mt-2 w-11/12 text-gray-500">Water quality in your area has reached critical levels. Immediate action may be required for safety and health.</Text>
             </View>
         </View>
+
+        <View className="flex flex-row px-0 pb-2 gap-3  w-[94%] mx-auto rounded-lg items-center">
+            <View className="bg-yellow-100 flex items-center justify-center px-2 py-1.5 rounded-full">
+                <Foundation name="alert" size={20} color="orange" />
+            </View>
+            <View className="w-11/12">
+                <Text className="font-semibold text-[11px]"><Text className="text-yellow-600">Warning:</Text> High Temperature</Text>
+                <Text className="font-medium text-[10px] mt-2 w-11/12 text-gray-500">The water temperature is too high for fish and other aquatic life. It may cause stress or harm.</Text>
+            </View>
+        </View>
+
+        <View className="flex flex-row px-0 pb-2 gap-3 w-[94%] mx-auto rounded-lg items-center">
+            <View className="bg-yellow-100 flex items-center justify-center px-2 py-1.5 rounded-full">
+                <Foundation name="alert" size={20} color="orange" />
+            </View>
+            <View className="w-11/12">
+                <Text className="font-semibold text-[11px]"><Text className="text-yellow-600">Warning:</Text> High Turbidity</Text>
+                <Text className="font-medium text-[10px] mt-2 w-11/12 text-gray-500">The water temperature is too high for fish and other aquatic life. It may cause stress or harm.</Text>
+            </View>
+        </View>
+
       </View>
 
 
       <View className="bottom-7 absolute w-full">
         <CustomButton
                   title="Back To Home"
-                  onPress={() => router.push('/contribution/step1')}
+                  onPress={() => router.push('/(tabs)/home')}
                   textStyle={{ fontSize: 18 }}
                   className="mx-3 mt-4"
                 />
