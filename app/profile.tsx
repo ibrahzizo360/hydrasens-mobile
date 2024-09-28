@@ -36,10 +36,15 @@ export default function Profile() {
           <FontAwesome5 name="user-circle" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Personal Settings</Text>
         </View>
-        <View className="flex flex-row gap-4 items-center">
+        <Pressable className="flex flex-row items-center" onPress={()=>router.push('/notifications')}>
+        <View className="flex flex-row gap-4 items-center -mt-1">
         <MaterialCommunityIcons name="bell-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Notifications</Text>
+          <View className="bg-red-500 px-1.5 py-0.5 rounded-full">
+            <Text className="text-white font-bold">1</Text>
+          </View>
         </View>
+        </Pressable>
         <View className="flex flex-row gap-4 items-center mb-7">
         <FontAwesome name="language" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Languages</Text>
