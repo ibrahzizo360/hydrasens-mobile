@@ -16,6 +16,7 @@ import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
 import Offers from './offers';
+import Data from './data';
 
 const HomeScreen = () => {
   return <Home />;
@@ -26,7 +27,7 @@ const ForumScreen = () => {
 };
 
 const DataScreen = () => {
-  return <Forum />;
+  return <Data />;
 };
 
 const OffersScreen = () => {
@@ -40,7 +41,7 @@ const TabIcon = ({ name, focused }: any) => {
     case 'home':
       imagePath = focused
         ? require('../../assets/images/home-icon.png')
-        : require('../../assets/images/home-icon.png');
+        : require('../../assets/images/home-light.png');
       break;
     case 'forum':
       imagePath = focused
@@ -130,7 +131,7 @@ export default function App() {
           />
           <CurvedBottomBarExpo.Screen
             name="data"
-            component={HomeScreen}
+            component={DataScreen}
             position="RIGHT"
           />
           <CurvedBottomBarExpo.Screen
