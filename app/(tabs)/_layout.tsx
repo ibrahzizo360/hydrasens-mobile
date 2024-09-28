@@ -15,13 +15,22 @@ import Forum from './forum';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { router } from 'expo-router';
+import Offers from './offers';
 
-const Screen1 = () => {
+const HomeScreen = () => {
   return <Home />;
 };
 
-const Screen2 = () => {
+const ForumScreen = () => {
   return <Forum />;
+};
+
+const DataScreen = () => {
+  return <Forum />;
+};
+
+const OffersScreen = () => {
+  return <Offers />;
 };
 
 const TabIcon = ({ name, focused }: any) => {
@@ -111,22 +120,22 @@ export default function App() {
         >
           <CurvedBottomBarExpo.Screen
             name="home"
-            component={Screen1}
+            component={HomeScreen}
             position="LEFT"
           />
           <CurvedBottomBarExpo.Screen
             name="forum"
-            component={Screen2}
+            component={ForumScreen}
             position="LEFT"
           />
           <CurvedBottomBarExpo.Screen
             name="data"
-            component={Screen2}
+            component={HomeScreen}
             position="RIGHT"
           />
           <CurvedBottomBarExpo.Screen
             name="offers"
-            component={Screen2}
+            component={OffersScreen}
             position="RIGHT"
           />
         </CurvedBottomBarExpo.Navigator>
