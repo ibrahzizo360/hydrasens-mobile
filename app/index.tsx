@@ -67,7 +67,14 @@ export default function OnboardingSwiper() {
           <ImageBackground
             key={slide.key}
             source={slide.image}
-            style={styles.backgroundImage}
+            style={[
+              styles.backgroundImage,
+              index !== slides.length - 1 
+                ? { height: 500, width: 393 }
+                : null,
+            ]}
+            
+            resizeMode="cover"
           >
             <View style={slide.overlay ? styles.overlayLast : styles.overlay}>
               <Text style={styles.text}>{slide.text}</Text>
