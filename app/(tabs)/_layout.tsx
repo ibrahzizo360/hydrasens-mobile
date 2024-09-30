@@ -82,6 +82,7 @@ export default function App() {
         style={styles.tabbarItem}
       >
         <TabIcon name={routeName} focused={routeName === selectedTab} />
+        <Text style={styles.tabLabel}>{routeName.charAt(0).toUpperCase() + routeName.slice(1)}</Text>
       </TouchableOpacity>
     );
   };
@@ -100,10 +101,9 @@ export default function App() {
       <NavigationContainer independent>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
-          style={styles.bottomBar}
           shadowStyle={styles.shawdow}
-          height={70}
-          circleWidth={60}
+          height={55}
+          circleWidth={51}
           bgColor="white"
           initialRouteName="home"
           borderTopLeftRight
@@ -125,7 +125,8 @@ export default function App() {
             </Animated.View>
           )}
           tabBar={renderTabBar}
-          screenOptions={{ headerShown: false }}
+          screenOptions={{ headerShown: false, tabBarShowLabel: true, }}
+          style={{ width: '100%', alignSelf: 'center', marginBottom: 8 }}
         >
           <CurvedBottomBarExpo.Screen
             name="home"
@@ -230,10 +231,11 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   bottomBar: {
-    width: '30%',
+    width: '10%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: 5,
   },
   btnCircleUp: {
     width: 60,
@@ -261,7 +263,22 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
+  tabLabel: {
+    fontSize: 12, // Adjust font size as needed
+    textAlign: 'center',
+    marginTop: 2, // Space between icon and label
+    fontWeight: 'semibold',
+    color: '#333', // Default color
+  },
   bottomSheet: {
     height: 'auto',
+  },
+   bottomBarContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: '50%', // Center horizontally
+    transform: [{ translateX: -150 }], // Half of the desired width to center
+    width: '80%', // Adjust the width as needed
+    alignItems: 'center', // Center contents
   },
 });
