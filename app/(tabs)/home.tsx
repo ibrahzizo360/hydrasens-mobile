@@ -157,7 +157,7 @@ export default function Home() {
         <View className="rounded-lg overflow-hidden">
           <ImageBackground
             source={require("../../assets/images/card2.png")}
-            className="mt-2 pt-2 h-[105px] w-[175px] px-4"
+            className="mt-1 pt-2 h-[105px] w-[175px] px-4"
           >
             <View className="flex flex-row justify-between">
                 <Image source={require("../../assets/images/invite.png")}/>
@@ -175,7 +175,7 @@ export default function Home() {
         <View className="rounded-lg overflow-hidden">
           <ImageBackground
             source={require("../../assets/images/card3.png")}
-            className="mt-2 pt-2 h-[105px] w-[175px] px-4"
+            className="mt-1 pt-2 h-[105px] w-[175px] px-4"
           >
             <View className="flex flex-row justify-between">
                 <Image source={require("../../assets/images/drop.png")}/>
