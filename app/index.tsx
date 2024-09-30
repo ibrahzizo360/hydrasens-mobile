@@ -96,7 +96,7 @@ export default function OnboardingSwiper() {
                     title="Continue as Guest"
                     onPress={handleContinueAsGuest}
                     style={styles.buttonGuest}
-                    textStyle={{ fontSize: 18, color: 'blue' }}
+                    textStyle={{ fontSize: 18, color: '#0258D3' }}
                   />
                 </>
               )}
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   text: {
-    color: "blue",
+    color: "#06276E",
     fontSize: 32,
     fontWeight: "bold",
     textAlign: "center",
@@ -168,8 +168,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 28,
     width: '100%',
-    backgroundColor: 'blue',
-    borderRadius: 10,
   },
   buttonGuest: {
     position: 'absolute',
@@ -182,7 +180,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 88,
     width: '100%',
-    backgroundColor: 'blue',
-    borderRadius: 10,
   },
 });
