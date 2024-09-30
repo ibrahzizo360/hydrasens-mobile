@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
   Pressable,
@@ -66,6 +66,14 @@ const TabIcon = ({ name, focused }: any) => {
 export default function App() {
   const [isSheetOpen, setIsSheetOpen] = useState(false); // Track if bottom sheet is open
   const bottomSheetRef = useRef<BottomSheet>(null);
+
+   // Ensure bottom sheet doesn't expand on mount
+   useEffect(() => {
+    // Explicitly keep the sheet closed on mount
+    setTimeout(() => {
+      bottomSheetRef.current?.forceClose();
+    }, 150);
+  }, []);
 
   const renderTabBar = ({ routeName, selectedTab, navigate }: any) => {
     return (
@@ -147,7 +155,7 @@ export default function App() {
           enablePanDownToClose
           onClose={() => setIsSheetOpen(false)}
           style={styles.bottomSheet}
-
+          animateOnMount={false}
         >
           <BottomSheetView style={styles.sheetContent}>
             <Text className='text-center'>How would you like to contribute to clean water and sanitation in your community?</Text>

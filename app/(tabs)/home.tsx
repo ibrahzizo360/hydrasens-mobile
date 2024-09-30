@@ -12,6 +12,7 @@ import Foundation from "@expo/vector-icons/Foundation";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
+import { Entypo } from "@expo/vector-icons";
 
 export default function Home() {
   const stores = [
@@ -41,7 +42,7 @@ export default function Home() {
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={require("../../assets/images/avatar.png")} />
+          <Image source={require("../../assets/images/avatar.png")} className="h-9 w-9" />
           </Pressable>
 
           <View className="flex-col pt-1">
@@ -50,10 +51,13 @@ export default function Home() {
           </View>
         </View>
 
-        <View className="flex-row gap-2 bg-[#E4EDFB] items-center justify-center rounded-xl flex pb-2 pr-1 mt-1">
-          <Image source={require("../../assets/images/point.png")} />
-          <Text className="text-sm font-bold">0.00</Text>
+        <View className=" bg-[#E4EDFB] rounded-xl py-1 px-2">
+          <View className="flex-row gap-2 items-center justify-center">
+        <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
+        <Text className="text-sm font-bold">0.00</Text>
         </View>
+      </View>
+
       </View>
 
       <ImageBackground
@@ -65,11 +69,13 @@ export default function Home() {
             Our donor of the week
           </Text>
 
-          <View className="flex flex-row items-center gap-1 bg-white rounded-[10px] px-4 py-0 h-5 mt-1">
-            <Text className="text-xs font-semibold text-[#1c5dc5]">
+          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mt-1">
+            <View className="flex flex-row justify-center items-center gap-1">
+            <Text className="text-[11px] font-semibold text-[#1c5dc5]">
               Explore All
             </Text>
             <Image source={require("../../assets/images/arrow.png")} />
+            </View>
           </View>
         </View>
         <View className="mt-1 rounded-md  bg-[#E4EDFB] w-[95%] mx-auto flex justify-center items-center">
@@ -78,22 +84,30 @@ export default function Home() {
             className="w-full h-[200px] mt-2"
             resizeMode="cover"
           />
-          <View className="flex flex-row justify-evenly gap-4 items-center">
+          <View className="flex flex-row justify-evenly gap-4 items-center py-1">
             <Text className=" text-xs font-semibold">James Coffee Co,</Text>
-            <Text className=" text-xs">San Diego</Text>
-            <View className="flex flex-row items-center gap-1">
-              <Foundation name="web" size={24} color="blue" />
-              <Text className="text-xs">Visit their website now</Text>
+            {/* <Text className=" text-xs">San Diego</Text> */}
+            <View className="">
+              <View className="flex flex-row items-center">
+              <Entypo name="location-pin" size={14} color="#494D51" />
+              <Text className="text-xs">San Diego</Text>
+              </View>
+            </View>
+            <View className="">
+              <View className="flex flex-row items-center gap-1">
+              <Foundation name="web" size={20} color="#0E87CC" />
+              <Text className="text-xs text-[#0E87CC]">Visit their website now</Text>
+              </View>
             </View>
           </View>
-          <Text className="text-[9px] text-gray-600 px-2 pb-2">
+          <Text className="text-[7.4px] font-bold text-gray-600 px-2 pb-2">
             We’re thrilled to have James Coffee Co. on board as we work together
             to create a healthier future for all. Thank you, James Coffee Co.,
             for brewing a better tomorrow with us!
           </Text>
         </View>
         <View className="mt-1 px-3">
-          <Text className="text-white text-lg  font-bold">
+          <Text className="text-white text-lg  font-bold -mb-0.5">
             New Partnerships/Stores
           </Text>
           <SwiperFlatList
@@ -105,7 +119,12 @@ export default function Home() {
                 <Image source={item.image} className="rounded-xl" />
                 <View className="bg-white absolute bottom-0 w-full">
                   <Text style={styles.text}>{item.name}</Text>
-                  <Text style={styles.text}>{item.location}</Text>
+                  <View className="mx-auto">
+                  <View className="flex flex-row items-center">
+                  <Entypo name="location-pin" size={14} color="#494D51" />
+                  <Text className="text-[9px]">{item.location}</Text>
+                  </View>
+                </View>
                 </View>
               </View>
             )}
