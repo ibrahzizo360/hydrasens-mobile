@@ -148,7 +148,7 @@ export default function Home() {
         <View className="mt-2 mx-3 rounded-lg overflow-hidden mb-1.5">
           <ImageBackground
             source={require("../../assets/images/card1.png")}
-            className="pt-2 px-6 flex flex-row justify-between h-[80px]"
+            className="pt-2 px-6 flex flex-row justify-between h-[110px]"
           >
             <View className="w-4/5">
               <Text className="text-white font-bold text-[16px]">

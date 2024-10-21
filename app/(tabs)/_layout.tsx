@@ -102,7 +102,7 @@ export default function App() {
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
           shadowStyle={styles.shawdow}
-          height={55}
+          height={65}
           circleWidth={51}
           bgColor="white"
           initialRouteName="home"
@@ -126,7 +126,7 @@ export default function App() {
           )}
           tabBar={renderTabBar}
           screenOptions={{ headerShown: false, tabBarShowLabel: true, }}
-          style={{ width: '100%', alignSelf: 'center', marginBottom: 8 }}
+          style={{ width: '100%', alignSelf: 'center', marginBottom: 0 }}
         >
           <CurvedBottomBarExpo.Screen
             name="home"
