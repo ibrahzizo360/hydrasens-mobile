@@ -93,7 +93,10 @@ export default function Step5() {
           title="Back To Home"
           onPress={() =>
             // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4))// Logic to go to the next step
-            router.push("/home")
+            router.push({
+              pathname: '/home',
+              params: { data: 15},
+            })
           }
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"

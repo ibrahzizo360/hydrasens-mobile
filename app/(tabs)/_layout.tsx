@@ -165,7 +165,7 @@ export default function App() {
               <Pressable onPress={()=>router.push('/status')}>
               <Image source={require('../../assets/images/tab-card-1.png')} className='h-[91px] w-[168px]' />
               </Pressable>
-              <Pressable onPress={()=>console.log("")}>
+              <Pressable onPress={()=>router.push('/contribution/start')}>
               <Image source={require('../../assets/images/tab-card-2.png')} className='h-[91px] w-[168px]' />
               </Pressable>
             </View>

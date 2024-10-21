@@ -4,34 +4,56 @@ import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import CircularProgress from 'react-native-circular-progress-indicator';
 
+// Interpolation function to calculate color for temperature and turbidity
+const interpolateColor = (ratio: number, colorRange: string[]) => {
+  const index = Math.min(Math.floor(ratio * (colorRange.length - 1)), colorRange.length - 1);
+  return colorRange[index];
+};
+
+// Function to calculate sub-index for Temperature (Q_T)
+const calculateTemperatureSubIndex = (T: number, T_ideal: number, T_max: number): number => {
+    if (T <= T_ideal) return 100;
+    if (T >= T_max) return 0;
+
+    return 100 - ((T - T_ideal) / (T_max - T_ideal)) * 100;
+};
+
+// Function to calculate sub-index for Turbidity (Q_Tb)
+const calculateTurbiditySubIndex = (Tb: number, Tb_ideal: number, Tb_max: number): number => {
+    if (Tb <= Tb_ideal) return 100;
+    if (Tb >= Tb_max) return 0;
+
+    return 100 - ((Tb - Tb_ideal) / (Tb_max - Tb_ideal)) * 100;
+};
+
+// Function to calculate final WQI using weighted sum of sub-indices
+const calculateWQI = (T: number, Tb: number, T_ideal: number, T_max: number, Tb_ideal: number, Tb_max: number): number => {
+    const weight_T = 0.5;  // Weight for Temperature
+    const weight_Tb = 0.5; // Weight for Turbidity
+
+    const Q_T = calculateTemperatureSubIndex(T, T_ideal, T_max);
+    const Q_Tb = calculateTurbiditySubIndex(Tb, Tb_ideal, Tb_max);
+
+    return (weight_T * Q_T) + (weight_Tb * Q_Tb);
+};
+
+// Define the functions to get colors for temperature and turbidity
 const getTemperatureColor = (temp: number) => {
-  // Normalize temperature to a color value
-  const minTemp = 0; // Coldest temp
-  const maxTemp = 40; // Hottest temp
+  const minTemp = 0;
+  const maxTemp = 40;
   const normalizedTemp = Math.max(minTemp, Math.min(temp, maxTemp));
   const ratio = (normalizedTemp - minTemp) / (maxTemp - minTemp);
-
-  // Interpolate color between blue (cold) and red (hot)
-  const r = Math.floor(255 * ratio);
-  const g = 0; // Fixed green
-  const b = Math.floor(255 * (1 - ratio));
-  
-  return `rgb(${r}, ${g}, ${b})`;
+  const tempColors = ["#E2EBFC", "#BFE0EC", "#D4E2C3", "#FCE773", "#FC9F7F"];
+  return interpolateColor(ratio, tempColors);
 };
 
 const getTurbidityColor = (turbidity: number) => {
-  // Normalize turbidity to a color value
-  const minTurbidity = 0; // Cleanest
-  const maxTurbidity = 100; // Highest turbidity
+  const minTurbidity = 0;
+  const maxTurbidity = 100;
   const normalizedTurbidity = Math.max(minTurbidity, Math.min(turbidity, maxTurbidity));
   const ratio = (normalizedTurbidity - minTurbidity) / (maxTurbidity - minTurbidity);
-
-  // Interpolate color between light blue (clean) and brown (dirty)
-  const r = Math.floor(165 * ratio); // Brown color
-  const g = Math.floor(42 * ratio); // Brown color
-  const b = Math.floor(42 * (1 - ratio)); // Light blue
-  
-  return `rgb(${r}, ${g}, ${b})`;
+  const turbidityColors = ["#CFE8F1", "#FCFAE4", "#FCCC73", "#BC977D"];
+  return interpolateColor(ratio, turbidityColors);
 };
 
 export default function SensorsPage() {
@@ -40,29 +62,36 @@ export default function SensorsPage() {
   const [waterQualityPercentage, setWaterQualityPercentage] = useState(0);
 
   useEffect(() => {
-    // Fetch data from API
     const fetchData = async () => {
       try {
-        // const response = await fetch('YOUR_API_URL_HERE'); // Replace with your API URL
-        // const data = await response.json();
-        const data = {
-          temperature: 95,
-          turbidity: 20,
-          waterQuality: 75,
-        };
+        const response = await fetch('https://shopify-webhook-sigma.vercel.app/test/data');
+        const ResponseData = await response.json();
+  
+        const data = ResponseData[ResponseData.length - 1];
+        const temp = parseFloat(data.temperature);
+        const turb = parseFloat(data.turbidity);
 
-        setTemperature(data.temperature); // Adjust based on your API response
-        setTurbidity(data.turbidity); // Adjust based on your API response
+        setTemperature(temp);
+        setTurbidity(turb);
 
-        // Assuming a simple calculation for water quality percentage
-        const quality = (data.waterQuality || 0);
-        setWaterQualityPercentage(quality);
+        // Calculate the WQI based on the fetched temperature and turbidity
+        const T_ideal = 25;
+        const T_max = 35;
+        const Tb_ideal = 0;
+        const Tb_max = 100;
+        const WQI = calculateWQI(temp, turb, T_ideal, T_max, Tb_ideal, Tb_max);
+        setWaterQualityPercentage(WQI);
+
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
     };
 
-    fetchData();
+    // Fetch data every 5 seconds
+    const interval = setInterval(fetchData, 5000);
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -76,7 +105,7 @@ export default function SensorsPage() {
         <Text className="text-xl font-semibold">Water Quality Monitor</Text>
       </View>
 
-      <View className="mt-20 mb-10 mx-auto">
+      <View className="mt-24 mb-10 mx-auto">
         <CircularProgress
           value={waterQualityPercentage}
           radius={120}
@@ -95,8 +124,6 @@ export default function SensorsPage() {
             count: 50,
             width: 4,
           }}
-          // Overlay text showing the water quality percentage
-          // children={<Text style={{ color: 'white', fontSize: 20 }}>{waterQualityPercentage}%</Text>}
         />
       </View>
 

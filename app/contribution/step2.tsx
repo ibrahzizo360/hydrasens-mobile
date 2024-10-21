@@ -15,7 +15,7 @@ export default function Step2() {
   const { width } = Dimensions.get("window");
 
   // Define the types for state
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(2);
   const [waterResource, setWaterResource] = useState<string>(""); // Single selection
   const [primaryUse, setPrimaryUse] = useState<string[]>([]); // Multiple selections
 
@@ -58,7 +58,7 @@ export default function Step2() {
           width: width * 0.5,
         }}
       >
-        {[1, 2, 3, 4].map((step, index) => (
+        {[1, 2, 3, 4,5,6].map((step, index) => (
           <View key={step} className="flex flex-row items-center">
             <View
               className={`h-1 w-1 ${

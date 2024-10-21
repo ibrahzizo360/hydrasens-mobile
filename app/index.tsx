@@ -41,7 +41,7 @@ export default function OnboardingSwiper() {
 
   const handleContinueAsGuest = () => {
     console.log("Continue as Guest pressed!");
-    // Navigate to the main application as guest or perform any action here
+    router.push("/home")
   };
 
   return (

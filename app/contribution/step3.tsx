@@ -8,6 +8,8 @@ import {
   Dimensions,
   TextInput,
   Image,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
@@ -22,7 +24,7 @@ export default function Step3() {
   const { width } = Dimensions.get("window");
 
   // Define the types for state
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(4);
   const [rating, setRating] = useState<string>("");
   const [comment, setComment] = useState<string>(""); // Added state for comment
 
@@ -68,6 +70,7 @@ export default function Step3() {
   };
 
   return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     <SafeAreaView className="flex-1">
       <View className="flex flex-row justify-center items-center">
         <Pressable
@@ -141,5 +144,6 @@ export default function Step3() {
         />
       </View>
     </SafeAreaView>
+    </TouchableWithoutFeedback>
   );
 }
