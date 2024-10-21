@@ -34,14 +34,11 @@ export default function OnboardingSwiper() {
   };
 
   const handleGetStarted = () => {
-    console.log("Get Started pressed!");
-    // Navigate to the main application or perform any action here
-    router.push("/home")
+    router.push("/home");
   };
 
   const handleContinueAsGuest = () => {
-    console.log("Continue as Guest pressed!");
-    router.push("/home")
+    router.push("/home");
   };
 
   return (
@@ -50,14 +47,17 @@ export default function OnboardingSwiper() {
         ref={swiperRef}
         loop={false}
         showsPagination={true}
-        dotStyle={styles.dot}
-        activeDotStyle={styles.activeDot}
         renderPagination={(index, total) => (
           <View style={styles.paginationContainer}>
             {Array.from({ length: total }).map((_, i) => (
               <View
                 key={i}
-                style={[styles.dot, index === i && styles.activeDot]}
+                style={[
+                  styles.dot,
+                  index === i && styles.activeDot,
+                  index === slides.length - 1 && styles.whiteDot, // Change to white on the last slide
+                  index === i && index === slides.length - 1 && styles.whiteActiveDot // Active dot also changes to white
+                ]}
               />
             ))}
           </View>
@@ -69,17 +69,14 @@ export default function OnboardingSwiper() {
             source={slide.image}
             style={[
               styles.backgroundImage,
-              index !== slides.length - 1 
-                ? { height: 500, width: 393 }
-                : null,
+              index !== slides.length - 1 ? { height: "50%", width: "100%" } : null,
             ]}
-            
             resizeMode="cover"
           >
             <View style={slide.overlay ? styles.overlayLast : styles.overlay}>
               <Text style={styles.text}>{slide.text}</Text>
               {slide.subText && (
-                <Text className="text-sm text-center text-white w-3/4">
+                <Text className="text-sm text-center text-white w-3/4" style={{ fontFamily: 'Lora' }}>
                   {slide.subText}
                 </Text>
               )}
@@ -92,7 +89,10 @@ export default function OnboardingSwiper() {
                 />
               ) : (
                 <>
-                  <Text className="text-[27px] absolute -top-60 text-center text-white mb-80 w-[280px]">Revitalize our water sources for a healthier planet</Text>
+                  <Text className="text-[27px] absolute -top-60 text-center text-white mb-80 w-[300px]"
+                  style={{fontFamily: 'Lora'}}>
+                    Revitalize our water sources for a healthier planet
+                  </Text>
                   <CustomButton
                     title="Get Started"
                     onPress={handleGetStarted}
@@ -145,9 +145,10 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#06276E",
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
     textAlign: "center",
+    fontFamily: 'Lora',
   },
   dot: {
     backgroundColor: "#ddd",
@@ -162,6 +163,12 @@ const styles = StyleSheet.create({
     height: 8,
     borderRadius: 4,
     margin: 3,
+  },
+  whiteDot: {
+    backgroundColor: "#fff", // White dots on the last slide
+  },
+  whiteActiveDot: {
+    backgroundColor: "#fff", // White active dot on the last slide
   },
   paginationContainer: {
     position: "absolute",
