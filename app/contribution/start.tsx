@@ -25,7 +25,7 @@ export default function Contribution() {
         />
       </View>
       <Text className="text-center w-11/12 text-[17px] mx-auto mt-6">Share your thoughts local water resources to help improve water and sanitation conditions in Africa.</Text>
-      <View className="bottom-7 absolute">
+      <View className="bottom-7 absolute w-full">
         <Text className="text-center text-xs mx-3">*This should take you less that 3 minutes to complete.
         Ensure that you give us every accurate feedback with picture(s) or video(s) to help us support your report.</Text>
         <CustomButton
