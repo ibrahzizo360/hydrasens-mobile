@@ -8,7 +8,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function Step1() {
   const { width } = Dimensions.get("window");
-  const [currentStep, setCurrentStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(2);
   const [city, setCity] = useState<string | null>(null);
   const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
 
@@ -48,25 +48,29 @@ export default function Step1() {
     }
   }, [useCurrentLocation]);
 
-  const Stepper = () => {
+  const Stepper: React.FC = () => {
     return (
-      <View className="flex flex-row justify-between items-center mt-4 mb-8" style={{
-        width: width * 0.5
-      }}>
-        {[1, 2, 3, 4].map((step, index) => (
+      <View
+        className="flex flex-row justify-between items-center mt-4"
+        style={{
+          width: width * 0.25,
+        }}
+      >
+        {[1, 2, 3, 4].map((step) => (
           <View key={step} className="flex flex-row items-center">
             <View
               className={`h-1 w-1 ${
                 currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
               }`}
             />
-            {index < 2 && (
+            {step < 5 && (
               <View
                 className={`flex-grow h-1 ${
                   currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
                 }`}
               />
             )}
+            <View className="bg-gray-300 w-0.5"/>
           </View>
         ))}
       </View>

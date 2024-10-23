@@ -15,7 +15,7 @@ export default function Step2() {
   const { width } = Dimensions.get("window");
 
   // Define the types for state
-  const [currentStep, setCurrentStep] = useState<number>(2);
+  const [currentStep, setCurrentStep] = useState<number>(3);
   const [waterResource, setWaterResource] = useState<string>(""); // Single selection
   const [primaryUse, setPrimaryUse] = useState<string[]>([]); // Multiple selections
 
@@ -55,23 +55,24 @@ export default function Step2() {
       <View
         className="flex flex-row justify-between items-center mt-4"
         style={{
-          width: width * 0.5,
+          width: width * 0.25,
         }}
       >
-        {[1, 2, 3, 4,5,6].map((step, index) => (
+        {[1, 2, 3, 4].map((step) => (
           <View key={step} className="flex flex-row items-center">
             <View
               className={`h-1 w-1 ${
                 currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
               }`}
             />
-            {index < 2 && (
+            {step < 5 && (
               <View
                 className={`flex-grow h-1 ${
                   currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
                 }`}
               />
             )}
+            <View className="bg-gray-300 w-0.5"/>
           </View>
         ))}
       </View>
