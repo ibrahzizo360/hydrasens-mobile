@@ -46,23 +46,24 @@ export default function Step3() {
       <View
         className="flex flex-row justify-between items-center mt-4"
         style={{
-          width: width * 0.5,
+          width: width * 0.25,
         }}
       >
-        {[1, 2, 3, 4].map((step, index) => (
+        {[1, 2, 3, 4].map((step) => (
           <View key={step} className="flex flex-row items-center">
             <View
               className={`h-1 w-1 ${
                 currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
               }`}
             />
-            {index < 2 && (
+            {step < 5 && (
               <View
                 className={`flex-grow h-1 ${
                   currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
                 }`}
               />
             )}
+            <View className="bg-gray-300 w-0.5"/>
           </View>
         ))}
       </View>
@@ -91,11 +92,11 @@ export default function Step3() {
           className="mx-auto h-[168px] w-[168px] mt-6"
         />
 
-      <Text className="font-bold text-center text-xl mb-4 mt-6 w-11/12">
+      <Text className="font-bold text-center text-xl mb-4 mt-6 w-11/12 text-[#06276E]">
         How do you feel about the water quality?
       </Text>
 
-      <Text className="text-xs text-center">
+      <Text className="text-xs text-center font-medium text-[#395696]">
         Rate your mood based on how you perceive the water quality.
       </Text>
 
@@ -114,11 +115,11 @@ export default function Step3() {
         ))}
       </View>
       <View className="flex flex-row justify-between w-[70%] mt-1 mx-auto">
-            <Text className="text-xs">Poor</Text>
-            <Text className="text-xs">Excellent</Text>
+            <Text className="text-xs text-[#395696]">Poor</Text>
+            <Text className="text-xs text-[#395696]">Excellent</Text>
         </View>
 
-      <Text className="text-center mt-10 mx-4 text-xs">
+      <Text className="text-center mt-10 mx-4 font-semibold text-xs text-[#06276E]">
         What do you think is causing the pollution, and how is the water quality
         affecting the local community? Suggest any possible solutions to help
         improve the situation.
@@ -134,7 +135,7 @@ export default function Step3() {
 
       <View className="absolute bottom-7 w-full">
         <CustomButton
-          title="Next"
+          title="Almost Done!"
           onPress={() =>
             // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4)) 
             router.push('/contribution/step4')

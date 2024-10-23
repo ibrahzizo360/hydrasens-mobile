@@ -96,7 +96,7 @@ export default function Step2() {
       <Stepper />
 
       <View className="bg-[#E4EDFB] py-2">
-        <Text className="px-4 text-[10px] text-center">
+        <Text className="px-4 text-[10px] text-center font-medium text-[#06276E]">
           Choose the category that best describes the water resource you are
           reporting on (e.g., river, lake, well, pond, etc.) and indicate the
           main purpose(s) for which this water resource is used by the local
@@ -105,7 +105,7 @@ export default function Step2() {
         </Text>
       </View>
 
-      <Text className="font-bold text-center text-xl mb-4 mt-20">
+      <Text className="font-bold text-center text-xl mb-4 mt-20 text-[#06276E]">
         Select the type of water resource
       </Text>
 
@@ -133,7 +133,7 @@ export default function Step2() {
         </View>
       </View>
 
-      <Text className="font-bold text-center text-xl mb-4 mt-20">
+      <Text className="font-bold text-center text-xl mb-4 mt-20 text-[#06276E]">
         Select the primary use of this water resource
       </Text>
 
