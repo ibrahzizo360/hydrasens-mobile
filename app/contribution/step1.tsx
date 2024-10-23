@@ -7,7 +7,7 @@ import * as Location from "expo-location";
 
 export default function Step1() {
   const { width } = Dimensions.get("window");
-  const [currentStep, setCurrentStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
   const [location, setLocation] = useState<Location.LocationObject>();
   const [city, setCity] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -89,12 +89,12 @@ export default function Step1() {
             source={require("../../assets/images/globe.png")}
             className="mx-auto h-[148px] w-[138px]"
           />
-          <Text className="font-bold text-center text-xl mb-4 mt-20">
+          <Text className="font-semibold text-center text-[#072C7C] text-xl mb-4 mt-20">
             What’s the local name of this water resource?
           </Text>
           <TextInput
             placeholder="Name"
-            className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
+            className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 mx-auto mb-4"
           />
 
           <Text className="font-bold text-center text-xl mb-4 mt-10">

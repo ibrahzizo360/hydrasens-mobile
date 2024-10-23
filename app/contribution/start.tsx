@@ -18,15 +18,15 @@ export default function Contribution() {
         />
       </View>
       <View className="mt-10">
-        <Text className="font-bold text-center text-xl mb-4">Your Voice Matters</Text>
+        <Text className="font-semibold text-center text-xl mb-4">Your Voice Matters</Text>
         <Image
           source={require("../../assets/images/begin.png")}
           className="mx-auto h-[250px] w-[350px]"
         />
       </View>
-      <Text className="text-center w-11/12 text-[17px] mx-auto mt-6">Share your thoughts local water resources to help improve water and sanitation conditions in Africa.</Text>
+      <Text className="text-center w-11/12 text-[17px] font-medium italic mx-auto mt-6">Share your thoughts local water resources to help improve water and sanitation conditions in Africa.</Text>
       <View className="bottom-7 absolute w-full">
-        <Text className="text-center text-xs mx-3">*This should take you less that 3 minutes to complete.
+        <Text className="text-center font-medium text-xs mx-3">*This should take you <Text className="text-blue-600">less that 3 minutes</Text> to complete.
         Ensure that you give us every accurate feedback with picture(s) or video(s) to help us support your report.</Text>
         <CustomButton
                   title="Next"
