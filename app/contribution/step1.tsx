@@ -9,9 +9,7 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 export default function Step1() {
   const { width } = Dimensions.get("window");
   const [currentStep, setCurrentStep] = useState(0);
-  const [location, setLocation] = useState<Location.LocationObject>();
   const [city, setCity] = useState<string | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
 
   useEffect(() => {
