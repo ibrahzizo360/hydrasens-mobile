@@ -1,9 +1,10 @@
-import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback, Alert } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 export default function Step1() {
   const { width } = Dimensions.get("window");
@@ -11,36 +12,43 @@ export default function Step1() {
   const [location, setLocation] = useState<Location.LocationObject>();
   const [city, setCity] = useState<string | null>(null);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+  const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
 
   useEffect(() => {
-    (async () => {
-      // Request permission to access location
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== "granted") {
-        setErrorMsg("Permission to access location was denied");
-        return;
-      }
+    if (useCurrentLocation) {
+      (async () => {
+        // Request permission to access location
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== "granted") {
+          Alert.alert("Permission Denied", "Permission to access location was denied");
+          return;
+        }
 
-      // Get current position
-      let location = await Location.getCurrentPositionAsync({});
-      const { latitude, longitude } = location.coords;
+        // Get current position
+        try {
+          let location = await Location.getCurrentPositionAsync({});
+          const { latitude, longitude } = location.coords;
 
-      // Perform reverse geocoding to get address information
-      let reverseGeocode = await Location.reverseGeocodeAsync({
-        latitude,
-        longitude,
-      });
+          // Perform reverse geocoding to get address information
+          let reverseGeocode = await Location.reverseGeocodeAsync({
+            latitude,
+            longitude,
+          });
 
-      // Set the city from the reverse geocode results
-      if (reverseGeocode.length > 0) {
-        const { city } = reverseGeocode[0]; // Destructure to get the city
-        setCity(city || "City not found");
-      }
-    })();
-  }, []);
-
-
-  console.log(city)
+          // Set the city from the reverse geocode results
+          if (reverseGeocode.length > 0) {
+            const { city } = reverseGeocode[0]; // Destructure to get the city
+            setCity(city || "City not found");
+          } else {
+            Alert.alert("Location Error", "Could not retrieve the city name.");
+          }
+        } catch (error) {
+          Alert.alert("Location Error", "Failed to retrieve location. Please try again.");
+          console.error(error);
+        }
+      })();
+    }
+  }, [useCurrentLocation]);
 
   const Stepper = () => {
     return (
@@ -89,22 +97,42 @@ export default function Step1() {
             source={require("../../assets/images/globe.png")}
             className="mx-auto h-[148px] w-[138px]"
           />
-          <Text className="font-semibold text-center text-[#072C7C] text-xl mb-4 mt-20">
+          <Text className="font-semibold text-center text-[#072C7C] text-xl mb-4 mt-12">
             What’s the local name of this water resource?
           </Text>
           <TextInput
             placeholder="Name"
-            className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 mx-auto mb-4"
+            className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
           />
 
-          <Text className="font-bold text-center text-xl mb-4 mt-10">
+          <Text className="font-semibold text-center text-[#072C7C] text-xl mb-4 mt-7">
             Please provide the exact location of this water source.
           </Text>
           <TextInput
-          value={city ?? "location loading..."}
+            value={useCurrentLocation ? city ?? "Location loading..." : ""}
             placeholder="Location"
-            className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
+            className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 h-[45px] mx-auto"
+            editable={!useCurrentLocation} // Disable input if using current location
           />
+          <View className="flex-row w-11/12 mx-auto justify-between mb-4 mt-1">
+            <Text />
+            <View className="flex-row justify-center">
+              <BouncyCheckbox 
+                style={{ borderRadius: 2 }} 
+                iconStyle={{ borderRadius: 2 }} 
+                innerIconStyle={{ borderRadius: 2 }} 
+                size={15}
+                fillColor="green" 
+                onPress={(isChecked: boolean) => {
+                  setUseCurrentLocation(isChecked); // Use checkbox value to set current location
+                  if (isChecked) {
+                    setCity(null); // Clear city if checkbox is checked
+                  }
+                }} 
+              />
+              <Text className="text-xs tracking-tighter mt-0.5 -ml-3 font-semibold text-[11px] text-gray-500">Use current Location</Text>
+            </View>
+          </View>
         </View>
 
         <View className="bottom-7 absolute w-full">
