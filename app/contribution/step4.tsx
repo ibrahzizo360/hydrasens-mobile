@@ -18,7 +18,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 export default function Step4() {
   const { width } = Dimensions.get("window");
 
-  const [currentStep, setCurrentStep] = useState<number>(4);
+  const [currentStep, setCurrentStep] = useState<number>(5);
   const [editingField, setEditingField] = useState<string | null>(null); // Track which field is being edited
   const [values, setValues] = useState({
     pH: "",
@@ -43,23 +43,24 @@ export default function Step4() {
       <View
         className="flex flex-row justify-between items-center mt-4"
         style={{
-          width: width * 0.5,
+          width: width * 0.25,
         }}
       >
-        {[1, 2, 3, 4].map((step, index) => (
+        {[1, 2, 3, 4].map((step) => (
           <View key={step} className="flex flex-row items-center">
             <View
               className={`h-1 w-1 ${
                 currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
               }`}
             />
-            {index < 2 && (
+            {step < 5 && (
               <View
                 className={`flex-grow h-1 ${
                   currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
                 }`}
               />
             )}
+            <View className="bg-gray-300 w-0.5"/>
           </View>
         ))}
       </View>
