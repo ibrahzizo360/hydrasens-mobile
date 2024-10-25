@@ -15,6 +15,7 @@ import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { useLocalSearchParams } from 'expo-router';
+import useAuthStore from "@/hooks/useAuthStore";
 
 export default function Home() {
   const stores = [
@@ -39,17 +40,8 @@ export default function Home() {
       image: require("../../assets/images/perfume.png"),
     },
   ];
-  const [points, setPoints] = useState(0);
 
-  const { data } = useLocalSearchParams();
-
-  useEffect(() => {
-    if (data) {
-      const pointsValue = Array.isArray(data) ? Number(data[0]) : Number(data);
-      setPoints(pointsValue);
-    }
-  }, [data]);
-  
+  const {user} = useAuthStore();
   
   return (
     <SafeAreaView className="-mt-3">
@@ -61,14 +53,14 @@ export default function Home() {
 
           <View className="flex-col pt-1">
             <Text className="text-xs text-gray-600">Good morning,</Text>
-            <Text className="text-sm">Ohene-Agyekum</Text>
+            <Text className="text-sm">{user.name || user.username}</Text>
           </View>
         </View>
 
         <View className=" bg-[#E4EDFB] rounded-xl py-1 px-2">
           <View className="flex-row gap-2 items-center justify-center">
         <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
-        <Text className="text-sm font-bold">{`${points}.00`}</Text>
+        <Text className="text-sm font-bold">{`${user.points}.00`}</Text>
         </View>
       </View>
 

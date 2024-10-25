@@ -8,7 +8,7 @@ import useAuthStore from "@/hooks/useAuthStore";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login, loading } = useAuthStore();
+  const { login, loading, setOnBoardingCompleted } = useAuthStore();
 
   const loginHandler = async () => {
     if (!email || !password) {
@@ -20,6 +20,7 @@ export default function Login() {
         const response = await login({ email, password });
 
         if (response?.status === 200) {
+            await setOnBoardingCompleted(true);
             Alert.alert("Success", "Logged in successfully");
             router.push("/home");
           } else {

@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import useAuthStore from '@/hooks/useAuthStore';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -15,6 +16,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     'Lora' : require('../assets/fonts/Lora-Bold.ttf'),
   });
+  const {isAuthenticated, onBoardingCompleted} = useAuthStore();
 
   useEffect(() => {
     if (loaded) {
@@ -29,7 +31,15 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        {onBoardingCompleted ? (
+          isAuthenticated ? (
+            <Stack.Screen name="tabs" options={{ headerShown: false }} />
+          ) : (
+            <Stack.Screen name="login" options={{ headerShown: false }} />
+          )
+        ) : (
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+        )}
         <Stack.Screen name="login" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/index" options={{ headerShown: false }} />
