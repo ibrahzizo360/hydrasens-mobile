@@ -34,7 +34,7 @@ export default function OnboardingSwiper() {
   };
 
   const handleGetStarted = () => {
-    router.push("/home");
+    router.push("/login");
   };
 
   const handleContinueAsGuest = () => {
