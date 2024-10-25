@@ -1,6 +1,6 @@
 // CustomButton.tsx
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, ViewStyle, TextStyle, ActivityIndicator } from 'react-native';
 
 interface CustomButtonProps {
   title: string;
@@ -9,6 +9,7 @@ interface CustomButtonProps {
   style?: ViewStyle; // Optional styles for the button
   textStyle?: TextStyle; // Optional styles for the button text
   disabled?: boolean; // Optional disabled state
+  loading?: boolean; // Optional loading state
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -17,16 +18,21 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   style,
   textStyle,
   disabled = false,
-  className
+  loading = false,
+  className,
 }) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={[styles.button, style, disabled && styles.disabled]}
-      disabled={disabled}
+      disabled={disabled || loading} // Disable the button if loading
       className={className}
     >
-      <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      {loading ? (
+        <ActivityIndicator color="#fff" /> // Show loading indicator
+      ) : (
+        <Text style={[styles.buttonText, textStyle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };
@@ -37,6 +43,8 @@ const styles = StyleSheet.create({
     padding: 13,
     borderRadius: 15,
     alignItems: 'center',
+    flexDirection: 'row', // Align items in a row for the loading indicator
+    justifyContent: 'center', // Center items
   },
   buttonText: {
     color: '#fff', // Default text color

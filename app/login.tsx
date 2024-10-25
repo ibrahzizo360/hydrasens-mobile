@@ -3,20 +3,32 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import { useEffect, useState } from "react";
+import useAuthStore from "@/hooks/useAuthStore";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login, loading } = useAuthStore();
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
     if (!email || !password) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
 
-    // Placeholder for login functionality
-    console.log("Login with:", { email, password });
-    // Example: replace with actual API call for authentication
+    try {
+        const response = await login({ email, password });
+
+        if (response?.status === 200) {
+            Alert.alert("Success", "Logged in successfully");
+            router.push("/home");
+          } else {
+            Alert.alert("Login Failed", response?.data?.message || "An unexpected error occurred.");
+          }
+      } catch (error: any) {
+        console.log(error.response);
+        Alert.alert("Registration Failed", error.response?.data?.message || "Something went wrong");
+      }
   };
 
   return (
@@ -64,6 +76,7 @@ export default function Login() {
           <CustomButton
             title="Login"
             onPress={loginHandler}
+            loading={loading}
             textStyle={{ fontSize: 18 }}
             className="mx-3 mt-7"
           />
