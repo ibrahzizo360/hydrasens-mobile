@@ -1,11 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   Pressable,
   SafeAreaView,
   Dimensions,
-  TextInput,
   Image,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,27 +13,47 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as ImagePicker from 'expo-image-picker';
 
 export default function Step4() {
   const { width } = Dimensions.get("window");
 
   const [currentStep, setCurrentStep] = useState<number>(5);
-  const [editingField, setEditingField] = useState<string | null>(null); // Track which field is being edited
-  const [values, setValues] = useState({
-    pH: "",
-    turbidity: "",
-    temperature: "",
-  });
+  const [selectedImages, setSelectedImages] = useState<string[]>([]);
+  const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
-  const handleFieldChange = (field: string, value: string) => {
-    setValues((prevValues) => ({
-      ...prevValues,
-      [field]: value,
-    }));
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && selectedImages.length < 3) {
+      setSelectedImages([...selectedImages, result.assets[0].uri]);
+    }
+  };
+
+  const takePhoto = async () => {
+    if (!status?.granted) {
+      const permission = await requestPermission();
+      if (!permission.granted) return;
+    }
+
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled && selectedImages.length < 3) {
+      setSelectedImages([...selectedImages, result.assets[0].uri]);
+    }
   };
 
   const handleTapOutside = () => {
-    setEditingField(null); // Exit edit mode when tapped outside
     Keyboard.dismiss();
   };
 
@@ -87,109 +106,52 @@ export default function Step4() {
           className="mx-auto h-[168px] w-[168px] mt-8"
         />
 
-        <Text className="font-bold text-center text-xl mb-4 mt-6 w-11/12 mx-auto">
-          Upload chemical test results to assess water quality (optional)
-        </Text>
-
-        <View className="flex flex-row justify-evenly">
-          {/* Attribute for pH */}
-          <Pressable
-            onPress={() => setEditingField("pH")}
-            className="flex flex-row items-center justify-between py-1 px-3 gap-2 rounded-lg bg-[#bad3f9]"
-          >
-            {editingField === "pH" ? (
-              <TextInput
-                autoFocus
-                value={values.pH}
-                onChangeText={(text) => handleFieldChange("pH", text)}
-                className="text-blue-500 w-16 border-b-2 border-blue-500"
-                keyboardType="numeric"
-              />
-            ) : (
-              <>
-                <AntDesign name="plus" size={16} color="blue" />
-                <Text className="text-blue-500">
-                  {values.pH || "pH"}
-                </Text>
-              </>
-            )}
-          </Pressable>
-
-          {/* Attribute for turbidity */}
-          <Pressable
-            onPress={() => setEditingField("turbidity")}
-            className="flex flex-row items-center justify-between py-1 px-3 gap-2 rounded-lg bg-[#bad3f9]"
-          >
-            {editingField === "turbidity" ? (
-              <TextInput
-                autoFocus
-                value={values.turbidity}
-                onChangeText={(text) => handleFieldChange("turbidity", text)}
-                className="text-blue-500 w-16 border-b-2 border-blue-500"
-                keyboardType="numeric"
-              />
-            ) : (
-              <>
-                <AntDesign name="plus" size={16} color="blue" />
-                <Text className="text-blue-500">
-                  {values.turbidity || "turbidity"}
-                </Text>
-              </>
-            )}
-          </Pressable>
-
-          {/* Attribute for temperature */}
-          <Pressable
-            onPress={() => setEditingField("temperature")}
-            className="flex flex-row items-center justify-between py-1 px-3 gap-2 rounded-lg bg-[#bad3f9]"
-          >
-            {editingField === "temperature" ? (
-              <TextInput
-                autoFocus
-                value={values.temperature}
-                onChangeText={(text) => handleFieldChange("temperature", text)}
-                className="text-blue-500 w-16 border-b-2 border-blue-500"
-                keyboardType="numeric"
-              />
-            ) : (
-              <>
-                <AntDesign name="plus" size={16} color="blue" />
-                <Text className="text-blue-500">
-                  {values.temperature || "temperature"}
-                </Text>
-              </>
-            )}
-          </Pressable>
-        </View>
-
         <View className="">
-        <Text className="font-bold text-center text-xl mt-6 w-11/12 mx-auto">
-        Add a photo to support your report 
-        </Text>
-        <Text className="text-center">(max 3)</Text>
+          <Text className="font-bold text-center text-xl mt-6 w-11/12 mx-auto text-[#072C7C]">
+            Add a photo to support your report 
+          </Text>
+          <Text className="text-center text-[#717888]">(max 3)</Text>
         </View>
 
-        <View className="mx-auto w-11/12 mt-5">
-        <Pressable className="rounded-lg flex flex-row justify-center pb-3 pt-1 items-center gap-2 border border-blue-500 w-full">
-            <AntDesign name="camera" size={17} color="blue" />
+        <View className="flex items-center w-full mt-5">
+          <Pressable
+            onPress={takePhoto}
+            className="rounded-lg flex flex-row justify-center pb-3 pt-1 items-center gap-2 border border-blue-500 w-11/12"
+          >
+            <Feather name="camera" size={18} color="#3b82f6" />
             <Text className="font-bold text-blue-500">Take Photo</Text>
-        </Pressable>
+          </Pressable>
         </View>
 
-        <View className="mx-auto w-11/12 mt-5">
-        <Pressable className="rounded-lg flex bg-[#0E87CC] flex-row justify-center pb-3 pt-1 items-center gap-2 border border-blue-500 w-full">
-            <AntDesign name="picture" size={17} color="white" />
+        <View className="flex items-center w-full mt-5">
+          <Pressable
+            onPress={pickImage}
+            className="rounded-lg flex bg-[#0E87CC] flex-row justify-center pb-3 pt-1 items-center gap-2 border border-blue-500 w-11/12"
+          >
+            <AntDesign name="picture" size={18} color="white" />
             <Text className="font-bold text-white">Select Photos</Text>
-        </Pressable>
-        <Text className="text-[10px] font-light mt-0.5">Tip: Share a clear picture of the water resource to give us a better look at its current condition. Try to focus on areas that show pollution, damage, or other concerns. Well-lit, close-up shots work best!</Text>
+          </Pressable>
+          <Text className="text-[10px] font-light text-[#717888] mt-1 text-center">
+            Tip: Share a clear picture of the water resource to give us a better look at its current condition. Try to focus on areas that show pollution, damage, or other concerns. Well-lit, close-up shots work best!
+          </Text>
         </View>
 
-        <View className="flex flex-row justify-evenly mt-4">
-            <View className="bg-[#EBF3FF] border rounded-lg border-blue-500 border-dashed h-[70px] w-[100px]"></View>
-            <View className="bg-[#EBF3FF] border rounded-lg border-blue-500 border-dashed h-[70px] w-[100px]"></View>
-            <View className="bg-[#EBF3FF] border rounded-lg border-blue-500 border-dashed h-[70px] w-[100px]"></View>
+        <View className="flex flex-row justify-evenly mt-4 mr-1">
+          {[0, 1, 2].map((index) => (
+            <View
+              key={index}
+              className="bg-[#EBF3FF] border rounded-lg border-blue-500 border-dashed h-[76px] w-[109px] flex justify-center items-center"
+            >
+              {selectedImages[index] && (
+                <Image
+                  source={{ uri: selectedImages[index] }}
+                  className="h-full w-full rounded-lg"
+                  resizeMode="cover"
+                />
+              )}
+            </View>
+          ))}
         </View>
-
 
         <View className="absolute bottom-7 w-full">
           <CustomButton
