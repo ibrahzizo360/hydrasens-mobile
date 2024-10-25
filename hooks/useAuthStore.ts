@@ -14,6 +14,7 @@ interface AuthStoreState {
   checkAuthStatus: () => Promise<void>;
   register: (userData: any) => Promise<void | AxiosResponse>;
   setOnBoardingCompleted: (completed: boolean) => Promise<void>;
+    loadOnBoardingStatus: () => Promise<void>;
 }
 
 const useAuthStore = create<AuthStoreState>((set, get) => ({

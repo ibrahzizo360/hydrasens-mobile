@@ -5,8 +5,11 @@ import { router } from 'expo-router';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import useAuthStore from "@/hooks/useAuthStore";
 
 export default function Profile() {
+  const {user, logout} = useAuthStore();
+
   return (
     <SafeAreaView className="flex-1">
       <View className="flex flex-row justify-center items-center">
@@ -20,12 +23,12 @@ export default function Profile() {
 
       <View className="flex flex-row gap-2 py-1 items-center mx-3 mt-6">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={require("../assets/images/avatar.png")} />
+          <Image source={user?.profile} />
           </Pressable>
 
           <View className="flex-col pt-1">
-            <Text className="text-sm">Ohene-Agyekum</Text>
-            <Text className="text-xs text-gray-600">ohene@hydrasens.com</Text>
+            <Text className="text-sm">{user?.name || user?.username}</Text>
+            <Text className="text-xs text-gray-600">{user?.email}</Text>
           </View>
         </View>
 
@@ -71,7 +74,7 @@ export default function Profile() {
       <View className="bottom-7 absolute w-full">
       <CustomButton
                   title="Log Out"
-                  onPress={() => router.push('/contribution/step1')}
+                  onPress={() => logout()}
                   textStyle={{ fontSize: 18, color: '#E3290F' }}
                   className="mx-3 mt-7 bg-[#ffcbc5]"
                 />
