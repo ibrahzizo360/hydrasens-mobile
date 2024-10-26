@@ -3,19 +3,17 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import { useState } from "react";
-import axios from "axios";
-import { BASE_URL } from "@/constants/url";
 import useAuthStore from "@/hooks/useAuthStore";
 
 export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const { register, loading } = useAuthStore();
 
   const signUpHandler = async () => {
-    if (!email || !password || !confirmPassword || !username) {
+    if (!email || !password || !confirmPassword || !name) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
@@ -26,13 +24,11 @@ export default function SignUp() {
     }
 
     try {
-      const response = await register({ username, email, password });
-
-      console.log(response?.data);
+      const response = await register({ name, email, password });
 
       if (response?.status === 201) {
         Alert.alert("Success", "User registered successfully");
-        router.push("/login");
+        router.push("/sign-in");
       } else {
         Alert.alert("Registration Failed", response?.data?.message || "An unexpected error occurred.");
       }
@@ -57,12 +53,12 @@ export default function SignUp() {
 
         <View className="mt-10">
           <Text className="font-semibold text-center text-[#072C7C] text-xl mb-4 mt-12">
-            Username
+            Full Name
           </Text>
           <TextInput
-            placeholder="Enter your username"
-            value={username}
-            onChangeText={setUsername}
+            placeholder="Enter your Name"
+            value={name}
+            onChangeText={setName}
             className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
           />
 
@@ -99,6 +95,10 @@ export default function SignUp() {
             secureTextEntry
             className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 h-[45px] mx-auto"
           />
+
+          <Pressable onPress={() => (router.push("/sign-in"))}>
+          <Text className="mx-auto mt-10 text-blue-700 font-bold">Login here</Text>
+          </Pressable>
         </View>
 
         <View className="bottom-7 absolute w-full">

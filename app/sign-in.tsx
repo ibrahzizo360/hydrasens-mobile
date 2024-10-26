@@ -36,14 +36,6 @@ export default function Login() {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <SafeAreaView className="flex-1">
         <View className="flex flex-row justify-center items-center">
-          <Pressable
-            onPress={() => router.back()}
-            className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
-          >
-            <View>
-              <Feather name="chevron-left" size={24} color="white" />
-            </View>
-          </Pressable>
           <Text className="text-xl font-semibold">Login</Text>
         </View>
 
@@ -71,6 +63,10 @@ export default function Login() {
             secureTextEntry
             className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 h-[45px] mx-auto"
           />
+
+          <Pressable onPress={() => (router.push("/register"))}>
+          <Text className="mx-auto mt-10 text-blue-700 font-bold">Sign Up here</Text>
+          </Pressable>
         </View>
 
         <View className="bottom-7 absolute w-full">

@@ -38,7 +38,8 @@ export default function OnboardingSwiper() {
   };
 
   const handleContinueAsGuest = () => {
-    router.push("/");
+    return;
+    // router.push("/");
   };
 
   return (
