@@ -13,8 +13,6 @@ import { SwiperFlatList } from "react-native-swiper-flatlist";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
-import { useEffect, useState } from "react";
-import { useLocalSearchParams } from 'expo-router';
 import useAuthStore from "@/hooks/useAuthStore";
 
 export default function Home() {
