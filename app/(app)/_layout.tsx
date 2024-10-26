@@ -12,12 +12,12 @@ import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Home from '.';
 import Forum from './forum';
-import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { router, Redirect } from 'expo-router';
 import Offers from './offers';
 import Data from './data';
 import useAuthStore from '@/hooks/useAuthStore';
+import { CustomBottomSheet } from './customSheet';
 
 const HomeScreen = () => {
   return <Home />;
@@ -66,7 +66,6 @@ const TabIcon = ({ name, focused }: any) => {
 
 export default function App() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const bottomSheetRef = useRef<BottomSheet>(null);
   const { isAuthenticated, onBoardingCompleted } = useAuthStore();
 
   if (!onBoardingCompleted) return <Redirect href="/onBoarding" />;
@@ -84,13 +83,10 @@ export default function App() {
     );
   };
 
+  const [isSheetVisible, setIsSheetVisible] = useState(false);
+
   const toggleBottomSheet = () => {
-    if (isSheetOpen) {
-      bottomSheetRef.current?.close(); // Close the sheet
-    } else {
-      bottomSheetRef.current?.expand(); // Open the sheet
-    }
-    setIsSheetOpen(!isSheetOpen); // Toggle the state
+    setIsSheetVisible((prev) => !prev);
   };
 
   return (
@@ -99,8 +95,7 @@ export default function App() {
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
           shadowStyle={styles.shawdow}
-          height={65}
-          circleWidth={51}
+          circleWidth={53}
           bgColor="white"
           initialRouteName="home"
           borderTopLeftRight
@@ -123,7 +118,7 @@ export default function App() {
           )}
           tabBar={renderTabBar}
           screenOptions={{ headerShown: false, tabBarShowLabel: true, }}
-          style={{ width: '100%', alignSelf: 'center', marginBottom: 0 }}
+          style={styles.bottomBar}
         >
           <CurvedBottomBarExpo.Screen
             name="home"
@@ -147,68 +142,16 @@ export default function App() {
           />
         </CurvedBottomBarExpo.Navigator>
 
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={['78%']}
-          enablePanDownToClose
-          onClose={() => setIsSheetOpen(false)}
-          style={styles.bottomSheet}
-          animateOnMount={false}
-        >
-          <BottomSheetView style={styles.sheetContent}>
-            <Text className='text-center'>How would you like to contribute to clean water and sanitation in your community?</Text>
-            <Image source={require('../../assets/images/home-drop.png')} className='h-[211px] w-[283px]' />
-            <View className='flex flex-row justify-between w-full mt-6'>
-              <Pressable onPress={()=>router.push('/status')}>
-              <Image source={require('../../assets/images/tab-card-1.png')} className='h-[91px] w-[168px]' />
-              </Pressable>
-              <Pressable onPress={()=>router.push('/contribution/start')}>
-              <Image source={require('../../assets/images/tab-card-2.png')} className='h-[91px] w-[168px]' />
-              </Pressable>
-            </View>
-            <View className='flex flex-row justify-between w-full mt-6'>
-              <Pressable onPress={()=>console.log("")}>
-              <Image source={require('../../assets/images/tab-card-3.png')} className='h-[91px] w-[168px]' />
-              </Pressable>
-              <Pressable onPress={()=>console.log("")}>
-              <Image source={require('../../assets/images/tab-card-4.png')} className='h-[91px] w-[168px]' />
-              </Pressable>
-            </View>
-            <View className='flex flex-row justify-evenly gap-6 mt-6'>
-              <View className='flex items-center justify-center'>
-                <Image source={require('../../assets/images/home-icon.png')} className='h-[24px] w-[24px]' />
-                <Text className='font-bold mt-0.5'>Home</Text>
-              </View>
-              <View className='flex items-center justify-center'>
-                <Image source={require('../../assets/images/forum.png')} className='h-[24px] w-[24px]' />
-                <Text className='font-bold mt-0.5'>Forum</Text>
-              </View>
-              <View className='flex items-center justify-center mb-8'>
-                <Pressable onPress={()=>bottomSheetRef.current?.close()}>
-                <Image source={require('../../assets/images/close-circle.png')} className='h-[60px] w-[60px]' />
-                </Pressable>
-              </View>
-              <View className='flex items-center justify-center'>
-                <Image source={require('../../assets/images/data.png')} className='h-[24px] w-[24px]' />
-                <Text className='font-bold mt-0.5'>Data</Text>
-              </View>
-              <View className='flex items-center justify-center'>
-                <Image source={require('../../assets/images/offers.png')} className='h-[24px] w-[24px]' />
-                <Text className='font-bold mt-0.5'>Offers</Text>
-              </View>
-            </View>
-          </BottomSheetView>
-        </BottomSheet>
+        <CustomBottomSheet
+        isVisible={isSheetVisible}
+        toggleVisibility={setIsSheetVisible}
+      />
       </NavigationContainer>
     </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 20,
-  },
   shawdow: {
     shadowColor: 'transparent',
     shadowOffset: {
@@ -226,13 +169,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: 'center',
     display: 'flex',
-  },
-  bottomBar: {
-    width: '10%',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 5,
   },
   btnCircleUp: {
     width: 60,
@@ -256,26 +192,17 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
   },
-  sheetContent: {
-    alignItems: 'center',
-    padding: 20,
-  },
   tabLabel: {
-    fontSize: 12, // Adjust font size as needed
+    fontSize: 12,
     textAlign: 'center',
-    marginTop: 2, // Space between icon and label
+    marginTop: 2,
     fontWeight: 'semibold',
-    color: '#333', // Default color
+    color: '#333',
   },
-  bottomSheet: {
-    height: 'auto',
-  },
-   bottomBarContainer: {
+  bottomBar: {
     position: 'absolute',
     bottom: 0,
-    left: '50%', // Center horizontally
-    transform: [{ translateX: -150 }], // Half of the desired width to center
-    width: '80%', // Adjust the width as needed
-    alignItems: 'center', // Center contents
+    zIndex: 0,
+    elevation: 5,
   },
 });
