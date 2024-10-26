@@ -48,19 +48,19 @@ export default function Home() {
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={user.profile} className="h-9 w-9" />
+          <Image source={user?.profile} className="h-9 w-9" />
           </Pressable>
 
           <View className="flex-col pt-1">
             <Text className="text-xs text-gray-600">Hello 👋</Text>
-            <Text className="text-sm">{user.name || user.username}</Text>
+            <Text className="text-sm">{user?.name || user?.username}</Text>
           </View>
         </View>
 
         <View className=" bg-[#E4EDFB] rounded-xl py-1 px-2">
           <View className="flex-row gap-2 items-center justify-center">
         <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
-        <Text className="text-sm font-bold">{`${user.points}.00`}</Text>
+        <Text className="text-sm font-bold">{`${user?.points}.00`}</Text>
         </View>
       </View>
 

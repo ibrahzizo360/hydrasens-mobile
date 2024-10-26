@@ -34,11 +34,11 @@ export default function OnboardingSwiper() {
   };
 
   const handleGetStarted = () => {
-    router.push("/login");
+    router.push("/sign-in");
   };
 
   const handleContinueAsGuest = () => {
-    router.push("/home");
+    router.push("/");
   };
 
   return (

@@ -10,13 +10,14 @@ import {
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
 import { Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import Home from './home';
+import Home from '.';
 import Forum from './forum';
 import BottomSheet, { BottomSheetView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { router } from 'expo-router';
+import { router, Redirect } from 'expo-router';
 import Offers from './offers';
 import Data from './data';
+import useAuthStore from '@/hooks/useAuthStore';
 
 const HomeScreen = () => {
   return <Home />;
@@ -64,16 +65,12 @@ const TabIcon = ({ name, focused }: any) => {
 };
 
 export default function App() {
-  const [isSheetOpen, setIsSheetOpen] = useState(false); // Track if bottom sheet is open
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const bottomSheetRef = useRef<BottomSheet>(null);
+  const { isAuthenticated, onBoardingCompleted } = useAuthStore();
 
-   // Ensure bottom sheet doesn't expand on mount
-   useEffect(() => {
-    // Explicitly keep the sheet closed on mount
-    setTimeout(() => {
-      bottomSheetRef.current?.forceClose();
-    }, 150);
-  }, []);
+  if (!onBoardingCompleted) return <Redirect href="/onBoarding" />;
+  if (!isAuthenticated) return <Redirect href="/sign-in" />;
 
   const renderTabBar = ({ routeName, selectedTab, navigate }: any) => {
     return (

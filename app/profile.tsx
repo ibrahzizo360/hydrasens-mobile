@@ -74,13 +74,13 @@ export default function Profile() {
       <View className="bottom-7 absolute w-full">
       <CustomButton
                   title="Log Out"
-                  onPress={() => logout()}
+                  onPress={() => {logout(); router.push('/sign-in')}}
                   textStyle={{ fontSize: 18, color: '#E3290F' }}
                   className="mx-3 mt-7 bg-[#ffcbc5]"
                 />
         <CustomButton
                   title="Back To Home"
-                  onPress={() => router.push('/contribution/step1')}
+                  onPress={() => router.push('/')}
                   textStyle={{ fontSize: 18 }}
                   className="mx-3 mt-4"
                 />

@@ -22,7 +22,7 @@ export default function Login() {
         if (response?.status === 200) {
             await setOnBoardingCompleted(true);
             Alert.alert("Success", "Logged in successfully");
-            router.push("/home");
+            router.push("/");
           } else {
             Alert.alert("Login Failed", response?.data?.message || "An unexpected error occurred.");
           }

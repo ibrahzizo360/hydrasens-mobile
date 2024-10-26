@@ -8,13 +8,13 @@ interface AuthStoreState {
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  onBoardingCompleted: boolean;
+  onBoardingCompleted: boolean | null;
   login: (credentials: any) => Promise<void | AxiosResponse>;
   logout: () => void;
   checkAuthStatus: () => Promise<void>;
   register: (userData: any) => Promise<void | AxiosResponse>;
   setOnBoardingCompleted: (completed: boolean) => Promise<void>;
-    loadOnBoardingStatus: () => Promise<void>;
+  loadOnBoardingStatus: () => Promise<void>;
 }
 
 const useAuthStore = create<AuthStoreState>((set, get) => ({
@@ -22,7 +22,7 @@ const useAuthStore = create<AuthStoreState>((set, get) => ({
   token: null,
   isAuthenticated: false,
   loading: false,
-  onBoardingCompleted: false,
+  onBoardingCompleted: null,
 
   login: async (credentials) => {
     set({ loading: true });
