@@ -2,8 +2,6 @@ import { Image, Pressable, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from 'expo-router';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AntDesign, FontAwesome, Foundation, MaterialIcons } from "@expo/vector-icons";
 
 export default function Notifications() {
@@ -61,7 +59,7 @@ export default function Notifications() {
       <View className="bottom-7 absolute w-full">
         <CustomButton
                   title="Back To Home"
-                  onPress={() => router.push('/(tabs)/home')}
+                  onPress={() => router.push('/(app)/')}
                   textStyle={{ fontSize: 18 }}
                   className="mx-3 mt-4"
                 />
