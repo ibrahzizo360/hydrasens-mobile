@@ -115,7 +115,7 @@ const handleSubmit = async () => {
 
     resetContributionFields();
 
-    // router.push("/contribution/step5");
+    router.push("/contribution/step5");
   } catch (error) {
     console.error("Error uploading images:", error);
     alert("An error occurred while uploading images. Please try again.");
@@ -123,8 +123,6 @@ const handleSubmit = async () => {
     setLoading(false);
   }
 };
-
-  
 
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
