@@ -5,12 +5,15 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import useContributionStore from "@/hooks/useContributionStore";
 
 export default function Step1() {
   const { width } = Dimensions.get("window");
   const [currentStep, setCurrentStep] = useState(2);
   const [city, setCity] = useState<string | null>(null);
   const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
+
+  const { contribution, setContributionField, loading } = useContributionStore();
 
   useEffect(() => {
     if (useCurrentLocation) {
@@ -104,6 +107,8 @@ export default function Step1() {
           </Text>
           <TextInput
             placeholder="Name"
+            value={contribution?.name || ""}
+            onChangeText={(text) => setContributionField('name', text)}
             className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
           />
 
@@ -111,10 +116,11 @@ export default function Step1() {
             Please provide the exact location of this water source.
           </Text>
           <TextInput
-            value={useCurrentLocation ? city ?? "Location loading..." : ""}
+            value={useCurrentLocation ? contribution?.location ?? "Location loading..." : contribution?.location}
             placeholder="Location"
+            onChangeText={(text) => setContributionField('location', text)}
             className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 h-[45px] mx-auto"
-            editable={!useCurrentLocation} // Disable input if using current location
+            editable={!useCurrentLocation} 
           />
           <View className="flex-row w-11/12 mx-auto justify-between mb-4 mt-1">
             <Text />

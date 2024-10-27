@@ -21,10 +21,7 @@ interface Rating {
 export default function Step5() {
   const { width } = Dimensions.get("window");
 
-  // Define the types for state
   const [currentStep, setCurrentStep] = useState<number>(3);
-  const [rating, setRating] = useState<string>("");
-  const [comment, setComment] = useState<string>("");
 
   const Stepper: React.FC = () => {
     return (
@@ -92,10 +89,8 @@ export default function Step5() {
         <CustomButton
           title="Back To Home"
           onPress={() =>
-            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4))// Logic to go to the next step
             router.push({
-              pathname: '/home',
-              params: { data: 15},
+              pathname: '/',
             })
           }
           textStyle={{ fontSize: 18 }}

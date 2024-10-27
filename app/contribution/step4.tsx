@@ -14,6 +14,8 @@ import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
+import useContributionStore from "@/hooks/useContributionStore";
+import { uploadImageToCloudinary } from "@/utils";
 
 export default function Step4() {
   const { width } = Dimensions.get("window");
@@ -22,7 +24,13 @@ export default function Step4() {
   const [selectedImages, setSelectedImages] = useState<string[]>([]);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
 
+  const { setContributionField, contribution, loading, setLoading, addContribution, resetContributionFields } = useContributionStore();
+
   const pickImage = async () => {
+    if (selectedImages.length >= 3) {
+      alert("You can only select up to 3 images.");
+      return;
+    }
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -36,6 +44,11 @@ export default function Step4() {
   };
 
   const takePhoto = async () => {
+    if (selectedImages.length >= 3) {
+      alert("You can only select up to 3 images.");
+      return;
+    }
+
     if (!status?.granted) {
       const permission = await requestPermission();
       if (!permission.granted) return;
@@ -85,6 +98,33 @@ export default function Step4() {
       </View>
     );
   };
+
+
+const handleSubmit = async () => {
+  setLoading(true); // Start loading
+  try {
+    const uploadedUrls = await Promise.all(
+      selectedImages.map(async (imageUri) => {
+        return await uploadImageToCloudinary(imageUri);
+      })
+    );
+    
+    setContributionField('photos', uploadedUrls);
+
+    await addContribution(); 
+
+    resetContributionFields();
+
+    // router.push("/contribution/step5");
+  } catch (error) {
+    console.error("Error uploading images:", error);
+    alert("An error occurred while uploading images. Please try again.");
+  } finally {
+    setLoading(false);
+  }
+};
+
+  
 
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
@@ -156,8 +196,9 @@ export default function Step4() {
         <View className="absolute bottom-7 w-full">
           <CustomButton
             title="Submit"
-            onPress={() => router.push("/contribution/step5")}
+            onPress={() =>handleSubmit()}
             textStyle={{ fontSize: 18 }}
+            loading={loading}
             className="mx-3 mt-7"
           />
         </View>

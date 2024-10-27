@@ -10,14 +10,16 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
+import useContributionStore from "@/hooks/useContributionStore";
 
 export default function Step2() {
   const { width } = Dimensions.get("window");
 
   // Define the types for state
   const [currentStep, setCurrentStep] = useState<number>(3);
-  const [waterResource, setWaterResource] = useState<string>(""); // Single selection
-  const [primaryUse, setPrimaryUse] = useState<string[]>([]); // Multiple selections
+  const [waterResource, setWaterResource] = useState<string>("");
+  const [primaryUse, setPrimaryUse] = useState<string[]>([]);
+  const { contribution, setContributionField, loading } = useContributionStore();
 
   const waterResources: string[] = [
     "River",
@@ -77,6 +79,12 @@ export default function Step2() {
         ))}
       </View>
     );
+  };
+
+  const handleNextPress = () => {
+    setContributionField("type", waterResource);
+    setContributionField("use", primaryUse);
+    router.push("/contribution/step3");
   };
 
   return (
@@ -164,10 +172,7 @@ export default function Step2() {
       <View className="absolute bottom-7 w-full">
         <CustomButton
           title="Next"
-          onPress={() =>
-            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4))// Logic to go to the next step
-            router.push('/contribution/step3')
-          }
+          onPress={() =>handleNextPress()}
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />

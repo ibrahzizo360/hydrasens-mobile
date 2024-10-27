@@ -14,6 +14,7 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
+import useContributionStore from "@/hooks/useContributionStore";
 
 interface Rating {
   rate: string;
@@ -23,10 +24,10 @@ interface Rating {
 export default function Step3() {
   const { width } = Dimensions.get("window");
 
-  // Define the types for state
   const [currentStep, setCurrentStep] = useState<number>(4);
   const [rating, setRating] = useState<string>("");
-  const [comment, setComment] = useState<string>(""); // Added state for comment
+  const [comment, setComment] = useState<string>("");
+  const { setContributionField } = useContributionStore();
 
   const ratings: Rating[] = [
     { rate: "1", color: "#FF4C4C" },
@@ -36,9 +37,14 @@ export default function Step3() {
     { rate: "5", color: "#4CAF50" },
   ];
 
-  // Rating selection logic
   const selectRating = (rate: string) => {
     setRating(rate);
+    setContributionField("rating", rate); 
+  };
+
+  const handleNextStep = () => {
+    setContributionField("comment", comment);
+    router.push('/contribution/step4');
   };
 
   const Stepper: React.FC = () => {
@@ -136,10 +142,7 @@ export default function Step3() {
       <View className="absolute bottom-7 w-full">
         <CustomButton
           title="Almost Done!"
-          onPress={() =>
-            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4)) 
-            router.push('/contribution/step4')
-          }
+          onPress={() => handleNextStep()}
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
