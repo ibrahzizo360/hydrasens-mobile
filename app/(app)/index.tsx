@@ -46,7 +46,7 @@ export default function Home() {
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={user?.profile} className="h-9 w-9" />
+          <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
           </Pressable>
 
           <View className="flex-col pt-1">

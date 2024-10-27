@@ -23,7 +23,7 @@ export default function Profile() {
 
       <View className="flex flex-row gap-2 py-1 items-center mx-3 mt-6">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={user?.profile} />
+          <Image source={{ uri: user?.profile }} className="h-9 w-9" />
           </Pressable>
 
           <View className="flex-col pt-1">
