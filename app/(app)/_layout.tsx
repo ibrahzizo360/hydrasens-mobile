@@ -182,12 +182,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5, 
   },
-  btnCircleActive: {
-    backgroundColor: 'white',
-  },
-  blueBackground: {
-    backgroundColor: '#0258D3',
-  },
   btnCircleUp: {
     width: 55,
     height: 55,
@@ -206,14 +200,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 28,
-    height: 28,
+    width: 24,
+    height: 24,
   },
   tabLabel: {
     fontSize: 12,
     textAlign: 'center',
     marginTop: 2,
-    fontWeight: 'semibold',
+    fontWeight: '600',
     color: '#333',
   },
   bottomBar: {
