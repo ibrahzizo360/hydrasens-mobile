@@ -14,6 +14,8 @@ import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
+import { CustomBottomSheet } from "./customSheet";
+import { useState } from "react";
 
 export default function Home() {
   const stores = [
@@ -40,6 +42,8 @@ export default function Home() {
   ];
 
   const {user} = useAuthStore();
+
+  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   return (
     <SafeAreaView className="-mt-3">
@@ -196,6 +200,7 @@ export default function Home() {
         </View>
         </View>
       </ImageBackground>
+      <CustomBottomSheet />
     </SafeAreaView>
   );
 }

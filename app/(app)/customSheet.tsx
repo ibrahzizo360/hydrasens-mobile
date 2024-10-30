@@ -1,3 +1,4 @@
+import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { useRouter } from 'expo-router';
 import React, { useRef, useState, useEffect } from 'react';
 import {
@@ -13,9 +14,10 @@ import {
 
 const screenHeight = Dimensions.get('window').height;
 
-export const CustomBottomSheet = ({ isVisible, toggleVisibility }: any) => {
+export const CustomBottomSheet = () => {
   const translateY = useRef(new Animated.Value(screenHeight)).current;
   const router = useRouter();
+  const { isVisible, toggleVisibility } = useBottomSheetStore();
 
   useEffect(() => {
     animateSheet(isVisible ? screenHeight * 0.0001 : screenHeight);
@@ -113,7 +115,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     bottom: 10,
-    zIndex: 0,
+    zIndex: 1,
     padding: 20,
   },
   sheetText: {

@@ -18,6 +18,7 @@ import Offers from './offers';
 import Data from './data';
 import useAuthStore from '@/hooks/useAuthStore';
 import { CustomBottomSheet } from './customSheet';
+import useBottomSheetStore from '@/hooks/useBottomSheet';
 
 const HomeScreen = () => {
   return <Home />;
@@ -67,6 +68,7 @@ const TabIcon = ({ name, focused }: any) => {
 export default function App() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { isAuthenticated, onBoardingCompleted } = useAuthStore();
+  const { isVisible, toggleVisibility } = useBottomSheetStore();
 
   if (!onBoardingCompleted) return <Redirect href="/onBoarding" />;
   if (!isAuthenticated) return <Redirect href="/sign-in" />;
@@ -90,8 +92,7 @@ export default function App() {
   };
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <NavigationContainer independent>
+    <>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
           shadowStyle={styles.shawdow}
@@ -103,7 +104,7 @@ export default function App() {
             <Animated.View style={styles.btnCircleUp}>
               <TouchableOpacity
                 style={styles.button}
-                onPress={toggleBottomSheet}
+                onPress={() => toggleVisibility(!isVisible)}
               >
                 <Image
                   source={
@@ -141,13 +142,7 @@ export default function App() {
             position="RIGHT"
           />
         </CurvedBottomBarExpo.Navigator>
-
-        <CustomBottomSheet
-        isVisible={isSheetVisible}
-        toggleVisibility={setIsSheetVisible}
-      />
-      </NavigationContainer>
-    </GestureHandlerRootView>
+      </>
   );
 }
 
