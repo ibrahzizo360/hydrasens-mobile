@@ -2,21 +2,13 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Pressable,
   SafeAreaView,
-  ImageBackground,
   Dimensions,
-  TextInput,
   Image,
 } from "react-native";
-import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
-
-interface Rating {
-  rate: string;
-  color: string;
-}
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 export default function Step5() {
   const { width } = Dimensions.get("window");
@@ -97,6 +89,7 @@ export default function Step5() {
           className="mx-3 mt-7"
         />
       </View>
+      <ConfettiCannon count={200} origin={{x: 0, y: 0}} />
     </SafeAreaView>
   );
 }
