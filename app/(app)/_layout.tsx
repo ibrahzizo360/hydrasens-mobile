@@ -1,24 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 import {
   Animated,
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import { CurvedBottomBarExpo } from 'react-native-curved-bottom-bar';
 import { Image } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import Home from '.';
 import Forum from './forum';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { router, Redirect } from 'expo-router';
+import { Redirect } from 'expo-router';
 import Offers from './offers';
 import Data from './data';
 import useAuthStore from '@/hooks/useAuthStore';
-import { CustomBottomSheet } from './customSheet';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
+import { Ionicons } from '@expo/vector-icons';
+import InsetShadow from 'react-native-inset-shadow'
 
 const HomeScreen = () => {
   return <Home />;
@@ -66,9 +63,24 @@ const TabIcon = ({ name, focused }: any) => {
 };
 
 export default function App() {
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
   const { isAuthenticated, onBoardingCompleted } = useAuthStore();
   const { isVisible, toggleVisibility } = useBottomSheetStore();
+  const rotateAnim = useRef(new Animated.Value(0)).current;
+
+  const HandleToggleVisibility = () => {
+    Animated.timing(rotateAnim, {
+      toValue: isVisible ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    toggleVisibility(!isVisible);
+  };
+
+  const rotation = rotateAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '90deg'],
+  });
 
   if (!onBoardingCompleted) return <Redirect href="/onBoarding" />;
   if (!isAuthenticated) return <Redirect href="/sign-in" />;
@@ -84,13 +96,6 @@ export default function App() {
       </TouchableOpacity>
     );
   };
-
-  const [isSheetVisible, setIsSheetVisible] = useState(false);
-
-  const toggleBottomSheet = () => {
-    setIsSheetVisible((prev) => !prev);
-  };
-
   return (
     <>
         <CurvedBottomBarExpo.Navigator
@@ -100,22 +105,30 @@ export default function App() {
           bgColor="white"
           initialRouteName="home"
           borderTopLeftRight
-          renderCircle={({ selectedTab, navigate }) => (
+          renderCircle={() => (
             <Animated.View style={styles.btnCircleUp}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => toggleVisibility(!isVisible)}
-              >
-                <Image
-                  source={
-                    isSheetOpen
-                      ? require('../../assets/images/close.png')
-                      : require('../../assets/images/plus.png')
-                  }
-                  style={styles.circleIcon}
+            <InsetShadow  
+            shadowRadius={4}
+            shadowOpacity={0.15}
+            shadowColor="#000000"
+            elevation={5}
+            shadowOffset={2}
+            top
+            left
+            right
+            bottom={false}
+            containerStyle={styles.button}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: isVisible ? 'white' : '#0258D3' }]} onPress={HandleToggleVisibility}>
+              <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+                <Ionicons 
+                  name={isVisible ? "close" : "add"} 
+                  size={24} 
+                  color={isVisible ? "#0258D3" : "white"} 
                 />
-              </TouchableOpacity>
-            </Animated.View>
+              </Animated.View>
+            </TouchableOpacity>
+            </InsetShadow>
+          </Animated.View>
           )}
           tabBar={renderTabBar}
           screenOptions={{ headerShown: false, tabBarShowLabel: true, }}
@@ -159,20 +172,29 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: 'blue',
     width: '100%',
     borderRadius: 30,
     alignItems: 'center',
     display: 'flex',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.15, 
+    shadowRadius: 4,
+    elevation: 5, 
+  },
+  btnCircleActive: {
+    backgroundColor: 'white',
+  },
+  blueBackground: {
+    backgroundColor: '#0258D3',
   },
   btnCircleUp: {
-    width: 60,
-    height: 60,
+    width: 55,
+    height: 55,
     borderRadius: 30,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#E8E8E8',
-    bottom: 30,
+    bottom: 20,
   },
   circleIcon: {
     width: 30,
