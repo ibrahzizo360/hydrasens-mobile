@@ -1,6 +1,7 @@
 import { Cloudinary } from "@cloudinary/url-gen";
 import { upload } from 'cloudinary-react-native';
 import * as ImageManipulator from 'expo-image-manipulator';
+import { Dimensions } from "react-native";
 
 
 const resizeImage = async (uri: string) => {
@@ -46,6 +47,8 @@ export const uploadImageToCloudinary = async (file: any) => {
         });
     });
 };
+
+export const { width, height } = Dimensions.get("window");
 
 
   

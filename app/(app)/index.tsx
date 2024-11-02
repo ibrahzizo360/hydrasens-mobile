@@ -10,7 +10,6 @@ import {
 } from "react-native";
 import Foundation from "@expo/vector-icons/Foundation";
 import { SwiperFlatList } from "react-native-swiper-flatlist";
-import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
@@ -42,8 +41,6 @@ export default function Home() {
   ];
 
   const {user} = useAuthStore();
-
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
   
   return (
     <SafeAreaView className="-mt-3">
@@ -62,7 +59,7 @@ export default function Home() {
         <View className=" bg-[#E4EDFB] rounded-xl py-1 px-2">
           <View className="flex-row gap-2 items-center justify-center">
         <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
-        <Text className="text-sm font-bold">{`${user?.points}.00`}</Text>
+        <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points}.00`}</Text>
         </View>
       </View>
 
@@ -94,7 +91,6 @@ export default function Home() {
           />
           <View className="flex flex-row justify-evenly gap-4 items-center py-1">
             <Text className=" text-xs font-semibold">James Coffee Co,</Text>
-            {/* <Text className=" text-xs">San Diego</Text> */}
             <View className="">
               <View className="flex flex-row items-center">
               <Entypo name="location-pin" size={14} color="#494D51" />
@@ -161,15 +157,15 @@ export default function Home() {
         </View>
         </Pressable>
 
-        <View className="flex flex-row gap-4 mx-0 w-[90vw]">
-        <View className="rounded-lg overflow-hidden">
+        <View className="flex flex-row gap-3 mx-0 w-[90vw]">
+        <View className="rounded-lg overflow-hidden  h-[95px] ">
           <ImageBackground
             source={require("../../assets/images/card2.png")}
-            className="mt-1 pt-2 h-[105px] w-[175px] px-4"
+            className="mt-1 pt-2 h-[105px] w-[177px] px-4"
           >
             <View className="flex flex-row justify-between">
                 <Image source={require("../../assets/images/invite.png")}/>
-                <Image source={require("../../assets/images/15.png")}/>
+                <Image source={require("../../assets/images/15.png")} className=" mt-1 h-[25px] w-[73px]"/>
             </View>
             <View className="flex flex-row justify-between gap-2">
                 <Text className="text-white font-bold">Invite friends and relatives</Text>
@@ -180,14 +176,15 @@ export default function Home() {
             </View>
           </ImageBackground>
         </View>
-        <View className="rounded-lg overflow-hidden">
+        <View className="rounded-lg overflow-hidden  h-[95px] ">
           <ImageBackground
             source={require("../../assets/images/card3.png")}
-            className="mt-1 pt-2 h-[105px] w-[175px] px-4"
+            resizeMode="contain"
+            className="mt-1 pt-2 h-[105px] w-[177px] px-4"
           >
             <View className="flex flex-row justify-between">
                 <Image source={require("../../assets/images/drop.png")}/>
-                <Image source={require("../../assets/images/rewards.png")} className="mt-1"/>
+                <Image source={require("../../assets/images/rewards.png")} className="mt-3 h-[15px] w-[96px]"/>
             </View>
             <View className="flex flex-row justify-between gap-2">
                 <Text className="text-white font-bold">Make Donations</Text>

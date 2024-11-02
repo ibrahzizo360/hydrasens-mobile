@@ -1,4 +1,4 @@
-import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback, Alert } from "react-native";
+import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback, Alert, Platform } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
@@ -34,7 +34,9 @@ export default function Login() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1">
+      <SafeAreaView className="flex-1"  style={{
+          paddingTop: Platform.OS === 'android' ? 28 : 0
+        }}>
         <View className="flex flex-row justify-center items-center">
           <Text className="text-xl font-semibold">Login</Text>
         </View>
@@ -74,7 +76,6 @@ export default function Login() {
             title="Login"
             onPress={loginHandler}
             loading={loading}
-            textStyle={{ fontSize: 18 }}
             className="mx-3 mt-7"
           />
         </View>

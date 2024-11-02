@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import Swiper from "react-native-swiper";
 import CustomButton from "@/components/Button";
 import { router } from 'expo-router';
+import { height, width } from "@/utils";
 
 const slides = [
   {
@@ -100,12 +101,12 @@ export default function OnboardingSwiper() {
                     style={styles.buttonGetStarted}
                     textStyle={{ fontSize: 18 }}
                   />
-                  <CustomButton
+                  {/* <CustomButton
                     title="Continue as Guest"
                     onPress={handleContinueAsGuest}
                     style={styles.buttonGuest}
                     textStyle={{ fontSize: 18, color: '#0258D3' }}
-                  />
+                  /> */}
                 </>
               )}
             </View>
@@ -126,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    height: '50%',
+    height: height * 0.55,
     width: '100%',
     position: 'absolute',
     bottom: 0,
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     padding: 20,
     borderRadius: 10,
-    height: '50%',
+    height: height * 0.55,
     width: '100%',
     position: 'absolute',
     bottom: 0,
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#06276E",
-    fontSize: 36,
+    fontSize: height * 0.04,
     fontWeight: "bold",
     textAlign: "center",
     fontFamily: 'Lora',
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
   },
   paginationContainer: {
     position: "absolute",
-    bottom: 400,
+    bottom: height * 0.52,
     width: "100%",
     flexDirection: "row",
     justifyContent: "center",
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
   },
   buttonGetStarted: {
     position: 'absolute',
-    bottom: 88,
+    bottom: 50,
     width: '100%',
   },
 });

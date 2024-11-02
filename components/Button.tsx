@@ -40,8 +40,8 @@ const CustomButton: React.FC<CustomButtonProps> = ({
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#0258D3', // Default button color
-    padding: 13,
     borderRadius: 15,
+    height: 45,
     alignItems: 'center',
     flexDirection: 'row', // Align items in a row for the loading indicator
     justifyContent: 'center', // Center items
