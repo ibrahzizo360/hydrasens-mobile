@@ -2,6 +2,7 @@ import {
   Dimensions,
   Image,
   ImageBackground,
+  Platform,
   Pressable,
   SafeAreaView,
   StyleSheet,
@@ -15,6 +16,7 @@ import { Entypo } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
 import { CustomBottomSheet } from "./customSheet";
 import { useState } from "react";
+import { height } from "@/utils";
 
 export default function Home() {
   const stores = [
@@ -43,7 +45,7 @@ export default function Home() {
   const {user} = useAuthStore();
   
   return (
-    <SafeAreaView className="-mt-3">
+    <SafeAreaView className="-mt-3" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
           <Pressable onPress={()=> router.push('/profile')}>
@@ -74,33 +76,45 @@ export default function Home() {
             Our donor of the week
           </Text>
 
-          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mt-1">
-            <View className="flex flex-row justify-center items-center gap-1">
-            <Text className="text-[11px] font-semibold text-[#1c5dc5]">
-              Explore All
-            </Text>
-            <Image source={require("../../assets/images/arrow.png")} />
-            </View>
-          </View>
+          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mt-1" style={{
+        marginTop: Platform.select({ ios: 5, android: 10 }),
+      }}>
+      <View className="flex flex-row justify-center items-center gap-1">
+        <Text
+          className="font-semibold text-[#1c5dc5]"
+          style={{
+            fontSize: Platform.select({ ios: 11, android: 10 }),
+            lineHeight: Platform.select({ ios: 13, android: 12 }),
+          }}
+        >
+          Explore All
+        </Text>
+        <Image
+          source={require("../../assets/images/arrow.png")}
+          style={{ width: 10, height: 10, resizeMode: "contain" }}
+        />
+      </View>
+    </View>
         </View>
         <View className="mt-1 rounded-md  bg-[#E4EDFB] w-[95%] mx-auto flex justify-center items-center">
           <Image
             source={require("../../assets/images/donor.png")}
-            className="w-full h-[200px] mt-2"
+            className="w-full mt-2"
             resizeMode="cover"
+            style={styles.donorImage}
           />
-          <View className="flex flex-row justify-evenly gap-4 items-center py-1">
-            <Text className=" text-xs font-semibold">James Coffee Co,</Text>
+          <View className="flex flex-row justify-evenly gap-4 items-center py-1" style={{width: width * 1.02}}>
+            <Text className=" text-[9px] font-semibold">James Coffee Co,</Text>
             <View className="">
               <View className="flex flex-row items-center">
               <Entypo name="location-pin" size={14} color="#494D51" />
-              <Text className="text-xs">San Diego</Text>
+              <Text className="text-[9px] ">San Diego</Text>
               </View>
             </View>
             <View className="">
               <View className="flex flex-row items-center gap-1">
               <Foundation name="web" size={20} color="#0E87CC" />
-              <Text className="text-xs text-[#0E87CC]">Visit their website now</Text>
+              <Text className="text-[9px] text-[#0E87CC]">Visit their website now</Text>
               </View>
             </View>
           </View>
@@ -115,7 +129,6 @@ export default function Home() {
             New Partnerships/Stores
           </Text>
           <SwiperFlatList
-            index={2}
             showPagination={false}
             data={stores}
             renderItem={({ item }) => (
@@ -157,45 +170,61 @@ export default function Home() {
         </View>
         </Pressable>
 
-        <View className="flex flex-row gap-3 mx-0 w-[90vw]">
-        <View className="rounded-lg overflow-hidden  h-[95px] ">
-          <ImageBackground
-            source={require("../../assets/images/card2.png")}
-            className="mt-1 pt-2 h-[105px] w-[177px] px-4"
-          >
-            <View className="flex flex-row justify-between">
-                <Image source={require("../../assets/images/invite.png")}/>
-                <Image source={require("../../assets/images/15.png")} className=" mt-1 h-[25px] w-[73px]"/>
-            </View>
-            <View className="flex flex-row justify-between gap-2">
-                <Text className="text-white font-bold">Invite friends and relatives</Text>
-                <Image
-                source={require("../../assets/images/card-right.png")}
-                className=" h-5 w-5"
-                />
-            </View>
-          </ImageBackground>
-        </View>
-        <View className="rounded-lg overflow-hidden  h-[95px] ">
-          <ImageBackground
-            source={require("../../assets/images/card3.png")}
-            resizeMode="contain"
-            className="mt-1 pt-2 h-[105px] w-[177px] px-4"
-          >
-            <View className="flex flex-row justify-between">
-                <Image source={require("../../assets/images/drop.png")}/>
-                <Image source={require("../../assets/images/rewards.png")} className="mt-3 h-[15px] w-[96px]"/>
-            </View>
-            <View className="flex flex-row justify-between gap-2">
-                <Text className="text-white font-bold">Make Donations</Text>
-                <Image
-                source={require("../../assets/images/card-right.png")}
-                className="h-5 w-5"
-                />
-            </View>
-          </ImageBackground>
-        </View>
-        </View>
+        <View className="flex flex-row justify-between gap-2 px-3">
+      <View className="rounded-lg overflow-hidden h-[105px] flex-1">
+        <ImageBackground
+          source={require("../../assets/images/card2.png")}
+          style={{ paddingTop: 8, paddingHorizontal: 8 }}
+          className="h-full"
+          imageStyle={{ borderRadius: 10 }}
+        >
+          <View className="flex flex-row justify-between items-start">
+            <Image source={require("../../assets/images/invite.png")} />
+            <Image
+              source={require("../../assets/images/15.png")}
+              className="h-[25px] w-[73px] mt-1"
+              resizeMode="cover"
+            />
+          </View>
+          <View className="flex flex-row justify-between items-center mt-2">
+            <Text className="text-white font-bold text-[13px] w-[70%]">
+              Invite friends and relatives
+            </Text>
+            <Image
+              source={require("../../assets/images/card-right.png")}
+              className="h-5 w-5"
+            />
+          </View>
+        </ImageBackground>
+      </View>
+      <View className="rounded-lg overflow-hidden h-[105px] flex-1">
+        <ImageBackground
+          source={require("../../assets/images/card3.png")}
+          style={{ paddingTop: 8, paddingHorizontal: 8 }}
+          className="h-full"
+          imageStyle={{ borderRadius: 10 }}
+          resizeMode="cover"
+        >
+          <View className="flex flex-row justify-between items-start">
+            <Image source={require("../../assets/images/drop.png")} />
+            <Image
+              source={require("../../assets/images/rewards.png")}
+              className="h-[15px] w-[96px] mt-2"
+              resizeMode="cover"
+            />
+          </View>
+          <View className="flex flex-row justify-between items-center mt-2">
+            <Text className="text-white font-bold text-[13px] w-[70%]">
+              Make Donations
+            </Text>
+            <Image
+              source={require("../../assets/images/card-right.png")}
+              className="h-5 w-5"
+            />
+          </View>
+        </ImageBackground>
+      </View>
+    </View>
       </ImageBackground>
       <CustomBottomSheet />
     </SafeAreaView>
@@ -208,9 +237,13 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
   child: {
     width: 157,
+    height: height * 0.165,
     justifyContent: "center",
     marginRight: 10,
     position: "relative",
   },
   text: { fontSize: 12, textAlign: "center" },
+  donorImage: {
+    height: height * 0.235,
+  }
 });
