@@ -194,7 +194,7 @@ const handleSubmit = async () => {
         <View className="absolute bottom-7 w-full">
           <CustomButton
             title="Submit"
-            onPress={() =>handleSubmit()}
+            onPress={() => handleSubmit()}
             textStyle={{ fontSize: 18 }}
             loading={loading}
             className="mx-3 mt-7"

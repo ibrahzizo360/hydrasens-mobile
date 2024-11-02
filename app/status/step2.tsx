@@ -12,24 +12,20 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
-
-interface Rating {
-  rate: string;
-  color: string;
-}
+import ConfettiCannon from 'react-native-confetti-cannon';
 
 export default function Step2() {
   const { width } = Dimensions.get("window");
 
   // Define the types for state
-  const [currentStep, setCurrentStep] = useState<number>(3);
+  const [currentStep, setCurrentStep] = useState<number>(2);
 
   const Stepper: React.FC = () => {
     return (
       <View
         className="flex flex-row justify-between items-center mt-4"
         style={{
-          width: width * 0.5,
+          width: width * 0.25,
         }}
       >
         {[1, 2, 3, 4].map((step, index) => (
@@ -39,7 +35,7 @@ export default function Step2() {
                 currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
               }`}
             />
-            {index < 2 && (
+            {index < 3 && (
               <View
                 className={`flex-grow h-1 ${
                   currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
@@ -58,7 +54,7 @@ export default function Step2() {
         <Text className="text-xl font-semibold">Successful</Text>
       </View>
 
-      <Stepper />
+      {/* <Stepper /> */}
 
     <View className="mx-auto rounded-2xl w-11/12 bg-white p-4 mt-24">
     <Image
@@ -81,13 +77,13 @@ export default function Step2() {
         <CustomButton
           title="Back To Home"
           onPress={() =>
-            // setCurrentStep((prevStep) => Math.min(prevStep + 1, 4))// Logic to go to the next step
-            router.push("/home")
+            router.push("/")
           }
           textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
       </View>
+      <ConfettiCannon count={200} origin={{x: 0, y: 0}} />
     </SafeAreaView>
   );
 }

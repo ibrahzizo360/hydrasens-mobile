@@ -173,7 +173,6 @@ export default function Step2() {
         <CustomButton
           title="Next"
           onPress={() =>handleNextPress()}
-          textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
       </View>

@@ -1,117 +1,162 @@
-import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions } from "react-native";
+import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Alert, TouchableWithoutFeedback, Keyboard, Platform, KeyboardAvoidingView, ScrollView } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import * as Location from "expo-location";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+import useProjectStatusStore from "@/hooks/projectStatusStore";
 
 export default function Status() {
     const { width } = Dimensions.get("window");
-  const [currentStep, setCurrentStep] = useState(2);
-  const [status, setStatus] = useState<string>("");
-  const statuses: string[] = [
-    "Active",
-    "Active but has issues",
-    "Inactive",
-    "Project incomplete",
-  ];
+    const { projectStatus, setProjectStatusField } = useProjectStatusStore();
+    const [currentStep, setCurrentStep] = useState(2);
+    const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
+    const statuses: string[] = [
+        "Active",
+        "Active but has issues",
+        "Inactive",
+        "Project incomplete",
+    ];
 
+    useEffect(() => {
+        if (useCurrentLocation) {
+            (async () => {
+                let { status } = await Location.requestForegroundPermissionsAsync();
+                if (status !== "granted") {
+                    Alert.alert("Permission Denied", "Permission to access location was denied");
+                    return;
+                }
 
-  const Stepper = () => {
+                try {
+                    let location = await Location.getCurrentPositionAsync({});
+                    const { latitude, longitude } = location.coords;
+
+                    let reverseGeocode = await Location.reverseGeocodeAsync({
+                        latitude,
+                        longitude,
+                    });
+
+                    if (reverseGeocode.length > 0) {
+                        const { city } = reverseGeocode[0];
+                        setProjectStatusField('location', city || "City not found");
+                    } else {
+                        Alert.alert("Location Error", "Could not retrieve the city name.");
+                    }
+                } catch (error) {
+                    Alert.alert("Location Error", "Failed to retrieve location. Please try again.");
+                    console.error(error);
+                }
+            })();
+        }
+    }, [useCurrentLocation]);
+
+    const Stepper = () => {
+        return (
+            <View className="flex flex-row justify-between items-center mt-4 mb-8" style={{ width: width * 0.5 }}>
+                {[1, 2, 3, 4].map((step, index) => (
+                    <View key={step} className="flex flex-row items-center">
+                        <View
+                            className={`h-1 w-1 ${currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"}`}
+                        />
+                        {index < 2 && (
+                            <View className={`flex-grow h-1 ${currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"}`} />
+                        )}
+                    </View>
+                ))}
+            </View>
+        );
+    };
+
     return (
-      <View className="flex flex-row justify-between items-center mt-4 mb-8" style={{
-        width: width * 0.5
-      }}>
-        {[1, 2, 3, 4].map((step, index) => (
-          <View key={step} className="flex flex-row items-center">
-            <View
-              className={`h-1 w-1 ${
-                currentStep >= step ? "bg-[#0258D3]" : "bg-gray-300"
-              }`}
-            />
-            {index < 2 && (
-              <View
-                className={`flex-grow h-1 ${
-                  currentStep > step ? "bg-[#0258D3]" : "bg-gray-300"
-                }`}
-              />
-            )}
-          </View>
-        ))}
-      </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 10 }}>
+                        <View className="flex flex-row justify-center items-center">
+                            <Pressable
+                                onPress={() => router.back()}
+                                className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
+                            >
+                                <View>
+                                    <Feather name="chevron-left" size={24} color="white" />
+                                </View>
+                            </Pressable>
+                            <Text className="text-xl font-semibold">Project Overview</Text>
+                        </View>
+
+                        <Stepper />
+
+                        <View className="mt-2">
+                            <Text className="font-bold text-center text-xl text-[#072C7C] mb-0">Who is the sponsoring organisation?</Text>
+                            <Text className="font-semibold text-center text-sm mb-4 text-gray-500">(optional)</Text>
+                            <TextInput
+                                placeholder="Name"
+                                value={projectStatus.sponsor}
+                                onChangeText={(text) => setProjectStatusField('sponsor', text)}
+                                className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
+                            />
+                            <TextInput
+                                placeholder="Website"
+                                value={projectStatus.sponsorWebsite}
+                                onChangeText={(text) => setProjectStatusField('sponsorWebsite', text)}
+                                className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
+                            />
+
+                            <Text className="font-bold text-center text-xl mx-3 mb-4 text-[#072C7C] mt-10">What’s the current status of the project?</Text>
+
+                            <View className="flex flex-row flex-wrap py-2 justify-evenly items-center w-11/12 mx-auto">
+                                {statuses.map((item) => (
+                                    <Pressable
+                                        key={item}
+                                        onPress={() => setProjectStatusField('status', item)}
+                                        className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${projectStatus.status === item ? "bg-[#FFD700]" : "bg-white"}`}
+                                    >
+                                        <Text className={`text-center text-[11px] font-bold ${projectStatus.status === item ? "text-white" : "text-blue-500"}`}>
+                                            {item}
+                                        </Text>
+                                    </Pressable>
+                                ))}
+                            </View>
+
+                            <Text className="font-bold text-center text-xl mb-4 mt-10 text-[#072C7C]">Where is the project located?</Text>
+                            <TextInput
+                                value={useCurrentLocation ? projectStatus.location ?? "Location loading..." : projectStatus.location}
+                                placeholder="Location"
+                                onChangeText={(text) => setProjectStatusField('location', text)}
+                                className="border-gray-300 bg-[#c7dcfc] rounded-[15px] p-3 w-11/12 h-[45px] mx-auto"
+                                editable={!useCurrentLocation}
+                            />
+                            <View className="flex-row w-11/12 mx-auto justify-between mb-4 mt-1">
+                                <Text />
+                                <View className="flex-row justify-center">
+                                    <BouncyCheckbox
+                                        style={{ borderRadius: 2 }}
+                                        iconStyle={{ borderRadius: 2 }}
+                                        innerIconStyle={{ borderRadius: 2 }}
+                                        size={15}
+                                        fillColor="green"
+                                        onPress={(isChecked: boolean) => {
+                                            setUseCurrentLocation(isChecked);
+                                        }}
+                                    />
+                                    <Text className="text-xs tracking-tighter mt-0.5 -ml-3 font-semibold text-[11px] text-gray-500">Use current Location</Text>
+                                </View>
+                            </View>
+                        </View>
+
+                        <View style={{ marginBottom: 16 }}>
+                        <CustomButton
+                            title="Next"
+                            onPress={() => {
+                                router.push("/status/step1");
+                            }}
+                            className="mx-4 mb-4"
+                        />
+                    </View>
+                    </ScrollView>
+                </KeyboardAvoidingView>
+            </SafeAreaView>
+        </TouchableWithoutFeedback>
     );
-  };
-
-  return (
-    <SafeAreaView className="flex-1">
-      <View className="flex flex-row justify-center items-center">
-        <Pressable
-          onPress={() => router.back()}
-          className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
-        >
-          <View>
-            <Feather name="chevron-left" size={24} color="white" />
-          </View>
-        </Pressable>
-        <Text className="text-xl font-semibold">Project Overview</Text>
-      </View>
-
-      <Stepper />
-
-      <View className="mt-7">
-        <Text className="font-bold text-center text-xl mb-0">
-            Who is the sponsoring organisation?
-        </Text>
-        <Text className="font-light text-center text-sm mb-4">(optional)</Text>
-        <TextInput
-          placeholder="Name"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
-        />
-        <TextInput
-          placeholder="Website"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
-        />
-
-        <Text className="font-bold text-center text-xl mx-3 mb-4 mt-10">
-            What’s the current status of the project?
-        </Text>
-
-        <View className="flex flex-row flex-wrap py-2 justify-evenly items-center w-11/12 mx-auto">
-            {statuses.map((item) => (
-              <Pressable
-                key={item}
-                onPress={() => setStatus(item)}  // Set the clicked status
-                className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${
-                  status === item ? "bg-[#FFD700]" : "bg-white"
-                }`}
-              >
-                <Text
-                  className={`text-center text-[11px] font-bold ${
-                    status === item ? "text-white" : "text-blue-500"
-                  }`}
-                >
-                  {item}
-                </Text>
-              </Pressable>
-            ))}
-          </View>
-
-        <Text className="font-bold text-center text-xl mb-4 mt-10">
-            Where is the project located?
-        </Text>
-        <TextInput
-          placeholder="Location"
-          className="border-gray-300 bg-[#c7dcfc] rounded-lg p-3 w-11/12 mx-auto mb-4"
-        />
-      </View>
-
-      <View className="bottom-7 absolute w-full">
-        <CustomButton
-          title="Next"
-          onPress={() => router.push("/status/step1")}
-          textStyle={{ fontSize: 18 }}
-          className="mx-3 mt-7"
-        />
-      </View>
-    </SafeAreaView>
-  );
 }

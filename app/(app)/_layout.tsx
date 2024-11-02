@@ -121,8 +121,8 @@ export default function App() {
             <TouchableOpacity style={[styles.button, { backgroundColor: isVisible ? 'white' : '#0258D3' }]} onPress={HandleToggleVisibility}>
               <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                 <Ionicons 
-                  name={isVisible ? "close" : "add"} 
-                  size={24} 
+                  name={isVisible ? "close" : "add"}
+                  size={24}
                   color={isVisible ? "#0258D3" : "white"} 
                 />
               </Animated.View>
