@@ -40,9 +40,6 @@
         }
       ]
     ],
-    "assets": [
-      "./assets/fonts/Lora-VariableFont_wght.ttf"
-    ],
     "experiments": {
       "typedRoutes": true
     },
