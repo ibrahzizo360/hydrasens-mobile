@@ -84,7 +84,7 @@ const useAuthStore = create<AuthStoreState>((set, get) => ({
 
   loadOnBoardingStatus: async () => {
     const completed = await AsyncStorage.getItem('onBoardingCompleted');
-    set({ onBoardingCompleted: completed === 'true' }); // Convert string to boolean
+    set({ onBoardingCompleted: completed === 'true' });
   },
 }));
 

@@ -16,6 +16,8 @@ import useAuthStore from '@/hooks/useAuthStore';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
 import InsetShadow from 'react-native-inset-shadow'
+import { NavigationContainer } from '@react-navigation/native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const HomeScreen = () => {
   return <Home />;
@@ -98,6 +100,8 @@ export default function App() {
   };
   return (
     <>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer independent>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
           shadowStyle={styles.shawdow}
@@ -107,17 +111,6 @@ export default function App() {
           borderTopLeftRight
           renderCircle={() => (
             <Animated.View style={styles.btnCircleUp}>
-            <InsetShadow  
-            shadowRadius={4}
-            shadowOpacity={0.15}
-            shadowColor="#000000"
-            elevation={5}
-            shadowOffset={2}
-            top
-            left
-            right
-            bottom={false}
-            containerStyle={styles.button}>
             <TouchableOpacity style={[styles.button, { backgroundColor: isVisible ? 'white' : '#0258D3' }]} onPress={HandleToggleVisibility}>
               <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                 <Ionicons 
@@ -127,7 +120,6 @@ export default function App() {
                 />
               </Animated.View>
             </TouchableOpacity>
-            </InsetShadow>
           </Animated.View>
           )}
           tabBar={renderTabBar}
@@ -155,6 +147,8 @@ export default function App() {
             position="RIGHT"
           />
         </CurvedBottomBarExpo.Navigator>
+        </NavigationContainer>
+        </GestureHandlerRootView>
       </>
   );
 }

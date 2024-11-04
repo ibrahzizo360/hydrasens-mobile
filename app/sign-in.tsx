@@ -28,7 +28,7 @@ export default function Login() {
           }
       } catch (error: any) {
         console.log(error.response);
-        Alert.alert("Registration Failed", error.response?.data?.message || "Something went wrong");
+        Alert.alert("Login Failed", error.response?.data?.message || error);
       }
   };
 
