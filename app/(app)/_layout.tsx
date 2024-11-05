@@ -17,7 +17,6 @@ import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
 import InsetShadow from 'react-native-inset-shadow'
 import { NavigationContainer } from '@react-navigation/native';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const HomeScreen = () => {
   return <Home />;
@@ -100,7 +99,6 @@ export default function App() {
   };
   return (
     <>
-      <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer independent>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
@@ -148,7 +146,6 @@ export default function App() {
           />
         </CurvedBottomBarExpo.Navigator>
         </NavigationContainer>
-        </GestureHandlerRootView>
       </>
   );
 }

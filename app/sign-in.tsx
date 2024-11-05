@@ -24,11 +24,12 @@ export default function Login() {
             Alert.alert("Success", "Logged in successfully");
             router.push("/");
           } else {
-            Alert.alert("Login Failed", response?.data?.message || "An unexpected error occurred.");
+            console.log(response);
+            Alert.alert("Login Failed", response?.data?.message || "An error occured. Please try again later");
           }
       } catch (error: any) {
         console.log(error.response);
-        Alert.alert("Login Failed", error.response?.data?.message || error);
+        Alert.alert("Login Failed", error.response?.data?.message || "An error occured. Try again later");
       }
   };
 
