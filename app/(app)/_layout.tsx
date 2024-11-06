@@ -101,7 +101,7 @@ export default function App() {
               <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                 <Ionicons 
                   name={isVisible ? "close" : "add"}
-                  size={24}
+                  size={38}
                   color={isVisible ? "#0258D3" : "white"} 
                 />
               </Animated.View>
@@ -169,8 +169,8 @@ const styles = StyleSheet.create({
     bottom: 20,
   },
   circleIcon: {
-    width: 30,
-    height: 30,
+    width: 31,
+    height: 31,
   },
   tabbarItem: {
     flex: 1,
@@ -178,8 +178,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   icon: {
-    width: 24,
-    height: 24,
+    width: 22,
+    height: 22,
   },
   tabLabel: {
     fontSize: 12,
