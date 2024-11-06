@@ -13,7 +13,6 @@ SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const router = useRouter();
   const [loaded] = useFonts({
     'Lora': require('../assets/fonts/Lora-Bold.ttf'),
   });
@@ -27,12 +26,16 @@ export default function RootLayout() {
     checkAuthStatus();
 
     if (loaded) {
-      SplashScreen.hideAsync();
+      const timer = setTimeout(() => {
+        SplashScreen.hideAsync();
+      }, 3000);
+      
+      return () => clearTimeout(timer);
     }
   }, [loaded]);
 
   if (!loaded) {
-    return null; // Wait until fonts are loaded
+    return null;
   }
 
   return (

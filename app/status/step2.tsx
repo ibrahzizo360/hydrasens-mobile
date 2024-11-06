@@ -8,6 +8,7 @@ import {
   Dimensions,
   TextInput,
   Image,
+  Platform,
 } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
@@ -49,7 +50,7 @@ export default function Step2() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#F4F7FD]">
+    <SafeAreaView className="flex-1 bg-[#F4F7FD]" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Text className="text-xl font-semibold">Successful</Text>
       </View>

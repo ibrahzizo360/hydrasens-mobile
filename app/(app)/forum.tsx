@@ -1,10 +1,10 @@
-import { Image, SafeAreaView, Text, View } from "react-native";
+import { Image, Platform, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 
 export default function Forum() {
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Image
           source={require("../../assets/images/app-logo.png")}

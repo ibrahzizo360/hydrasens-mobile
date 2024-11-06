@@ -1,10 +1,10 @@
-import { Image, Pressable, SafeAreaView, Text, View } from "react-native";
+import { Image, Platform, Pressable, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 
 export default function DashboardPage() {
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
          <View className="flex flex-row justify-center items-center">
         <Text className="text-xl font-semibold">Dashboard</Text>
       </View>

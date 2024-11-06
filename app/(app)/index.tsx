@@ -5,6 +5,7 @@ import {
   Platform,
   Pressable,
   SafeAreaView,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -15,37 +16,16 @@ import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
 import { CustomBottomSheet } from "./customSheet";
-import { useState } from "react";
 import { height } from "@/utils";
+import { stores } from "@/constants";
 
 export default function Home() {
-  const stores = [
-    {
-      name: "Hill Bill Company",
-      location: "Accra Legon",
-      image: require("../../assets/images/hb.png"),
-    },
-    {
-      name: "Hub Lot",
-      location: "Accra Legon",
-      image: require("../../assets/images/hublot.png"),
-    },
-    {
-      name: "Adidas",
-      location: "Accra Legon",
-      image: require("../../assets/images/addidas.png"),
-    },
-    {
-      name: "King Perfumes",
-      location: "Accra Legon",
-      image: require("../../assets/images/perfume.png"),
-    },
-  ];
 
   const {user} = useAuthStore();
   
   return (
-    <SafeAreaView className="-mt-3" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+      <ScrollView>
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
           <Pressable onPress={()=> router.push('/profile')}>
@@ -225,8 +205,9 @@ export default function Home() {
         </ImageBackground>
       </View>
     </View>
-      </ImageBackground>
-      <CustomBottomSheet />
+    </ImageBackground>
+    </ScrollView>
+    <CustomBottomSheet />
     </SafeAreaView>
   );
 }

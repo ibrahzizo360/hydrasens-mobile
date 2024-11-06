@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, SafeAreaView, Text, View } from "react-native";
+import { Image, Platform, Pressable, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import CircularProgress from 'react-native-circular-progress-indicator';
@@ -95,7 +95,7 @@ export default function SensorsPage() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
+    <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable onPress={()=>router.back()} className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4">
           <View>

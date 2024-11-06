@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   Dimensions,
   Image,
+  Platform,
 } from "react-native";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
@@ -44,7 +45,7 @@ export default function Step5() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-[#F4F7FD]">
+    <SafeAreaView className="flex-1 bg-[#F4F7FD]" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Text className="text-xl font-semibold">Successful</Text>
       </View>
