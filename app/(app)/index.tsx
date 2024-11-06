@@ -1,5 +1,6 @@
 import {
   Dimensions,
+  FlatList,
   Image,
   ImageBackground,
   Platform,
@@ -104,31 +105,34 @@ export default function Home() {
             for brewing a better tomorrow with us!
           </Text>
         </View>
-        <View className="mt-1 px-3">
-          <Text className="text-white text-lg  font-bold -mb-0.5">
+        <View className="mt-3 px-3">
+          <Text className="text-white text-lg  font-bold mb-40 ">
             New Partnerships/Stores
           </Text>
-          <SwiperFlatList
-            showPagination={false}
-            data={stores}
-            renderItem={({ item }) => (
-              <View style={[styles.child, {}]}>
-                <Image source={item.image} className="rounded-xl" />
-                <View className="bg-white absolute bottom-0 w-full">
-                  <Text style={styles.text}>{item.name}</Text>
-                  <View className="mx-auto">
-                  <View className="flex flex-row items-center">
-                  <Entypo name="location-pin" size={14} color="#494D51" />
-                  <Text className="text-[9px]">{item.location}</Text>
-                  </View>
-                </View>
-                </View>
-              </View>
-            )}
-          />
+          <FlatList
+      horizontal
+      showsHorizontalScrollIndicator={false}
+      style={styles.carrousel}
+      data={stores}
+      renderItem={({ item }) => (
+    <View style={styles.child}>
+      <Image source={item.image} style={styles.image} className="rounded-xl" />
+      <View className="bg-white absolute bottom-0 w-full">
+        <Text style={styles.text}>{item.name}</Text>
+        <View className="mx-auto">
+          <View className="flex flex-row items-center">
+            <Entypo name="location-pin" size={14} color="#494D51" />
+            <Text className="text-[9px]">{item.location}</Text>
+          </View>
         </View>
-        <Pressable onPress={() => router.push('/contribution/start')}>
-        <View className="mt-2 mx-3 rounded-lg overflow-hidden mb-1.5">
+      </View>
+    </View>
+  )}
+/>
+
+        </View>
+        <Pressable onPress={() => router.push('/contribution/start')} className="mt-2">
+        <View className="mx-3 rounded-lg overflow-hidden mb-1.5">
           <ImageBackground
             source={require("../../assets/images/card1.png")}
             className="pt-2 px-6 flex flex-row justify-between h-[110px]"
@@ -150,7 +154,7 @@ export default function Home() {
         </View>
         </Pressable>
 
-        <View className="flex flex-row justify-between gap-2 px-3">
+      <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-20">
       <View className="rounded-lg overflow-hidden h-[105px] flex-1">
         <ImageBackground
           source={require("../../assets/images/card2.png")}
@@ -217,14 +221,22 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
   child: {
-    width: 157,
+    width: "auto",
     height: height * 0.165,
     justifyContent: "center",
     marginRight: 10,
-    position: "relative",
   },
   text: { fontSize: 12, textAlign: "center" },
   donorImage: {
     height: height * 0.235,
+  },
+  carrousel: {
+    position: "absolute",
+    top: 37,
+    width: width,
+    paddingLeft: 12,
+  },
+  image: {
+
   }
 });
