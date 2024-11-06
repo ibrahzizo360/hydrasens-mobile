@@ -1,6 +1,6 @@
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { useRouter } from 'expo-router';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import {
   Animated,
   Dimensions,
@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native';
 
-const screenHeight = Dimensions.get('window').height;
+const screenHeight = Dimensions.get('window').height + 600;
 
 export const CustomBottomSheet = () => {
   const translateY = useRef(new Animated.Value(screenHeight)).current;
@@ -20,10 +20,10 @@ export const CustomBottomSheet = () => {
   const { isVisible, toggleVisibility } = useBottomSheetStore();
 
   useEffect(() => {
-    animateSheet(isVisible ? screenHeight * 0.0001 : screenHeight);
+    animateSheet(isVisible ? screenHeight * 0.3: screenHeight);
   }, [isVisible]);
 
-  const animateSheet = (toValue: any) => {
+  const animateSheet = (toValue: number) => {
     Animated.timing(translateY, {
       toValue,
       duration: 300,
@@ -32,18 +32,16 @@ export const CustomBottomSheet = () => {
   };
 
   const panResponder = PanResponder.create({
-    onMoveShouldSetPanResponder: (_, gestureState) =>
-      Math.abs(gestureState.dy) > 5,
+    onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dy) > 5,
     onPanResponderMove: (_, gestureState) => {
+      const newTranslateY = screenHeight * 0.3 + gestureState.dy;
       if (gestureState.dy > 0) {
-        translateY.setValue(screenHeight * 0.3 + gestureState.dy);
+        translateY.setValue(newTranslateY);
       }
     },
     onPanResponderRelease: (_, gestureState) => {
       if (gestureState.dy > 100) {
         toggleVisibility(false);
-      } else {
-        animateSheet(screenHeight * 0.3);
       }
     },
   });
@@ -78,30 +76,6 @@ export const CustomBottomSheet = () => {
           <Image source={require('../../assets/images/tab-card-4.png')} style={styles.tabImage} />
         </Pressable>
       </View>
-      
-      {/* <View style={styles.iconRow}>
-        <View style={styles.iconContainer}>
-          <Image source={require('../../assets/images/home-icon.png')} style={styles.iconImage} />
-          <Text style={styles.iconText}>Home</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <Image source={require('../../assets/images/forum.png')} style={styles.iconImage} />
-          <Text style={styles.iconText}>Forum</Text>
-        </View>
-        <View style={styles.closeIconContainer}>
-          <Pressable onPress={() => toggleVisibility(false)}>
-            <Image source={require('../../assets/images/close-circle.png')} style={styles.closeIcon} />
-          </Pressable>
-        </View>
-        <View style={styles.iconContainer}>
-          <Image source={require('../../assets/images/data.png')} style={styles.iconImage} />
-          <Text style={styles.iconText}>Data</Text>
-        </View>
-        <View style={styles.iconContainer}>
-          <Image source={require('../../assets/images/offers.png')} style={styles.iconImage} />
-          <Text style={styles.iconText}>Offers</Text>
-        </View>
-      </View> */}
     </Animated.View>
   );
 };
@@ -110,18 +84,20 @@ const styles = StyleSheet.create({
   bottomSheet: {
     position: 'absolute',
     width: '100%',
-    height: screenHeight * 0.7,
+    height: screenHeight * 0.71,
     backgroundColor: 'white',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    bottom: 55,
+    bottom: 0,
     zIndex: 1,
-    padding: 20,
+    paddingHorizontal: 20,
+    alignItems: 'center'
   },
   sheetText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 14,
     marginVertical: 10,
+    fontWeight: 'medium',
   },
   largeImage: {
     height: 211,
@@ -162,4 +138,3 @@ const styles = StyleSheet.create({
     width: 60,
   },
 });
-

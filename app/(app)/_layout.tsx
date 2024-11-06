@@ -15,7 +15,6 @@ import Data from './data';
 import useAuthStore from '@/hooks/useAuthStore';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
-import InsetShadow from 'react-native-inset-shadow'
 import { NavigationContainer } from '@react-navigation/native';
 
 const HomeScreen = () => {
@@ -68,16 +67,6 @@ export default function App() {
   const { isVisible, toggleVisibility } = useBottomSheetStore();
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
-  const HandleToggleVisibility = () => {
-    Animated.timing(rotateAnim, {
-      toValue: isVisible ? 0 : 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-
-    toggleVisibility(!isVisible);
-  };
-
   const rotation = rotateAnim.interpolate({
     inputRange: [0, 1],
     outputRange: ['0deg', '90deg'],
@@ -98,7 +87,6 @@ export default function App() {
     );
   };
   return (
-    <>
       <NavigationContainer independent>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
@@ -109,7 +97,7 @@ export default function App() {
           borderTopLeftRight
           renderCircle={() => (
             <Animated.View style={styles.btnCircleUp}>
-            <TouchableOpacity style={[styles.button, { backgroundColor: isVisible ? 'white' : '#0258D3' }]} onPress={HandleToggleVisibility}>
+            <TouchableOpacity style={[styles.button, { backgroundColor: isVisible ? 'white' : '#0258D3' }]} onPress={() => toggleVisibility(!isVisible)}>
               <Animated.View style={{ transform: [{ rotate: rotation }] }}>
                 <Ionicons 
                   name={isVisible ? "close" : "add"}
@@ -145,8 +133,7 @@ export default function App() {
             position="RIGHT"
           />
         </CurvedBottomBarExpo.Navigator>
-        </NavigationContainer>
-      </>
+      </NavigationContainer>
   );
 }
 
