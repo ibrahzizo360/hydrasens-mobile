@@ -1,4 +1,4 @@
-import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback, Alert, Platform } from "react-native";
+import { Image, Pressable, SafeAreaView, Text, View, TextInput, Dimensions, Keyboard, TouchableWithoutFeedback, Alert, Platform, KeyboardAvoidingView } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
@@ -82,7 +82,11 @@ export default function Step1() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05   : 0 }}>
+      <KeyboardAvoidingView
+    behavior={Platform.OS === "ios" ? "padding" : "height"}
+    style={{ flex: 1 }}
+  >
+      <SafeAreaView className="" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05   : 0 }}>
         <View className="flex flex-row justify-center items-center">
           <Pressable
             onPress={() => router.back()}
@@ -132,9 +136,9 @@ export default function Step1() {
                 size={15}
                 fillColor="green" 
                 onPress={(isChecked: boolean) => {
-                  setUseCurrentLocation(isChecked); // Use checkbox value to set current location
+                  setUseCurrentLocation(isChecked);
                   if (isChecked) {
-                    setContributionField('location', ''); // Clear location field if using current location
+                    setContributionField('location', '');
                   }
                 }} 
               />
@@ -142,16 +146,15 @@ export default function Step1() {
             </View>
           </View>
         </View>
-
-        <View className="bottom-7 absolute w-full">
+        <View className="-bottom-64 fixed w-full">
           <CustomButton
             title="Next"
             onPress={() => router.push("/contribution/step2")}
-            textStyle={{ fontSize: 18 }}
             className="mx-3 mt-7"
           />
         </View>
       </SafeAreaView>
+      </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
 }

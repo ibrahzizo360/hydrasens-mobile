@@ -12,6 +12,7 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import useContributionStore from "@/hooks/useContributionStore";
+import { height } from "@/utils";
 
 export default function Step2() {
   const { width } = Dimensions.get("window");
@@ -89,7 +90,7 @@ export default function Step2() {
   };
 
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable
           onPress={() => router.back()}

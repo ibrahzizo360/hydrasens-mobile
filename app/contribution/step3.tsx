@@ -16,6 +16,7 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import useContributionStore from "@/hooks/useContributionStore";
+import { height } from "@/utils";
 
 interface Rating {
   rate: string;
@@ -79,7 +80,7 @@ export default function Step3() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable
           onPress={() => router.back()}
@@ -99,7 +100,7 @@ export default function Step3() {
           className="mx-auto h-[168px] w-[168px] mt-6"
         />
 
-      <Text className="font-bold text-center text-xl mb-4 mt-6 w-11/12 text-[#06276E]">
+      <Text className="font-bold text-center text-xl mb-4 mt-6 text-[#06276E]">
         How do you feel about the water quality?
       </Text>
 
@@ -126,7 +127,7 @@ export default function Step3() {
             <Text className="text-xs text-[#395696]">Excellent</Text>
         </View>
 
-      <Text className="text-center mt-10 mx-4 font-semibold text-xs text-[#06276E]">
+      <Text className="text-center mt-20 mx-4 font-semibold text-xs text-[#06276E]">
         What do you think is causing the pollution, and how is the water quality
         affecting the local community? Suggest any possible solutions to help
         improve the situation.
@@ -138,13 +139,13 @@ export default function Step3() {
         onChangeText={setComment}
         className="border-gray-300 bg-[#c7dcfc] h-[100px] rounded-lg p-2 w-11/12 mx-auto mb-4 mt-4"
         multiline={true}
+        textAlignVertical="top"
       />
 
       <View className="absolute bottom-7 w-full">
         <CustomButton
           title="Almost Done!"
           onPress={() => handleNextStep()}
-          textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
       </View>

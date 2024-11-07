@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import useProjectStatusStore from "@/hooks/projectStatusStore";
+import { height } from "@/utils";
 
 export default function Status() {
     const { width } = Dimensions.get("window");
@@ -70,10 +71,10 @@ export default function Status() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
                 <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-                    <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 10 }}>
-                        <View className="flex flex-row justify-center items-center">
+                <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
+                    <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 0 }}>
+                        <View className="mt-2 flex-row justify-center items-center">
                             <Pressable
                                 onPress={() => router.back()}
                                 className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
@@ -145,18 +146,18 @@ export default function Status() {
                             </View>
                         </View>
 
-                        <View style={{ marginBottom: 16 }}>
+                        <View className="fixed -bottom-56 w-full">
                         <CustomButton
                             title="Next"
                             onPress={() => {
                                 router.push("/status/step1");
                             }}
-                            className="mx-4 mb-4"
+                            className="mx-3"
                         />
                     </View>
                     </ScrollView>
+                    </SafeAreaView>
                 </KeyboardAvoidingView>
-            </SafeAreaView>
         </TouchableWithoutFeedback>
     );
 }

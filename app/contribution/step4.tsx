@@ -16,7 +16,7 @@ import { router } from "expo-router";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import * as ImagePicker from 'expo-image-picker';
 import useContributionStore from "@/hooks/useContributionStore";
-import { uploadImageToCloudinary } from "@/utils";
+import { height, uploadImageToCloudinary } from "@/utils";
 
 export default function Step4() {
   const { width } = Dimensions.get("window");
@@ -127,7 +127,7 @@ const handleSubmit = async () => {
 
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
-      <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+      <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
         <View className="flex flex-row justify-center items-center">
           <Pressable
             onPress={() => router.back()}
@@ -170,12 +170,12 @@ const handleSubmit = async () => {
             <AntDesign name="picture" size={18} color="white" />
             <Text className="font-bold text-white">Select Photos</Text>
           </Pressable>
-          <Text className="text-[10px] font-light text-[#717888] mt-1 text-center">
+          <Text className="text-[10px] font-medium mx-2.5 text-[#717888] mt-2 text-center">
             Tip: Share a clear picture of the water resource to give us a better look at its current condition. Try to focus on areas that show pollution, damage, or other concerns. Well-lit, close-up shots work best!
           </Text>
         </View>
 
-        <View className="flex flex-row justify-evenly mt-4 mr-1">
+        <View className="flex flex-row justify-evenly mt-6 mr-1">
           {[0, 1, 2].map((index) => (
             <View
               key={index}
@@ -196,7 +196,6 @@ const handleSubmit = async () => {
           <CustomButton
             title="Submit"
             onPress={() => handleSubmit()}
-            textStyle={{ fontSize: 18 }}
             loading={loading}
             className="mx-3 mt-7"
           />

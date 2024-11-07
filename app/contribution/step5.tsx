@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -6,15 +6,20 @@ import {
   Dimensions,
   Image,
   Platform,
+  Animated, Easing,
+  Pressable, 
 } from "react-native";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import ConfettiCannon from 'react-native-confetti-cannon';
+import { height } from "@/utils";
 
 export default function Step5() {
   const { width } = Dimensions.get("window");
 
   const [currentStep, setCurrentStep] = useState<number>(3);
+
+  const scaleAnim = useRef(new Animated.Value(1)).current; 
 
   const Stepper: React.FC = () => {
     return (
@@ -44,8 +49,27 @@ export default function Step5() {
     );
   };
 
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(scaleAnim, {
+          toValue: 1.06,
+          duration: 1000,
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1000, 
+          easing: Easing.ease,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  }, [scaleAnim]);
+
   return (
-    <SafeAreaView className="flex-1 bg-[#F4F7FD]" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1 bg-[#F4F7FD]" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Text className="text-xl font-semibold">Successful</Text>
       </View>
@@ -68,13 +92,27 @@ export default function Step5() {
 
         <Text className="text-center font-medium text-[12px] mt-2">Congratulations on your efforts to saving Africa’s water resources! Thank you! 🌍💧</Text>
 
-        <Text className="font-medium text-[14px] text-center mt-8">Want to earn 3x your coins? 
-        Add a water project status now!
-        </Text>
+        <Animated.Text
+      style={{
+        fontSize: 14,
+        fontWeight: '500',
+        color: 'green',
+        textAlign: 'center',
+        marginTop: 32,
+        marginBottom: 10,
+        transform: [{ scale: scaleAnim }],
+      }}
+    >
+      Want to earn 3x your coins? Add a water project status now!
+    </Animated.Text>
         
+      <Pressable onPress={()=>router.push('/status')}>
         <View className="rounded-xl bg-[#D4E5FF] mt-3">
             <Text className="text-center font-bold text-blue-600 py-3">Add Project Status</Text>
         </View>
+      </Pressable>
+
+
     </View>
 
 
