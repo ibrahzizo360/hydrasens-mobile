@@ -3,10 +3,11 @@ import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from 'expo-router';
 import { AntDesign, FontAwesome, Foundation, MaterialIcons } from "@expo/vector-icons";
+import { height } from "@/utils";
 
 export default function Notifications() {
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable onPress={()=>router.back()} className="rounded-lg p-2 bg-[#0258D3] flex  absolute left-4">
         <View>

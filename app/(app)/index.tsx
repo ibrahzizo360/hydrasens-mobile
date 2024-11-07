@@ -25,7 +25,7 @@ export default function Home() {
   const {user} = useAuthStore();
   
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
       <ScrollView>
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
@@ -52,12 +52,12 @@ export default function Home() {
         source={require("../../assets/images/home-screen.png")}
         className="w-full h-full"
       >
-        <View className="flex flex-row justify-between px-4 pt-1">
+        <View className="flex flex-row justify-between px-4 pt-2.5">
           <Text className="text-white text-lg font-semibold">
             Our donor of the week
           </Text>
 
-          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mb-2" style={{
+          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mb-0" style={{
         marginTop: Platform.select({ ios: 5, android: 6 }),
       }}>
       <View className="flex flex-row justify-center items-center gap-1">

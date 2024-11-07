@@ -4,14 +4,15 @@ import CustomButton from "@/components/Button";
 import { router } from 'expo-router';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { AntDesign, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { AntDesign, FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
+import { height } from "@/utils";
 
 export default function Profile() {
   const {user, logout} = useAuthStore();
 
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable onPress={()=>router.back()} className="rounded-lg p-2 bg-[#0258D3] flex  absolute left-4">
         <View>
@@ -43,7 +44,7 @@ export default function Profile() {
         <View className="flex flex-row gap-4 items-center -mt-1">
         <MaterialCommunityIcons name="bell-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Notifications</Text>
-          <View className="bg-red-500 px-1.5 py-0.5 rounded-full">
+          <View className="bg-red-500 px-[7px] py-0.5 rounded-full">
             <Text className="text-white font-bold">1</Text>
           </View>
         </View>
@@ -54,7 +55,7 @@ export default function Profile() {
         </View>
         <View className="h-[1px] mb-3 w-[90%] bg-gray-500" />
         <View className="flex flex-row gap-4 items-center">
-          <MaterialIcons name="privacy-tip" size={28} color="#11458E" />
+          <Ionicons name="shield-checkmark-outline" size={24} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Privacy Notice</Text>
         </View>
         <View className="flex flex-row gap-4 items-center">
