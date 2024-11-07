@@ -52,6 +52,17 @@ export default function Status() {
         }
     }, [useCurrentLocation]);
 
+    const getStatusBackgroundColor = (status: string) => {
+        if (status === "Active") return "bg-green-500";
+        if (status === "Inactive") return "bg-red-500";
+        return "bg-white"; // Default color for other statuses
+    };
+
+    const getStatusTextColor = (status: string) => {
+        if (status === "Active" || status === "Inactive") return "text-white";
+        return "text-blue-500"; // Default text color
+    };
+
     const Stepper = () => {
         return (
             <View className="flex flex-row justify-between items-center mt-4 mb-8" style={{ width: width * 0.5 }}>
@@ -107,19 +118,43 @@ export default function Status() {
                             <Text className="font-bold text-center text-xl mx-3 mb-4 text-[#072C7C] mt-10">What’s the current status of the project?</Text>
 
                             <View className="flex flex-row flex-wrap py-2 justify-evenly items-center w-11/12 mx-auto">
-                                {statuses.map((item) => (
+                            {statuses.map((item) => {
+                                let backgroundColor;
+                                let textColor;
+
+                                if (projectStatus.status === item) {
+                                    switch (item) {
+                                        case 'Active':
+                                            backgroundColor = 'bg-green-500';
+                                            textColor = 'text-white';
+                                            break;
+                                        case 'Inactive':
+                                            backgroundColor = 'bg-red-500';
+                                            textColor = 'text-white';
+                                            break;
+                                        default:
+                                            backgroundColor = 'bg-[#FFD700]';
+                                            textColor = 'text-white';
+                                            break;
+                                    }
+                                } else {
+                                    backgroundColor = 'bg-white';
+                                    textColor = 'text-blue-500';
+                                }
+
+                                return (
                                     <Pressable
                                         key={item}
                                         onPress={() => setProjectStatusField('status', item)}
-                                        className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${projectStatus.status === item ? "bg-[#FFD700]" : "bg-white"}`}
+                                        className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${backgroundColor}`}
                                     >
-                                        <Text className={`text-center text-[11px] font-bold ${projectStatus.status === item ? "text-white" : "text-blue-500"}`}>
+                                        <Text className={`text-center text-[11px] font-bold ${textColor}`}>
                                             {item}
                                         </Text>
                                     </Pressable>
-                                ))}
-                            </View>
-
+                                );
+                            })}
+                        </View>
                             <Text className="font-bold text-center text-xl mb-4 mt-10 text-[#072C7C]">Where is the project located?</Text>
                             <TextInput
                                 value={useCurrentLocation ? projectStatus.location ?? "Location loading..." : projectStatus.location}
