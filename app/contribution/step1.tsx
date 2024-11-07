@@ -6,11 +6,11 @@ import { useEffect, useState } from "react";
 import * as Location from "expo-location";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import useContributionStore from "@/hooks/useContributionStore";
+import { height } from "@/utils";
 
 export default function Step1() {
   const { width } = Dimensions.get("window");
   const [currentStep, setCurrentStep] = useState(2);
-  const [city, setCity] = useState<string | null>(null);
   const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
 
   const { contribution, setContributionField, loading } = useContributionStore();
@@ -39,7 +39,7 @@ export default function Step1() {
           // Set the city from the reverse geocode results
           if (reverseGeocode.length > 0) {
             const { city } = reverseGeocode[0]; // Destructure to get the city
-            setCity(city || "City not found");
+            setContributionField('location', city)
           } else {
             Alert.alert("Location Error", "Could not retrieve the city name.");
           }
@@ -82,7 +82,7 @@ export default function Step1() {
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+      <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05   : 0 }}>
         <View className="flex flex-row justify-center items-center">
           <Pressable
             onPress={() => router.back()}
@@ -134,7 +134,7 @@ export default function Step1() {
                 onPress={(isChecked: boolean) => {
                   setUseCurrentLocation(isChecked); // Use checkbox value to set current location
                   if (isChecked) {
-                    setCity(null); // Clear city if checkbox is checked
+                    setContributionField('location', ''); // Clear location field if using current location
                   }
                 }} 
               />

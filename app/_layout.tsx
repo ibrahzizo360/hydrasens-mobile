@@ -44,7 +44,6 @@ export default function RootLayout() {
         <Stack.Screen name="sign-in" options={{ headerShown: false }} />
         <Stack.Screen name="onBoarding" options={{ headerShown: false }} />
         <Stack.Screen name="register" options={{ headerShown: false }} />
-        <Stack.Screen name="contribution/index" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/start" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/step1" options={{ headerShown: false }} />
         <Stack.Screen name="contribution/step2" options={{ headerShown: false }} />

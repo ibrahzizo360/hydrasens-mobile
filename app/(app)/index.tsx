@@ -25,7 +25,7 @@ export default function Home() {
   const {user} = useAuthStore();
   
   return (
-    <SafeAreaView className="" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 30 : 0 }}>
       <ScrollView>
       <View className="flex-row justify-between items-center px-4">
         <View className="flex flex-row gap-2 py-1 items-center">
@@ -57,8 +57,8 @@ export default function Home() {
             Our donor of the week
           </Text>
 
-          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mt-1" style={{
-        marginTop: Platform.select({ ios: 5, android: 10 }),
+          <View className="bg-white rounded-[10px] h-5 px-2 pt-[2.5px] mb-2" style={{
+        marginTop: Platform.select({ ios: 5, android: 6 }),
       }}>
       <View className="flex flex-row justify-center items-center gap-1">
         <Text
@@ -131,11 +131,12 @@ export default function Home() {
 />
 
         </View>
-        <Pressable onPress={() => router.push('/contribution/start')} className="mt-2">
+        <Pressable onPress={() => router.push('/contribution/start')} style={{marginTop: height * 0.03}}>
         <View className="mx-3 rounded-lg overflow-hidden mb-1.5">
           <ImageBackground
             source={require("../../assets/images/card1.png")}
-            className="pt-2 px-6 flex flex-row justify-between h-[110px]"
+            className="pt-2 px-6 flex flex-row justify-between"
+            style={{ height: height * 0.135 }}
           >
             <View className="w-4/5">
               <Text className="text-white font-bold text-[16px]">
@@ -155,7 +156,7 @@ export default function Home() {
         </Pressable>
 
       <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-20">
-      <View className="rounded-lg overflow-hidden h-[105px] flex-1">
+      <View className="rounded-lg overflow-hidden flex-1" style={{ height: height * 0.135 }}>
         <ImageBackground
           source={require("../../assets/images/card2.png")}
           style={{ paddingTop: 8, paddingHorizontal: 8 }}
@@ -181,7 +182,7 @@ export default function Home() {
           </View>
         </ImageBackground>
       </View>
-      <View className="rounded-lg overflow-hidden h-[105px] flex-1">
+      <View className="rounded-lg overflow-hidden flex-1" style={{ height: height * 0.135 }}>
         <ImageBackground
           source={require("../../assets/images/card3.png")}
           style={{ paddingTop: 8, paddingHorizontal: 8 }}
