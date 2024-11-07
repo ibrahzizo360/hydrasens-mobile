@@ -16,6 +16,7 @@ import useAuthStore from '@/hooks/useAuthStore';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer } from '@react-navigation/native';
+import SensorsPage from './sensors';
 
 const HomeScreen = () => {
   return <Home />;
@@ -25,9 +26,14 @@ const ForumScreen = () => {
   return <Forum />;
 };
 
+// const DataScreen = () => {
+//   return <Data />;
+// };
+
 const DataScreen = () => {
-  return <Data />;
+  return <SensorsPage />;
 };
+
 
 const OffersScreen = () => {
   return <Offers />;

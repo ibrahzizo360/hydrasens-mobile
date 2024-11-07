@@ -1,10 +1,12 @@
 import { Image, Platform, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
+import { height } from "@/utils";
+import { CustomBottomSheet } from "./customSheet";
 
 export default function Offers() {
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Image
           source={require("../../assets/images/app-logo.png")}
@@ -20,6 +22,9 @@ export default function Offers() {
       </View>
       <Text className="text-center w-11/12 font-medium text-[13px] mx-auto mt-6">Earn exclusive rewards for your contributions! Participate in water and sanitation activities, gather data, and collect HydraCoins. Redeem your coins for exclusive benefits, discounts, and event access.</Text>
       <Text className="mt-4 text-orange-400 font-bold text-center">Available in the Beta Version</Text>
+
+
+      <CustomBottomSheet />
     </SafeAreaView>
   );
 }

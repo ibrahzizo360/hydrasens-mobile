@@ -3,6 +3,8 @@ import { Image, Platform, Pressable, SafeAreaView, Text, View } from "react-nati
 import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import CircularProgress from 'react-native-circular-progress-indicator';
+import { height } from "@/utils";
+import { CustomBottomSheet } from "./customSheet";
 
 // Interpolation function to calculate color for temperature and turbidity
 const interpolateColor = (ratio: number, colorRange: string[]) => {
@@ -95,13 +97,8 @@ export default function SensorsPage() {
   }, []);
 
   return (
-    <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? 28 : 0 }}>
+    <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
       <View className="flex flex-row justify-center items-center">
-        <Pressable onPress={()=>router.back()} className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4">
-          <View>
-            <Feather name="chevron-left" size={24} color="white" />
-          </View>
-        </Pressable>
         <Text className="text-xl font-semibold">Water Quality Monitor</Text>
       </View>
 
@@ -139,6 +136,8 @@ export default function SensorsPage() {
           <Text className="text-left text-[14px] font-bold text-xl">{turbidity} NTU</Text>
         </View>
       </View>
+
+      <CustomBottomSheet />
     </SafeAreaView>
   );
 }
