@@ -24,9 +24,9 @@ export default function Home() {
   const {user} = useAuthStore();
   
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
+    <SafeAreaView className="flex-1 bg-[#f0f0f0]" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
       <ScrollView  stickyHeaderIndices={[0]}>
-      <View className="flex-row justify-between items-center px-4 bg-white">
+      <View className="flex-row justify-between items-center px-4 bg-[#f0f0f0] ">
     <View className="flex flex-row gap-2 py-1 items-center">
       <Pressable onPress={() => router.push('/profile')}>
         <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
