@@ -60,10 +60,10 @@ export const CustomBottomSheet = () => {
       <Image source={require('../../assets/images/home-drop.png')} style={styles.largeImage} />
       
       <View style={styles.buttonRow}>
-        <Pressable onPress={() => router.push('/status')}>
+        <Pressable onPress={() => {toggleVisibility(false); router.push('/status')}}>
           <Image source={require('../../assets/images/tab-card-1.png')} style={styles.tabImage} />
         </Pressable>
-        <Pressable onPress={() => router.push('/contribution/start')}>
+        <Pressable onPress={() => {toggleVisibility(false); router.push('/contribution/start')}}>
           <Image source={require('../../assets/images/tab-card-2.png')} style={styles.tabImage} />
         </Pressable>
       </View>
