@@ -12,7 +12,6 @@ import {
   View,
 } from "react-native";
 import Foundation from "@expo/vector-icons/Foundation";
-import { SwiperFlatList } from "react-native-swiper-flatlist";
 import { router } from 'expo-router';
 import { Entypo } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
@@ -26,27 +25,29 @@ export default function Home() {
   
   return (
     <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
-      <ScrollView>
-      <View className="flex-row justify-between items-center px-4">
-        <View className="flex flex-row gap-2 py-1 items-center">
-          <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
-          </Pressable>
+      <ScrollView  stickyHeaderIndices={[0]}>
+      <View className="flex-row justify-between items-center px-4 bg-white">
+    <View className="flex flex-row gap-2 py-1 items-center">
+      <Pressable onPress={() => router.push('/profile')}>
+        <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
+      </Pressable>
 
-          <View className="flex-col pt-1">
-            <Text className="text-xs text-gray-600">Hello 👋</Text>
-            <Text className="text-sm">{user?.name || user?.username}</Text>
-          </View>
-        </View>
+      <View className="flex-col pt-1">
+        <Text className="text-xs text-gray-600">Hello 👋</Text>
+        <Text className="text-sm">{user?.name || user?.username}</Text>
+      </View>
+    </View>
 
-        <View className=" bg-[#E4EDFB] rounded-xl py-1 px-2">
-          <View className="flex-row gap-2 items-center justify-center">
-        <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
+    <View className="bg-[#E4EDFB] rounded-xl py-1 px-2">
+      <View className="flex-row gap-2 items-center justify-center">
+        <Image
+          source={require("../../assets/images/point.png")}
+          className="h-[18px] w-[20px]"
+        />
         <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points}.00`}</Text>
-        </View>
       </View>
-
-      </View>
+    </View>
+  </View>
 
       <ImageBackground
         source={require("../../assets/images/home-screen.png")}
