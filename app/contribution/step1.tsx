@@ -146,11 +146,11 @@ export default function Step1() {
             </View>
           </View>
         </View>
-        <View className="bottom-7 absolute w-full">
+        <View className="fixed w-full" style={{top: height * 0.3}}>
           <CustomButton
             title="Next"
             onPress={() => router.push("/contribution/step2")}
-            className="mx-3 mt-7"
+            className="mx-3"
           />
         </View>
       </SafeAreaView>

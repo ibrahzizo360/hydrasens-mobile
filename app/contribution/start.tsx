@@ -32,7 +32,6 @@ export default function Contribution() {
         <CustomButton
                   title="Next"
                   onPress={() => router.push('/contribution/step1')}
-                  textStyle={{ fontSize: 18 }}
                   className="mx-3 mt-7"
                 />
       </View>

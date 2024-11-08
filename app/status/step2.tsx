@@ -81,7 +81,6 @@ export default function Step2() {
           onPress={() =>
             router.push("/")
           }
-          textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
       </View>

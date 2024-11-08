@@ -182,7 +182,7 @@ export default function Step1() {
             />
             </View>
 
-            <View className="fixed -bottom-56 w-full">
+            <View className="fixed w-full"  style={{top: height * 0.25}}>
               <CustomButton
                 title="Submit"
                 onPress={handleSubmit}

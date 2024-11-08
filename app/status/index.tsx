@@ -181,7 +181,7 @@ export default function Status() {
                             </View>
                         </View>
 
-                        <View className="fixed -bottom-56 w-full">
+                        <View className="fixed w-full" style={{top: height * 0.25}}>
                         <CustomButton
                             title="Next"
                             onPress={() => {

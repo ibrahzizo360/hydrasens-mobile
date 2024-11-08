@@ -124,7 +124,6 @@ export default function Step5() {
               pathname: '/',
             })
           }
-          textStyle={{ fontSize: 18 }}
           className="mx-3 mt-7"
         />
       </View>
