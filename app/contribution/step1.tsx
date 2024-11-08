@@ -146,7 +146,7 @@ export default function Step1() {
             </View>
           </View>
         </View>
-        <View className="-bottom-64 fixed w-full">
+        <View className="bottom-7 absolute w-full">
           <CustomButton
             title="Next"
             onPress={() => router.push("/contribution/step2")}

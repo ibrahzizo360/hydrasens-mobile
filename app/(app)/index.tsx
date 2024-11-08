@@ -223,7 +223,7 @@ const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "white" },
   child: {
-    width: "auto",
+    width: width * 0.35,
     height: height * 0.165,
     justifyContent: "center",
     marginRight: 10,
