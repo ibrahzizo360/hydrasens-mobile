@@ -13,12 +13,29 @@ export default function Status() {
     const { projectStatus, setProjectStatusField } = useProjectStatusStore();
     const [currentStep, setCurrentStep] = useState(2);
     const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
+    const [isKeyVisible, setIsKeyVisible] = useState<boolean>(false);
+
     const statuses: string[] = [
         "Active",
         "Active but has issues",
         "Inactive",
         "Project incomplete",
     ];
+
+    // Handle keyboard show/hide
+    useEffect(() => {
+        const showSubscription = Keyboard.addListener("keyboardDidShow", () => {
+            setIsKeyVisible(true);
+        });
+        const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+            setIsKeyVisible(false);
+        });
+
+        return () => {
+            showSubscription.remove();
+            hideSubscription.remove();
+        };
+    }, []);
 
     useEffect(() => {
         if (useCurrentLocation) {
@@ -82,8 +99,8 @@ export default function Status() {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
-                <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
+            <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={{ flex: 1 }}>
+                <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
                     <ScrollView contentContainerStyle={{ flexGrow: 1, marginTop: 0 }}>
                         <View className="mt-2 flex-row justify-center items-center">
                             <Pressable
@@ -118,43 +135,44 @@ export default function Status() {
                             <Text className="font-bold text-center text-xl mx-3 mb-4 text-[#072C7C] mt-10">What’s the current status of the project?</Text>
 
                             <View className="flex flex-row flex-wrap py-2 justify-evenly items-center w-11/12 mx-auto">
-                            {statuses.map((item) => {
-                                let backgroundColor;
-                                let textColor;
+                                {statuses.map((item) => {
+                                    let backgroundColor;
+                                    let textColor;
 
-                                if (projectStatus.status === item) {
-                                    switch (item) {
-                                        case 'Active':
-                                            backgroundColor = 'bg-green-500';
-                                            textColor = 'text-white';
-                                            break;
-                                        case 'Inactive':
-                                            backgroundColor = 'bg-red-500';
-                                            textColor = 'text-white';
-                                            break;
-                                        default:
-                                            backgroundColor = 'bg-[#FFD700]';
-                                            textColor = 'text-white';
-                                            break;
+                                    if (projectStatus.status === item) {
+                                        switch (item) {
+                                            case 'Active':
+                                                backgroundColor = 'bg-green-500';
+                                                textColor = 'text-white';
+                                                break;
+                                            case 'Inactive':
+                                                backgroundColor = 'bg-red-500';
+                                                textColor = 'text-white';
+                                                break;
+                                            default:
+                                                backgroundColor = 'bg-[#FFD700]';
+                                                textColor = 'text-white';
+                                                break;
+                                        }
+                                    } else {
+                                        backgroundColor = 'bg-white';
+                                        textColor = 'text-blue-500';
                                     }
-                                } else {
-                                    backgroundColor = 'bg-white';
-                                    textColor = 'text-blue-500';
-                                }
 
-                                return (
-                                    <Pressable
-                                        key={item}
-                                        onPress={() => setProjectStatusField('status', item)}
-                                        className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${backgroundColor}`}
-                                    >
-                                        <Text className={`text-center text-[11px] font-bold ${textColor}`}>
-                                            {item}
-                                        </Text>
-                                    </Pressable>
-                                );
-                            })}
-                        </View>
+                                    return (
+                                        <Pressable
+                                            key={item}
+                                            onPress={() => setProjectStatusField('status', item)}
+                                            className={`rounded-lg p-2 w-[45%] mx-1 my-1 ${backgroundColor}`}
+                                        >
+                                            <Text className={`text-center text-[11px] font-bold ${textColor}`}>
+                                                {item}
+                                            </Text>
+                                        </Pressable>
+                                    );
+                                })}
+                            </View>
+
                             <Text className="font-bold text-center text-xl mb-4 mt-10 text-[#072C7C]">Where is the project located?</Text>
                             <TextInput
                                 value={useCurrentLocation ? projectStatus.location ?? "Location loading..." : projectStatus.location}
@@ -181,18 +199,20 @@ export default function Status() {
                             </View>
                         </View>
 
-                        <View className="fixed w-full" style={{top: height * 0.25}}>
-                        <CustomButton
-                            title="Next"
-                            onPress={() => {
-                                router.push("/status/step1");
-                            }}
-                            className="mx-3"
-                        />
-                    </View>
+                        {!isKeyVisible && (
+                            <View className="absolute bottom-7 w-full">
+                                <CustomButton
+                                    title="Next"
+                                    onPress={() => {
+                                        router.push("/status/step1");
+                                    }}
+                                    className="mx-3"
+                                />
+                            </View>
+                        )}
                     </ScrollView>
-                    </SafeAreaView>
-                </KeyboardAvoidingView>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
     );
 }

@@ -15,7 +15,7 @@ import {
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useProjectStatusStore from "@/hooks/projectStatusStore";
 import { height } from "@/utils";
 import DatePicker from "react-native-date-picker";
@@ -30,6 +30,7 @@ export default function Step1() {
     useProjectStatusStore();
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
+  const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   const phases: string[] = ["Planning", "Construction", "Testing", "Other"];
 
@@ -68,7 +69,6 @@ export default function Step1() {
     setLoading(true);
     try {
       await addProjectStatus();
-
       router.push("/status/step2");
     } catch (error) {
       console.error("Error submitting project status:", error);
@@ -83,6 +83,27 @@ export default function Step1() {
   const handleTapOutside = () => {
     Keyboard.dismiss();
   };
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      "keyboardDidShow",
+      () => {
+        setKeyboardVisible(true);
+      }
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      "keyboardDidHide",
+      () => {
+        setKeyboardVisible(false);
+      }
+    );
+
+    // Cleanup listeners on unmount
+    return () => {
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={handleTapOutside}>
@@ -156,40 +177,43 @@ export default function Step1() {
                 <Text className="text-sm text-gray-600">(if available)</Text>
               </Text>
               <Pressable onPress={() => setOpen(true)}>
-            <TextInput
-                placeholder="DD/MM/YYYY"
-                value={completionDate} // Display the selected date
-                editable={false} // Make the TextInput read-only
-                className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
-            />
-            </Pressable>
+                <TextInput
+                  placeholder="DD/MM/YYYY"
+                  value={completionDate} // Display the selected date
+                  editable={false} // Make the TextInput read-only
+                  className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-11/12 mx-auto mb-4"
+                />
+              </Pressable>
 
-            <DatePicker
-            modal
-            open={open}
-            date={date}
-            onConfirm={(selectedDate) => {
-                setOpen(false);
-                setDate(selectedDate);
-                const formattedDate = selectedDate.toLocaleDateString("en-GB");
-                setCompletionDate(formattedDate);
-                setProjectStatusField("completionDate", formattedDate);
-            }}
-            onCancel={() => {
-                setOpen(false);
-            }}
-            mode="date"
-            />
-            </View>
-
-            <View className="fixed w-full"  style={{top: height * 0.25}}>
-              <CustomButton
-                title="Submit"
-                onPress={handleSubmit}
-                loading={loading}
-                className="mx-3"
+              <DatePicker
+                modal
+                open={open}
+                date={date}
+                onConfirm={(selectedDate) => {
+                  setOpen(false);
+                  setDate(selectedDate);
+                  const formattedDate = selectedDate.toLocaleDateString("en-GB");
+                  setCompletionDate(formattedDate);
+                  setProjectStatusField("completionDate", formattedDate);
+                }}
+                onCancel={() => {
+                  setOpen(false);
+                }}
+                mode="date"
               />
             </View>
+
+            {/* Conditionally render the submit button based on keyboard visibility */}
+            {!keyboardVisible && (
+              <View className="absolute bottom-7 w-full">
+                <CustomButton
+                  title="Submit"
+                  onPress={handleSubmit}
+                  loading={loading}
+                  className="mx-3"
+                />
+              </View>
+            )}
           </ScrollView>
         </KeyboardAvoidingView>
       </SafeAreaView>
