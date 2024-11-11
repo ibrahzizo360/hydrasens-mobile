@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { BASE_URL } from '@/constants/url';
+import useAuthStore from './useAuthStore';
 
 interface Contribution {
   _id?: string; 
@@ -54,7 +55,16 @@ const useContributionStore = create<ContributionStoreState>((set, get) => ({
     get().setLoading(true);
     try {
       const { contribution } = get();
-      const response = await axios.post(`${BASE_URL}/contributions`, contribution);
+      const { token } = useAuthStore.getState();
+      const response = await axios.post(
+        `${BASE_URL}/contributions`,
+        contribution,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       set((state) => ({ contributions: [...state.contributions, response.data] }));
       return response;
     } catch (error: unknown) {

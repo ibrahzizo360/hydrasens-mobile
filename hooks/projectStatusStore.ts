@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { BASE_URL } from '@/constants/url';
+import useAuthStore from './useAuthStore';
 
 interface ProjectStatus {
   _id?: string;
@@ -53,7 +54,16 @@ const useProjectStatusStore = create<ProjectStatusStoreState>((set, get) => ({
     get().setLoading(true);
     try {
       const { projectStatus } = get();
-      const response = await axios.post(`${BASE_URL}/project-status`, projectStatus);
+      const { token } = useAuthStore.getState();
+      const response = await axios.post(
+        `${BASE_URL}/project-status`,
+        projectStatus,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       set((state) => ({ projectStatuses: [...state.projectStatuses, response.data] }));
       return response;
     } catch (error: unknown) {

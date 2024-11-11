@@ -18,10 +18,19 @@ import useAuthStore from "@/hooks/useAuthStore";
 import { CustomBottomSheet } from "./customSheet";
 import { height } from "@/utils";
 import { stores } from "@/constants";
+import { useEffect } from "react";
 
 export default function Home() {
 
-  const {user} = useAuthStore();
+  const {user, refetchUser} = useAuthStore();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      await refetchUser();
+    };
+    
+    fetchUserData();
+  }, []);
   
   return (
     <SafeAreaView className="flex-1 bg-[#f0f0f0]" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
@@ -44,7 +53,7 @@ export default function Home() {
           source={require("../../assets/images/point.png")}
           className="h-[18px] w-[20px]"
         />
-        <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points}.00`}</Text>
+        <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points || 0}.00`}</Text>
       </View>
     </View>
   </View>
@@ -156,7 +165,7 @@ export default function Home() {
         </View>
         </Pressable>
 
-      <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-20">
+      <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-5">
       <View className="rounded-lg overflow-hidden flex-1" style={{ height: height * 0.135 }}>
         <ImageBackground
           source={require("../../assets/images/card2.png")}

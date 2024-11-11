@@ -115,9 +115,8 @@ export default function Step1() {
       style={{ paddingTop: Platform.OS === "android" ? height * 0.05 : 0 }}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{ flex: 1 }}>
-          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-            <View className="flex flex-row justify-center items-center mt-2">
+        <View className="" style={{ flex: 1 }}>
+            <View className="flex flex-row justify-center items-center">
               <Pressable
                 onPress={() => router.back()}
                 className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4"
@@ -184,7 +183,6 @@ export default function Step1() {
                 </View>
               </View>
             </View>
-          </ScrollView>
 
           {!isKeyboardVisible && (
             <View className="absolute bottom-7 w-full">

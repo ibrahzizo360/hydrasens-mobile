@@ -13,6 +13,7 @@ interface AuthStoreState {
   logout: () => void;
   checkAuthStatus: () => Promise<void>;
   register: (userData: any) => Promise<void | AxiosResponse>;
+  refetchUser: () => Promise<void>; 
   setOnBoardingCompleted: (completed: boolean) => Promise<void>;
   loadOnBoardingStatus: () => Promise<void>;
 }
@@ -36,6 +37,25 @@ const useAuthStore = create<AuthStoreState>((set, get) => ({
       return error.response;
     } finally {
       set({ loading: false });
+    }
+  },
+
+  refetchUser: async () => {
+    const token = get().token;
+    if (token) {
+      set({ loading: true });
+      try {
+        const response = await axios.get(`${BASE_URL}/auth/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const user = response.data.user;
+        set({ user });
+      } catch (error) {
+        console.error('Refetching user failed:', error);
+        set({ user: null, isAuthenticated: false });
+      } finally {
+        set({ loading: false });
+      }
     }
   },
 
