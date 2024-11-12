@@ -16,25 +16,29 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     'Lora': require('../assets/fonts/Lora-Bold.ttf'),
   });
-  const { loadOnBoardingStatus } = useAuthStore();
+  const { loadOnBoardingStatus, checkAuthStatus } = useAuthStore();
+  const [authLoaded, setAuthLoaded] = useState(false);
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
+    const checkStatus = async () => {
       await loadOnBoardingStatus();
+      await checkAuthStatus();
+
+      setAuthLoaded(true);
     };
 
-    checkAuthStatus();
+    checkStatus();
 
-    if (loaded) {
+    if (loaded && authLoaded) {
       const timer = setTimeout(() => {
         SplashScreen.hideAsync();
-      }, 3000);
+      }, 2500);
       
       return () => clearTimeout(timer);
     }
-  }, [loaded]);
+  }, [loaded, authLoaded]);
 
-  if (!loaded) {
+  if (!loaded || !authLoaded) {
     return null;
   }
 

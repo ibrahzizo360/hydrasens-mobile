@@ -22,15 +22,7 @@ import { useEffect } from "react";
 
 export default function Home() {
 
-  const {user, refetchUser} = useAuthStore();
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      await refetchUser();
-    };
-    
-    fetchUserData();
-  }, []);
+  const {user} = useAuthStore();
   
   return (
     <SafeAreaView className="flex-1 bg-[#f0f0f0]" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
