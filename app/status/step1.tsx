@@ -26,7 +26,7 @@ export default function Step1() {
   const [phase, setPhase] = useState<string>("");
   const [incompleteReason, setIncompleteReason] = useState<string>("");
   const [completionDate, setCompletionDate] = useState<string>("");
-  const { loading, setLoading, addProjectStatus, setProjectStatusField } =
+  const { loading, setLoading, addProjectStatus, setProjectStatusField, bonusActive } =
     useProjectStatusStore();
   const [date, setDate] = useState(new Date());
   const [open, setOpen] = useState(false);
@@ -68,7 +68,7 @@ export default function Step1() {
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      await addProjectStatus();
+      await addProjectStatus(bonusActive);
       router.push("/status/step2");
     } catch (error) {
       console.error("Error submitting project status:", error);

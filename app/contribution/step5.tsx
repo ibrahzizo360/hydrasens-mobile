@@ -13,9 +13,12 @@ import CustomButton from "@/components/Button";
 import { router } from "expo-router";
 import ConfettiCannon from 'react-native-confetti-cannon';
 import { height } from "@/utils";
+import useProjectStatusStore from "@/hooks/projectStatusStore";
 
 export default function Step5() {
   const { width } = Dimensions.get("window");
+
+  const {setBonusActive} = useProjectStatusStore();
 
   const [currentStep, setCurrentStep] = useState<number>(3);
 
@@ -106,7 +109,7 @@ export default function Step5() {
       Want to earn 3x your coins? Add a water project status now!
     </Animated.Text>
         
-      <Pressable onPress={()=>router.push('/status')}>
+      <Pressable onPress={()=>{ setBonusActive(true); router.push('/status')}}>
         <View className="rounded-xl bg-[#D4E5FF] mt-3">
             <Text className="text-center font-bold text-blue-600 py-3">Add Project Status</Text>
         </View>

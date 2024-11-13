@@ -10,7 +10,7 @@ import { height } from "@/utils";
 
 export default function Status() {
     const { width } = Dimensions.get("window");
-    const { projectStatus, setProjectStatusField } = useProjectStatusStore();
+    const { projectStatus, setProjectStatusField , loading, setLoading, addProjectStatus, bonusActive} = useProjectStatusStore();
     const [currentStep, setCurrentStep] = useState(2);
     const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
     const [isKeyVisible, setIsKeyVisible] = useState<boolean>(false);
@@ -21,6 +21,21 @@ export default function Status() {
         "Inactive",
         "Project incomplete",
     ];
+
+    const handleSubmit = async () => {
+        setLoading(true);
+        try {
+          await addProjectStatus(bonusActive);
+          router.push("/status/step2");
+        } catch (error) {
+          console.error("Error submitting project status:", error);
+          alert(
+            "An error occurred while submitting the project status. Please try again."
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
 
     // Handle keyboard show/hide
     useEffect(() => {
@@ -68,17 +83,6 @@ export default function Status() {
             })();
         }
     }, [useCurrentLocation]);
-
-    const getStatusBackgroundColor = (status: string) => {
-        if (status === "Active") return "bg-green-500";
-        if (status === "Inactive") return "bg-red-500";
-        return "bg-white"; // Default color for other statuses
-    };
-
-    const getStatusTextColor = (status: string) => {
-        if (status === "Active" || status === "Inactive") return "text-white";
-        return "text-blue-500"; // Default text color
-    };
 
     const Stepper = () => {
         return (
@@ -201,15 +205,25 @@ export default function Status() {
 
                         {!isKeyVisible && (
                             <View className="absolute bottom-7 w-full">
-                                <CustomButton
-                                    title="Next"
-                                    onPress={() => {
-                                        router.push("/status/step1");
-                                    }}
-                                    className="mx-3"
-                                />
+                                {projectStatus.status === "Inactive" ? (
+                                    <CustomButton
+                                        title="Next"
+                                        onPress={() => {
+                                            router.push("/status/step1");
+                                        }}
+                                        className="mx-3"
+                                    />
+                                ) : (
+                                    <CustomButton
+                                        title="Submit"
+                                        loading={loading}
+                                        onPress={handleSubmit}
+                                        className="mx-3 bg-green-500"
+                                    />
+                                )}
                             </View>
                         )}
+                        
                     </ScrollView>
                 </SafeAreaView>
             </KeyboardAvoidingView>

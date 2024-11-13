@@ -17,10 +17,12 @@ interface ProjectStatus {
 interface ProjectStatusStoreState {
   projectStatuses: ProjectStatus[];
   projectStatus: ProjectStatus;
+  bonusActive: boolean;
   loading: boolean;
+  setBonusActive: (active: boolean) => void;
   setLoading: (loading: boolean) => void;
   setProjectStatusField: (field: keyof ProjectStatus, value: any) => void;
-  addProjectStatus: () => Promise<void | AxiosResponse>;
+  addProjectStatus: (bonusActive: boolean) => Promise<void | AxiosResponse>;
   fetchProjectStatuses: () => Promise<void>;
   resetProjectStatusFields: () => void; 
 }
@@ -39,9 +41,14 @@ const useProjectStatusStore = create<ProjectStatusStoreState>((set, get) => ({
   projectStatuses: [],
   projectStatus: initialProjectStatus,
   loading: false,
+  bonusActive: false,
 
   setLoading: (loading: boolean) => {
     set({ loading });
+  },
+
+  setBonusActive: (bonusActive: boolean) => {
+    set({ bonusActive });
   },
 
   setProjectStatusField: (field, value) => {
@@ -50,14 +57,14 @@ const useProjectStatusStore = create<ProjectStatusStoreState>((set, get) => ({
     }));
   },
 
-  addProjectStatus: async () => {
+  addProjectStatus: async (bonusActive) => {
     get().setLoading(true);
     try {
       const { projectStatus } = get();
       const { token } = useAuthStore.getState();
       const response = await axios.post(
         `${BASE_URL}/project-status`,
-        projectStatus,
+        {...projectStatus, bonusActive},
         {
           headers: {
             Authorization: `Bearer ${token}`,

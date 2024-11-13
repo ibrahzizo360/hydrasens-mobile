@@ -1,3 +1,4 @@
+import useProjectStatusStore from '@/hooks/projectStatusStore';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { useRouter } from 'expo-router';
 import React, { useRef, useEffect } from 'react';
@@ -18,6 +19,7 @@ export const CustomBottomSheet = () => {
   const translateY = useRef(new Animated.Value(screenHeight)).current;
   const router = useRouter();
   const { isVisible, toggleVisibility } = useBottomSheetStore();
+  const {setBonusActive} = useProjectStatusStore();
 
   useEffect(() => {
     animateSheet(isVisible ? screenHeight * 0.3: screenHeight);
@@ -60,7 +62,7 @@ export const CustomBottomSheet = () => {
       <Image source={require('../../assets/images/home-drop.png')} style={styles.largeImage} />
       
       <View style={styles.buttonRow}>
-        <Pressable onPress={() => {toggleVisibility(false); router.push('/status')}}>
+        <Pressable onPress={() => {toggleVisibility(false); setBonusActive(false); router.push('/status')}}>
           <Image source={require('../../assets/images/tab-card-1.png')} style={styles.tabImage} />
         </Pressable>
         <Pressable onPress={() => {toggleVisibility(false); router.push('/contribution/start')}}>
