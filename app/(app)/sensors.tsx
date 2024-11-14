@@ -6,15 +6,30 @@ import CircularProgress from 'react-native-circular-progress-indicator';
 import { height } from "@/utils";
 import { CustomBottomSheet } from "./customSheet";
 import * as Notifications from 'expo-notifications';
+import axios from "axios";
+import { BASE_URL } from "@/constants/url";
 
-async function notify(title: string, body: string) {
-  await Notifications.scheduleNotificationAsync({
-    content: {
+
+async function notify(title: string, body: string, type: string) {
+  try {
+    // Schedule the local notification
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: title,
+        body: body,
+      },
+      trigger: null,
+    });
+
+    // Send the notification data to your server endpoint
+    await axios.post(`${BASE_URL}/notifications`, {
       title: title,
       body: body,
-    },
-    trigger: null,
-  });
+      type: type
+    });
+  } catch (error) {
+    console.error('Notification failed:', error);
+  }
 }
 
 // Interpolation function to calculate color for temperature and turbidity
@@ -96,11 +111,11 @@ export default function SensorsPage() {
         setWaterQualityPercentage(WQI);
 
         if (temp >= T_ideal && turb > Tb_ideal) {
-          notify('Mild Warning', 'The water is getting too cloudy and physically dirty. Turbidity is high.');
+          notify('Mild Warning', 'The water is getting too cloudy and physically dirty. Turbidity is high.', 'warning');
         } else if (temp > T_max || temp < T_ideal) {
-          notify('Mild Warning', 'The temperature is either too high or too low. Check water conditions.');
+          notify('Mild Warning', 'The temperature is either too high or too low. Check water conditions.', 'warning');
         } else if (WQI < 50) {
-          notify('Strong Warning', 'The water quality is extremely poor! Temperature or turbidity is out of the safe range.');
+          notify('Strong Warning', 'The water quality is extremely poor! Temperature or turbidity is out of the safe range.', 'alert');
         }
       } catch (error) {
         console.error("Error fetching data: ", error);

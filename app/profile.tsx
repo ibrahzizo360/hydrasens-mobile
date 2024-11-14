@@ -7,9 +7,17 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { AntDesign, FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import useAuthStore from "@/hooks/useAuthStore";
 import { height } from "@/utils";
+import useNotificationStore from "@/hooks/useNotification";
+import { useEffect } from "react";
 
 export default function Profile() {
   const {user, logout} = useAuthStore();
+  const { notifications, fetchNotifications, loading } = useNotificationStore();
+
+  // Fetch notifications when the component is mounted
+  useEffect(() => {
+    fetchNotifications();
+  }, [fetchNotifications]);
 
   return (
     <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05  : 0 }}>
@@ -45,7 +53,7 @@ export default function Profile() {
         <MaterialCommunityIcons name="bell-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Notifications</Text>
           <View className="bg-red-500 px-[7px] py-0.5 rounded-full">
-            <Text className="text-white font-bold">1</Text>
+            <Text className="text-white font-bold">{notifications.length}</Text>
           </View>
         </View>
         </Pressable>

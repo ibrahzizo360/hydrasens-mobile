@@ -19,10 +19,13 @@ import { CustomBottomSheet } from "./customSheet";
 import { height } from "@/utils";
 import { stores } from "@/constants";
 import { useEffect } from "react";
+import useNotificationStore from "@/hooks/useNotification";
 
 export default function Home() {
 
   const {user, refetchUser} = useAuthStore();
+  const { notifications, fetchNotifications, loading } = useNotificationStore();
+
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -30,33 +33,38 @@ export default function Home() {
     };
     
     fetchUserData();
+    fetchNotifications();
   }, []);
   
   return (
     <SafeAreaView className="flex-1 bg-[#f0f0f0]" style={{ paddingTop: Platform.OS === 'android' ? height * 0.04 : 0 }}>
       <ScrollView  stickyHeaderIndices={[0]}>
-      <View className="flex-row justify-between items-center px-4 bg-[#f0f0f0] ">
-    <View className="flex flex-row gap-2 py-1 items-center">
-      <Pressable onPress={() => router.push('/profile')}>
-        <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
-      </Pressable>
+      <View className="flex-row justify-between items-center px-4 bg-[#f0f0f0]">
+          <View className="flex flex-row gap-2 py-1 items-center">
+            <Pressable onPress={() => router.push('/profile')} className="relative">
+              <Image source={{ uri: user?.profile }} className="h-9 mt-1 w-9" />
 
-      <View className="flex-col pt-1">
-        <Text className="text-xs text-gray-600">Hello 👋</Text>
-        <Text className="text-sm">{user?.name || user?.username}</Text>
-      </View>
-    </View>
+              {/* Notifications Badge */}
+              {notifications.length > 0 && (
+                <View className="absolute top-0 right-0 bg-red-600 text-white rounded-full h-5 w-5 justify-center items-center">
+                  <Text className="text-xs font-semibold">{notifications.length}</Text>
+                </View>
+              )}
+            </Pressable>
 
-    <View className="bg-[#E4EDFB] rounded-xl py-1 px-2">
-      <View className="flex-row gap-2 items-center justify-center">
-        <Image
-          source={require("../../assets/images/point.png")}
-          className="h-[18px] w-[20px]"
-        />
-        <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points || 0}.00`}</Text>
-      </View>
-    </View>
-  </View>
+            <View className="flex-col pt-1">
+              <Text className="text-xs text-gray-600">Hello 👋</Text>
+              <Text className="text-sm">{user?.name || user?.username}</Text>
+            </View>
+          </View>
+
+          <View className="bg-[#E4EDFB] rounded-xl py-1 px-2">
+            <View className="flex-row gap-2 items-center justify-center">
+              <Image source={require("../../assets/images/point.png")} className="h-[18px] w-[20px]" />
+              <Text className="text-sm font-bold text-[#3B4E6A]">{`${user?.points || 0}.00`}</Text>
+            </View>
+          </View>
+        </View>
 
       <ImageBackground
         source={require("../../assets/images/home-screen.png")}
