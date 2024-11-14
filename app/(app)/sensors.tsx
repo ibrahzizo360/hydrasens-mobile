@@ -5,6 +5,17 @@ import { router } from 'expo-router';
 import CircularProgress from 'react-native-circular-progress-indicator';
 import { height } from "@/utils";
 import { CustomBottomSheet } from "./customSheet";
+import * as Notifications from 'expo-notifications';
+
+async function notify(title: string, body: string) {
+  await Notifications.scheduleNotificationAsync({
+    content: {
+      title: title,
+      body: body,
+    },
+    trigger: null,
+  });
+}
 
 // Interpolation function to calculate color for temperature and turbidity
 const interpolateColor = (ratio: number, colorRange: string[]) => {
@@ -84,6 +95,13 @@ export default function SensorsPage() {
         const WQI = calculateWQI(temp, turb, T_ideal, T_max, Tb_ideal, Tb_max);
         setWaterQualityPercentage(WQI);
 
+        if (temp >= T_ideal && turb > Tb_ideal) {
+          notify('Mild Warning', 'The water is getting too cloudy and physically dirty. Turbidity is high.');
+        } else if (temp > T_max || temp < T_ideal) {
+          notify('Mild Warning', 'The temperature is either too high or too low. Check water conditions.');
+        } else if (WQI < 50) {
+          notify('Strong Warning', 'The water quality is extremely poor! Temperature or turbidity is out of the safe range.');
+        }
       } catch (error) {
         console.error("Error fetching data: ", error);
       }

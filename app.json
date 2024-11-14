@@ -23,7 +23,8 @@
       "permissions": [
         "android.permission.RECORD_AUDIO"
       ],
-      "package": "com.ibrahzizo.hydrasens"
+      "package": "com.ibrahzizo.hydrasens",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -37,6 +38,18 @@
         "expo-image-picker",
         {
           "photosPermission": "Allow hydrasens to access your photos"
+        }
+      ],
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/new-logo.png",
+          "color": "#ffffff",
+          "defaultChannel": "default",
+          "sounds": [
+            "./assets/notification.mp3"
+          ],
+          "enableBackgroundRemoteNotifications": false
         }
       ]
     ],

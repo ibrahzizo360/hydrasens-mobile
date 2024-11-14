@@ -11,7 +11,7 @@ interface AuthStoreState {
   onBoardingCompleted: boolean | null;
   login: (credentials: any) => Promise<void | AxiosResponse>;
   logout: () => void;
-  checkAuthStatus: () => Promise<void>;
+  checkAuthStatus: () => Promise<boolean>;
   register: (userData: any) => Promise<void | AxiosResponse>;
   refetchUser: () => Promise<void>; 
   setOnBoardingCompleted: (completed: boolean) => Promise<void>;
@@ -65,21 +65,25 @@ const useAuthStore = create<AuthStoreState>((set, get) => ({
     set({ user: null, token: null, isAuthenticated: false });
   },
 
-  checkAuthStatus: async () => {
-    const token = await AsyncStorage.getItem('token');
-    if (token) {
-      try {
-        const response = await axios.get(`${BASE_URL}/auth/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        const user = response.data.user;
-        set({ user, isAuthenticated: true });
-      } catch (error) {
-        console.error('Token validation failed:', error);
+  checkAuthStatus: async (): Promise<boolean> => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
         set({ user: null, token: null, isAuthenticated: false });
-      } finally {
-        set({ loading: false });
+        return false; 
       }
+  
+      const response = await axios.get(`${BASE_URL}/auth/me`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+  
+      const user = response.data.user;
+      set({ user, isAuthenticated: true });
+      return true;
+    } catch (error) {
+      console.error('Token validation failed:', error);
+      set({ user: null, token: null, isAuthenticated: false });
+      return false;
     }
   },
 
