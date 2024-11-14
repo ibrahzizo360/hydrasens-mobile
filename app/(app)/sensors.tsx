@@ -123,8 +123,7 @@ export default function SensorsPage() {
     };
 
     // Fetch data every 5 seconds
-    const interval = setInterval(fetchData, 5000);
-
+    const interval = setInterval(fetchData, 30 * 60 * 1000);
     // Clean up the interval when the component unmounts
     return () => clearInterval(interval);
   }, []);

@@ -173,7 +173,7 @@ export default function Home() {
         </View>
         </Pressable>
 
-      <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-5">
+      <View className="flex flex-row justify-between gap-2 px-3 mt-1 mb-12">
       <View className="rounded-lg overflow-hidden flex-1" style={{ height: height * 0.135 }}>
         <ImageBackground
           source={require("../../assets/images/card2.png")}
