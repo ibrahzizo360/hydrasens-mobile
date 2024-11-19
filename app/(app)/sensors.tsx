@@ -24,7 +24,7 @@ async function notify(title: string, body: string, type: string) {
     // Send the notification data to your server endpoint
     await axios.post(`${BASE_URL}/notifications`, {
       title: title,
-      body: body,
+      description: body,
       type: type
     });
   } catch (error) {
@@ -88,13 +88,14 @@ export default function SensorsPage() {
   const [temperature, setTemperature] = useState(0);
   const [turbidity, setTurbidity] = useState(0);
   const [waterQualityPercentage, setWaterQualityPercentage] = useState(0);
+  const [lastNotificationTime, setLastNotificationTime] = useState<Date | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetch('https://shopify-webhook-sigma.vercel.app/test/data');
         const ResponseData = await response.json();
-  
+
         const data = ResponseData[ResponseData.length - 1];
         const temp = parseFloat(data.temperature);
         const turb = parseFloat(data.turbidity);
@@ -102,7 +103,7 @@ export default function SensorsPage() {
         setTemperature(temp);
         setTurbidity(turb);
 
-        // Calculate the WQI based on the fetched temperature and turbidity
+        // Calculate WQI
         const T_ideal = 25;
         const T_max = 35;
         const Tb_ideal = 0;
@@ -110,12 +111,26 @@ export default function SensorsPage() {
         const WQI = calculateWQI(temp, turb, T_ideal, T_max, Tb_ideal, Tb_max);
         setWaterQualityPercentage(WQI);
 
-        if (temp >= T_ideal && turb > Tb_ideal) {
-          notify('Mild Warning', 'The water is getting too cloudy and physically dirty. Turbidity is high.', 'warning');
-        } else if (temp > T_max || temp < T_ideal) {
-          notify('Mild Warning', 'The temperature is either too high or too low. Check water conditions.', 'warning');
-        } else if (WQI < 50) {
-          notify('Strong Warning', 'The water quality is extremely poor! Temperature or turbidity is out of the safe range.', 'alert');
+        const now = new Date();
+
+        // Trigger notifications only if conditions are abnormal and 30 minutes have passed since the last notification
+        if (WQI < 50 && (!lastNotificationTime || now.getTime() - lastNotificationTime.getTime() >= 30 * 60 * 1000)) {
+          setLastNotificationTime(now);
+          notify(
+            "Strong Warning",
+            "The water quality is extremely poor! Temperature or turbidity is out of the safe range.",
+            "alert"
+          );
+        } else if (
+          (temp >= T_ideal || turb > Tb_ideal) &&
+          (!lastNotificationTime || now.getTime() - lastNotificationTime.getTime() >= 30 * 60 * 1000)
+        ) {
+          setLastNotificationTime(now);
+          notify(
+            "Mild Warning",
+            "The water is getting too cloudy or the temperature is out of range.",
+            "warning"
+          );
         }
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -123,10 +138,10 @@ export default function SensorsPage() {
     };
 
     // Fetch data every 5 seconds
-    const interval = setInterval(fetchData, 30 * 60 * 1000);
-    // Clean up the interval when the component unmounts
+    const interval = setInterval(fetchData, 5000);
+
     return () => clearInterval(interval);
-  }, []);
+  }, [lastNotificationTime]);
 
   return (
     <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>

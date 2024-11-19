@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Image, Platform, Pressable, SafeAreaView, Text, View } from "react-native";
+import { ActivityIndicator, Image, Platform, Pressable, SafeAreaView, Text, View } from "react-native";
 import Feather from "@expo/vector-icons/Feather";
 import CustomButton from "@/components/Button";
 import { router } from 'expo-router';
@@ -36,7 +36,7 @@ export default function Notifications() {
           </View>
         </Pressable>
         <Text className="text-xl font-semibold">Notifications</Text>
-        <View className="bg-red-500 ml-4 px-2.5 py-1.5 rounded-full">
+        <View className="bg-red-500 ml-4 justify-center items-center h-6 w-6 rounded-full">
           <Text className="text-white font-bold">{notifications.length}</Text>
         </View>
       </View>
@@ -45,7 +45,7 @@ export default function Notifications() {
 
       <View className="mt-10 space-y-5">
         {loading ? (
-          <Text>Loading notifications...</Text>
+          <ActivityIndicator />
         ) : (
           notifications.map((notification) => (
             <View

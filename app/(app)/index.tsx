@@ -47,7 +47,7 @@ export default function Home() {
               {/* Notifications Badge */}
               {notifications.length > 0 && (
                 <View className="absolute top-0 right-0 bg-red-600 text-white rounded-full h-5 w-5 justify-center items-center">
-                  <Text className="text-xs font-semibold">{notifications.length}</Text>
+                  <Text className="text-xs text-white font-semibold">{notifications.length}</Text>
                 </View>
               )}
             </Pressable>
