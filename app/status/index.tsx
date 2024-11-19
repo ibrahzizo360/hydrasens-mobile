@@ -15,6 +15,14 @@ export default function Status() {
     const [useCurrentLocation, setUseCurrentLocation] = useState<boolean>(false);
     const [isKeyVisible, setIsKeyVisible] = useState<boolean>(false);
 
+    useEffect(()=>{
+        if(projectStatus.status === "Project incomplete"){
+            setCurrentStep(2)
+        } else {
+            setCurrentStep(3)
+        }
+    },[projectStatus])
+
     const statuses: string[] = [
         "Active",
         "Active but has issues",
@@ -205,7 +213,7 @@ export default function Status() {
 
                         {!isKeyVisible && (
                             <View className="absolute bottom-7 w-full">
-                                {projectStatus.status === "Inactive" ? (
+                                {projectStatus.status === "Project incomplete" ? (
                                     <CustomButton
                                         title="Next"
                                         onPress={() => {
