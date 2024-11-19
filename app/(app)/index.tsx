@@ -103,11 +103,11 @@ export default function Home() {
             style={styles.donorImage}
           />
           <View className="flex flex-row justify-evenly gap-4 items-center py-1" style={{width: width * 1.02}}>
-            <Text className=" text-[9px] font-semibold">James Coffee Co,</Text>
+            <Text className=" text-[14px] font-semibold">James Coffee Co,</Text>
             <View className="">
               <View className="flex flex-row items-center">
               <Entypo name="location-pin" size={14} color="#494D51" />
-              <Text className="text-[9px] ">San Diego</Text>
+              <Text className="text-[10px] ">San Diego</Text>
               </View>
             </View>
             <View className="">
@@ -117,11 +117,11 @@ export default function Home() {
               </View>
             </View>
           </View>
-          <Text className="text-[7.4px] font-bold text-gray-600 px-2 pb-2">
+          {/* <Text className="text-[7.4px] font-bold text-gray-600 px-2 pb-2">
             We’re thrilled to have James Coffee Co. on board as we work together
             to create a healthier future for all. Thank you, James Coffee Co.,
             for brewing a better tomorrow with us!
-          </Text>
+          </Text> */}
         </View>
         <View className="mt-3 px-3">
           <Text className="text-white text-lg  font-bold mb-40 ">
@@ -134,7 +134,7 @@ export default function Home() {
       data={stores}
       renderItem={({ item }) => (
     <View style={styles.child}>
-      <Image source={item.image} style={styles.image} className="rounded-xl" />
+      <Image source={item.image} style={styles.image} className="" />
       <View className="bg-white absolute bottom-0 w-full">
         <Text style={styles.text}>{item.name}</Text>
         <View className="mx-auto">
@@ -256,6 +256,7 @@ const styles = StyleSheet.create({
     paddingLeft: 12,
   },
   image: {
-
+    height: 136,
+    width: 157,
   }
 });
