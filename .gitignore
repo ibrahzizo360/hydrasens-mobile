@@ -19,5 +19,5 @@ web-build/
 expo-env.d.ts
 # @end expo-cli
 
-google-services.json
-rn-push-notifications-bda13-firebase-adminsdk-sq4i8-3613a68cf7.json
+# google-services.json
+# rn-push-notifications-bda13-firebase-adminsdk-sq4i8-3613a68cf7.json
