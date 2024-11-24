@@ -88,7 +88,7 @@ export default function SensorsPage() {
   const [temperature, setTemperature] = useState(0);
   const [turbidity, setTurbidity] = useState(0);
   const [waterQualityPercentage, setWaterQualityPercentage] = useState(0);
-  const [lastNotificationTime, setLastNotificationTime] = useState<Date | null>(null);
+  const [lastNotificationTime, setLastNotificationTime] = useState<{ [key: string]: Date }>({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -107,31 +107,43 @@ export default function SensorsPage() {
         const T_ideal = 25;
         const T_max = 35;
         const Tb_ideal = 0;
+        const T_min = 10;
         const Tb_max = 100;
         const WQI = calculateWQI(temp, turb, T_ideal, T_max, Tb_ideal, Tb_max);
         setWaterQualityPercentage(WQI);
 
         const now = new Date();
 
-        // Trigger notifications only if conditions are abnormal and 30 minutes have passed since the last notification
-        if (WQI < 50 && (!lastNotificationTime || now.getTime() - lastNotificationTime.getTime() >= 30 * 60 * 1000)) {
-          setLastNotificationTime(now);
-          notify(
-            "Strong Warning",
-            "The water quality is extremely poor! Temperature or turbidity is out of the safe range.",
-            "alert"
-          );
-        } else if (
-          (temp >= T_ideal || turb > Tb_ideal) &&
-          (!lastNotificationTime || now.getTime() - lastNotificationTime.getTime() >= 30 * 60 * 1000)
-        ) {
-          setLastNotificationTime(now);
-          notify(
-            "Mild Warning",
-            "The water is getting too cloudy or the temperature is out of range.",
-            "warning"
-          );
-        }
+        const shouldNotify = (key: string) => {
+          return !lastNotificationTime[key] || now.getTime() - lastNotificationTime[key].getTime() >= 30 * 60 * 1000;
+        };
+
+       // Notifications for temperature
+      if (temp > T_max && shouldNotify("tempHigh")) {
+        setLastNotificationTime((prev) => ({ ...prev, tempHigh: now }));
+        notify(
+          "Temperature Alert",
+          "The water temperature has exceeded the safe limit!",
+          "alert"
+        );
+      } else if (temp < T_min && shouldNotify("tempLow")) {
+        setLastNotificationTime((prev) => ({ ...prev, tempLow: now }));
+        notify(
+          "Temperature Alert",
+          "The water temperature is too low!",
+          "warning"
+        );
+      }
+
+      // Notifications for turbidity
+      if (turb > Tb_max && shouldNotify("turbidity")) {
+        setLastNotificationTime((prev) => ({ ...prev, turbidity: now }));
+        notify(
+          "Turbidity Alert",
+          "The water turbidity has exceeded the safe limit, indicating poor water quality.",
+          "alert"
+        );
+      }
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
