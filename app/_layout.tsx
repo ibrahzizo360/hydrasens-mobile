@@ -1,6 +1,6 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { Redirect, router, Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
@@ -37,8 +37,8 @@ export default function RootLayout() {
       await loadOnBoardingStatus();
       const authStatus = await checkAuthStatus();
       if (!authStatus) {
-        setShouldRedirect(true);
         setAuthLoaded(true);
+        setShouldRedirect(true);
       } else {
         setAuthLoaded(true);
       }
@@ -90,11 +90,8 @@ export default function RootLayout() {
   }
 
   if (shouldRedirect) {
-    return (
-      <Stack>
-        <Stack.Screen name="sign-in" options={{ headerShown: false }} />
-      </Stack>
-    );
+    router.push('/sign-in');
+    // return <Redirect href={'/sign-in'}/>;
   }
 
   return (
