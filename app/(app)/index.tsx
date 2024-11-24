@@ -39,7 +39,12 @@ export default function Home() {
       className="flex-1 bg-[#f0f0f0]"
       style={{ paddingTop: Platform.OS === "android" ? height * 0.04 : 0 }}
     >
-      <ScrollView stickyHeaderIndices={[0]}>
+        <ImageBackground
+          source={require("../../assets/images/home-screen.png")}
+          className="w-full h-full"
+        >
+        <View style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.2)" }]} />
+        <ScrollView stickyHeaderIndices={[0]}>
         <View className="flex-row justify-between items-center px-4 bg-[#f0f0f0]">
           <View className="flex flex-row gap-2 py-1 items-center">
             <Pressable
@@ -76,11 +81,6 @@ export default function Home() {
             </View>
           </View>
         </View>
-
-        <ImageBackground
-          source={require("../../assets/images/home-screen.png")}
-          className="w-full h-full"
-        >
           <View className="flex flex-row justify-between px-4 pt-2.5">
             <Text className="text-white text-lg font-semibold">
               Our donor of the week
@@ -256,8 +256,8 @@ export default function Home() {
               </ImageBackground>
             </View>
           </View>
+          </ScrollView>
         </ImageBackground>
-      </ScrollView>
       <CustomBottomSheet />
     </SafeAreaView>
   );
