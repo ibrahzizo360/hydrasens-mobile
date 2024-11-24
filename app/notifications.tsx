@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { AntDesign, FontAwesome, Foundation, MaterialIcons } from "@expo/vector-icons";
 import { height } from "@/utils";
 import useNotificationStore from '@/hooks/useNotification';
+import { GestureHandlerRootView, ScrollView } from 'react-native-gesture-handler';
 
 export default function Notifications() {
   const { notifications, fetchNotifications, loading } = useNotificationStore();
@@ -16,19 +17,31 @@ export default function Notifications() {
   }, [fetchNotifications]);
 
   // Function to determine the background color based on the notification type
+  const getNotificationBgColor = (type: string) => {
+    switch (type) {
+      case 'alert':
+        return 'bg-[#F5DCDC]';
+      case 'warning':
+        return 'bg-[#FFF6DA]';
+      default:
+        return 'bg-transparent';
+    }
+  };
+
   const getNotificationColor = (type: string) => {
     switch (type) {
-      case 'urgent':
-        return 'bg-red-200'; // Urgent notifications (red)
+      case 'alert':
+        return '#F5DCDC';
       case 'warning':
-        return 'bg-yellow-100'; // Warning notifications (yellow)
+        return '#FFC107';
       default:
-        return 'bg-gray-200'; // Default color for other notifications
+        return 'transparent';
     }
   };
 
   return (
-    <SafeAreaView className="flex-1" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
+    <GestureHandlerRootView>
+      <SafeAreaView className="flex-1 bg-white" style={{ paddingTop: Platform.OS === 'android' ? height * 0.05 : 0 }}>
       <View className="flex flex-row justify-center items-center">
         <Pressable onPress={() => router.back()} className="rounded-lg p-2 bg-[#0258D3] flex absolute left-4">
           <View>
@@ -42,7 +55,7 @@ export default function Notifications() {
       </View>
       
       <View className="h-[1px] mt-7 mx-auto w-[90%] bg-gray-500" />
-
+      <ScrollView>
       <View className="mt-10 space-y-5">
         {loading ? (
           <ActivityIndicator />
@@ -50,10 +63,10 @@ export default function Notifications() {
           notifications.map((notification) => (
             <View
               key={notification._id}
-              className={`flex flex-row px-0 pb-2 gap-3 w-[94%] mx-auto rounded-lg items-center ${getNotificationColor(notification.type)}`}
+              className={`flex flex-row px-0 pb-2 gap-3 w-[94%] h-20 mx-auto rounded-lg items-center ${notification.status === 'read' ? 'bg-white' : 'bg-gray-100'}`}
             >
-              <View className="flex items-center justify-center px-2 py-1.5 rounded-full">
-                <Foundation name="alert" size={20} color={notification.type === 'urgent' ? 'red' : 'orange'} />
+              <View className={`flex items-center justify-center px-2 py-1.5 rounded-full ${getNotificationBgColor(notification.type)}`}>
+                <Foundation name="alert" size={20} color={getNotificationColor(notification.type)} />
               </View>
               <View className="w-11/12">
                 <Text className="font-semibold text-[11px]">
@@ -70,15 +83,8 @@ export default function Notifications() {
           ))
         )}
       </View>
-
-      <View className="bottom-7 absolute w-full">
-        <CustomButton
-          title="Back To Home"
-          onPress={() => router.push('/(app)/')}
-          textStyle={{ fontSize: 18 }}
-          className="mx-3 mt-4"
-        />
-      </View>
+      </ScrollView>
     </SafeAreaView>
+    </GestureHandlerRootView>
   );
 }

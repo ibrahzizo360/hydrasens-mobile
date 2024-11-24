@@ -124,7 +124,7 @@ export default function SensorsPage() {
         notify(
           "Temperature Alert",
           "The water temperature has exceeded the safe limit!",
-          "alert"
+          "warning"
         );
       } else if (temp < T_min && shouldNotify("tempLow")) {
         setLastNotificationTime((prev) => ({ ...prev, tempLow: now }));
@@ -141,9 +141,20 @@ export default function SensorsPage() {
         notify(
           "Turbidity Alert",
           "The water turbidity has exceeded the safe limit, indicating poor water quality.",
+          "warning"
+        );
+      }
+
+      // Notifications for water quality
+      if (WQI < 50 && shouldNotify("waterQuality")) {
+        setLastNotificationTime((prev) => ({ ...prev, waterQuality: now }));
+        notify(
+          "Urgent Alert",
+          "Water quality in your area has reached critical levels. Immediate action may be required for safety and health.",
           "alert"
         );
       }
+      
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
