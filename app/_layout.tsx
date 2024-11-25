@@ -38,7 +38,6 @@ export default function RootLayout() {
       const authStatus = await checkAuthStatus();
       if (!authStatus) {
         setAuthLoaded(true);
-        setShouldRedirect(true);
       } else {
         setAuthLoaded(true);
       }
@@ -87,11 +86,6 @@ export default function RootLayout() {
   // Check if everything is loaded
   if (!loaded || !authLoaded) {
     return null;
-  }
-
-  if (shouldRedirect) {
-    // router.push('/sign-in');
-    // return <Redirect href={'/sign-in'}/>;
   }
 
   return (
