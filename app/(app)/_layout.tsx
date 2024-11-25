@@ -15,7 +15,7 @@ import Data from './data';
 import useAuthStore from '@/hooks/useAuthStore';
 import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, NavigationIndependentTree } from '@react-navigation/native';
 import SensorsPage from './sensors';
 
 const HomeScreen = () => {
@@ -93,7 +93,8 @@ export default function App() {
     );
   };
   return (
-      <NavigationContainer independent>
+    <NavigationIndependentTree>
+      <NavigationContainer>
         <CurvedBottomBarExpo.Navigator
           type="DOWN"
           shadowStyle={styles.shawdow}
@@ -140,6 +141,7 @@ export default function App() {
           />
         </CurvedBottomBarExpo.Navigator>
       </NavigationContainer>
+      </NavigationIndependentTree>
   );
 }
 

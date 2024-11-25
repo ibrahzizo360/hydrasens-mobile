@@ -90,7 +90,7 @@ export default function RootLayout() {
   }
 
   if (shouldRedirect) {
-    router.push('/sign-in');
+    // router.push('/sign-in');
     // return <Redirect href={'/sign-in'}/>;
   }
 

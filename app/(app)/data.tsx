@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 
 export default function Data() {
   return (
-    <NavigationContainer independent>
+    <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
