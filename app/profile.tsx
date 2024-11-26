@@ -30,25 +30,25 @@ export default function Profile() {
         <Text className="text-xl font-semibold">Notifications & Settings</Text>
       </View>
 
-      <View className="flex flex-row gap-2 py-1 items-center mx-3 mt-6">
+      <View className="flex flex-row gap-2 py-1 items-center mx-6 mt-10">
           <Pressable onPress={()=> router.push('/profile')}>
-          <Image source={{ uri: user?.profile }} className="h-9 w-9" />
+          <Image source={{ uri: user?.profile }} className="h-11 w-11" />
           </Pressable>
 
           <View className="flex-col pt-1">
-            <Text className="text-sm">{user?.name || user?.username}</Text>
-            <Text className="text-xs text-gray-600">{user?.email}</Text>
+            <Text className="text-md">{user?.name || user?.username}</Text>
+            <Text className="text-sn text-gray-600">{user?.email}</Text>
           </View>
         </View>
 
-      <Text className="text-gray-600 mt-4 ml-6">Account</Text>
+      <Text className="text-gray-600 mt-8 ml-6">Account</Text>
 
-      <View className="ml-10 mt-4 space-y-0">
-        <View className="flex flex-row gap-4 items-center">
+      <View className="ml-10 mt-4">
+        <View className="flex flex-row gap-4 items-center mb-5">
           <FontAwesome5 name="user-circle" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Personal Settings</Text>
         </View>
-        <Pressable className="flex flex-row items-center" onPress={()=>router.push('/notifications')}>
+        <Pressable className="flex flex-row items-center mb-5" onPress={()=>router.push('/notifications')}>
         <View className="flex flex-row gap-4 items-center -mt-1">
         <MaterialCommunityIcons name="bell-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Notifications</Text>
@@ -61,20 +61,20 @@ export default function Profile() {
         <FontAwesome name="language" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Languages</Text>
         </View>
-        <View className="h-[1px] mb-3 w-[90%] bg-gray-500" />
-        <View className="flex flex-row gap-4 items-center">
+        <View className="h-[1px] mb-5 w-[90%] bg-gray-500" />
+        <View className="flex flex-row gap-4 items-center mb-5">
           <Ionicons name="shield-checkmark-outline" size={24} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Privacy Notice</Text>
         </View>
-        <View className="flex flex-row gap-4 items-center">
+        <View className="flex flex-row gap-4 items-center mb-5">
         <MaterialCommunityIcons name="file-document-multiple-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Terms and Conditions</Text>
         </View>
-        <View className="flex flex-row gap-4 items-center">
+        <View className="flex flex-row gap-4 items-center mb-5">
         <MaterialCommunityIcons name="folder-check-outline" size={28} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">Data Security</Text>
         </View>
-        <View className="flex flex-row gap-4 items-center">
+        <View className="flex flex-row gap-4 items-center mb-5">
         <AntDesign name="questioncircleo" size={24} color="#11458E" />
           <Text className="text-[#11458E] text-[16px]">FAQ</Text>
         </View>
@@ -84,13 +84,13 @@ export default function Profile() {
       <CustomButton
                   title="Log Out"
                   onPress={() => {logout(); router.push('/sign-in')}}
-                  textStyle={{ fontSize: 18, color: '#E3290F' }}
-                  className="mx-3 mt-7 bg-[#ffcbc5]"
+                  textStyle={{ color: '#E3290F' }}
+                  className="mx-3 mt-7"
+                  style={{backgroundColor: '#ffcbc5'}}
                 />
         <CustomButton
                   title="Back To Home"
                   onPress={() => router.push('/')}
-                  textStyle={{ fontSize: 18 }}
                   className="mx-3 mt-4"
                 />
       </View>

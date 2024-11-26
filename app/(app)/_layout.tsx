@@ -17,6 +17,7 @@ import useBottomSheetStore from '@/hooks/useBottomSheet';
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationContainer, NavigationIndependentTree } from '@react-navigation/native';
 import SensorsPage from './sensors';
+// import "../../global.css";
 
 const HomeScreen = () => {
   return <Home />;

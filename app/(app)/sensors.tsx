@@ -3,7 +3,7 @@ import { Image, Platform, Pressable, SafeAreaView, Text, View } from "react-nati
 import Feather from "@expo/vector-icons/Feather";
 import { router } from 'expo-router';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import { height } from "@/utils";
+import { height, width } from "@/utils";
 import { CustomBottomSheet } from "./customSheet";
 import * as Notifications from 'expo-notifications';
 import axios from "axios";
@@ -172,7 +172,7 @@ export default function SensorsPage() {
         <Text className="text-xl font-semibold">Water Quality Monitor</Text>
       </View>
 
-      <View className="mt-24 mb-10 mx-auto">
+      <View className="mt-24 mb-16 mx-auto">
         <CircularProgress
           value={waterQualityPercentage}
           radius={120}

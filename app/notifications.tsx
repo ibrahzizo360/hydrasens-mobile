@@ -63,7 +63,7 @@ export default function Notifications() {
           notifications.map((notification) => (
             <View
               key={notification._id}
-              className={`flex flex-row px-0 pb-2 gap-3 w-[94%] h-20 mx-auto rounded-lg items-center ${notification.status === 'read' ? 'bg-white' : 'bg-gray-100'}`}
+              className={`flex flex-row mb-5 px-4 pb-2 gap-3 w-[94%] h-24 mx-auto rounded-lg items-center ${notification.status === 'read' ? 'bg-white' : 'bg-gray-100'}`}
             >
               <View className={`flex items-center justify-center px-2 py-1.5 rounded-full ${getNotificationBgColor(notification.type)}`}>
                 <Foundation name="alert" size={20} color={getNotificationColor(notification.type)} />
