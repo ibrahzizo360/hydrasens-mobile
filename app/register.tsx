@@ -10,11 +10,11 @@ export default function SignUp() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
+  const [username, setUserName] = useState("");
   const { register, loading } = useAuthStore();
 
   const signUpHandler = async () => {
-    if (!email || !password || !confirmPassword || !name) {
+    if (!email || !password || !confirmPassword || !username) {
       Alert.alert("Error", "Please fill in all fields");
       return;
     }
@@ -25,7 +25,7 @@ export default function SignUp() {
     }
 
     try {
-      const response = await register({ name, email, password });
+      const response = await register({ username, email, password });
 
       if (response?.status === 201) {
         Alert.alert("Success", "User registered successfully");
@@ -63,8 +63,8 @@ export default function SignUp() {
               </Text>
               <TextInput
                 placeholder="Enter your Name"
-                value={name}
-                onChangeText={setName}
+                value={username}
+                onChangeText={setUserName}
                 className="border-gray-300 bg-[#c7dcfc] rounded-[15px] h-[45px] p-3 w-full mx-auto mb-4"
               />
 
